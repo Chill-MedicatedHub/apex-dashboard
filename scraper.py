@@ -111,7 +111,8 @@ def build_payload(from_date: str, to_date: str) -> dict:
         # The actual filter criteria
         "reportQuery": {
             "operations": [],
-            "brands": [],
+            # Filter to only the Chill Medicated brand (id 2500 from Apex)
+            "brands": [{"id": 2500, "name": "Chill Medicated"}],
             "salesReps": [],
             "categories": [],
             "buyers": [],
