@@ -1,0 +1,41 @@
+name: Scrape Apex Sales
+
+on:
+  schedule:
+    - cron: '*/15 * * * *'  # every 15 minutes
+  workflow_dispatch:        # also allows manual trigger from the Actions tab
+
+permissions:
+  contents: write           # needed so the action can commit sales_data.json back
+
+jobs:
+  scrape:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run scraper
+        env:
+          APEX_COOKIE: ${{ secrets.APEX_COOKIE }}
+          APEX_USER_ID: ${{ secrets.APEX_USER_ID }}
+          APEX_COMPANY_ID: ${{ secrets.APEX_COMPANY_ID }}
+          APEX_ROW_LIMIT: '5000'
+          APEX_DAYS_BACK: '90'
+        run: python scraper.py
+
+      - name: Commit updated data
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add sales_data.json
+          git diff --staged --quiet || git commit -m "Auto-update sales_data.json"
+          git push
