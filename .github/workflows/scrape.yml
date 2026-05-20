@@ -2,11 +2,23 @@ name: Scrape Apex Sales
 
 on:
   schedule:
-    - cron: '*/15 * * * *'  # every 15 minutes
-  workflow_dispatch:        # also allows manual trigger from the Actions tab
+    # Run every 15 min — using 4 separate triggers because GitHub's free
+    # tier cron drops single-trigger jobs more often than multi-trigger ones
+    - cron: '0,15,30,45 * * * *'
+    - cron: '5 * * * *'
+    - cron: '20 * * * *'
+    - cron: '35 * * * *'
+    - cron: '50 * * * *'
+  workflow_dispatch:
+  push:
+    branches: [main]    # also runs on any code commit (for testing)
 
 permissions:
-  contents: write           # needed so the action can commit sales_data.json back
+  contents: write
+
+concurrency:
+  group: scrape-apex
+  cancel-in-progress: false
 
 jobs:
   scrape:
@@ -37,5 +49,5 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add sales_data.json
-          git diff --staged --quiet || git commit -m "Auto-update sales_data.json"
+          git diff --staged --quiet || git commit -m "Auto-update sales_data.json [skip ci]"
           git push
