@@ -17,7 +17,7 @@ import json
 import os
 import sys
 import urllib.parse
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 import requests
@@ -206,7 +206,7 @@ def fetch_report() -> dict:
     print(f"Fetched {len(rows)} rows.")
 
     return {
-        "fetched_at": datetime.now().isoformat(),
+        "fetched_at": datetime.now(timezone.utc).isoformat(),
         "from_date": from_date,
         "to_date": to_date,
         "row_count": len(rows),
