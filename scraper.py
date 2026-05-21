@@ -5,9 +5,9 @@ Pulls the "All Product Sales Report" from Apex Trading using your active
 browser session cookie. Saves the result as sales_data.json for the dashboard.
 
 USAGE:
-    1. Open .env (or edit the constants below) and paste your Cookie value.
-    2. Run:  python scraper.py
-    3. Output: ./sales_data.json  (the dashboard reads this)
+  1. Open .env (or edit the constants below) and paste your Cookie value.
+  2. Run: python scraper.py
+  3. Output: ./sales_data.json (the dashboard reads this)
 
 To refresh data automatically, schedule this script with cron (macOS/Linux)
 or Task Scheduler (Windows). See README.md for the exact commands.
@@ -17,7 +17,7 @@ import json
 import os
 import sys
 import urllib.parse
-from datetime import datetime, timedelta, timezone
+from datetime import datetime, timezone
 from pathlib import Path
 
 import requests
@@ -41,11 +41,9 @@ COOKIE = os.getenv("APEX_COOKIE", "")
 # How many rows to pull per request. Apex's UI defaults to 50; we bump it.
 ROW_LIMIT = int(os.getenv("APEX_ROW_LIMIT", "5000"))
 
-# Date range for the pull.
-# Preferred: set APEX_FROM_DATE to a fixed start date (e.g. "2025-05-01").
-# Fallback: if not set, use rolling APEX_DAYS_BACK window (default 90).
-FROM_DATE_FIXED = os.getenv("APEX_FROM_DATE", "")
-DAYS_BACK = int(os.getenv("APEX_DAYS_BACK", "90"))
+# Fixed start date for the pull. Always pulls from this date through today.
+# Format: YYYY-MM-DD. Override in .env with APEX_START_DATE=YYYY-MM-DD if needed.
+START_DATE = os.getenv("APEX_START_DATE", "2025-05-01")
 
 OUTPUT_FILE = Path(__file__).parent / "sales_data.json"
 
@@ -157,13 +155,17 @@ def fetch_report() -> dict:
         print("'XSRF-TOKEN=...' part. Re-grab the cookie and try again.")
         sys.exit(1)
 
+    # Validate the configured start date so a typo fails loudly instead of
+    # silently sending garbage to Apex.
+    try:
+        datetime.strptime(START_DATE, "%Y-%m-%d")
+    except ValueError:
+        print(f"ERROR: APEX_START_DATE ('{START_DATE}') is not a valid date.")
+        print("Use format YYYY-MM-DD, e.g. 2025-05-01.")
+        sys.exit(1)
+
     today = datetime.now()
-    if FROM_DATE_FIXED:
-        # Use the configured fixed start date (e.g. "2025-05-01")
-        from_date = FROM_DATE_FIXED
-    else:
-        # Fall back to rolling window
-        from_date = (today - timedelta(days=DAYS_BACK)).strftime("%Y-%m-%d")
+    from_date = START_DATE
     to_date = today.strftime("%Y-%m-%d")
 
     print(f"Pulling sales from {from_date} → {to_date} (limit {ROW_LIMIT} rows)...")
@@ -200,9 +202,9 @@ def fetch_report() -> dict:
     if resp.status_code == 419:
         print("ERROR: CSRF token mismatch (status 419).")
         print("Your XSRF-TOKEN doesn't match the session. This usually means:")
-        print(" 1. You copied the cookie from one tab and the session shifted, or")
-        print(" 2. You copied an old cookie. Re-grab a fresh Cookie value")
-        print("    from a request you JUST ran in the Apex UI, then re-run.")
+        print("  1. You copied the cookie from one tab and the session shifted, or")
+        print("  2. You copied an old cookie. Re-grab a fresh Cookie value")
+        print("     from a request you JUST ran in the Apex UI, then re-run.")
         sys.exit(1)
 
     if resp.status_code != 200:
@@ -212,6 +214,7 @@ def fetch_report() -> dict:
 
     data = resp.json()
     rows = data.get("data", {}).get("reportData", [])
+
     print(f"Fetched {len(rows)} rows.")
 
     return {
