@@ -119,10 +119,17 @@ def build_payload(from_date: str, to_date: str) -> dict:
             "salesReps": [],
             "categories": [],
             "buyers": [],
-            "orderStatus": [],
             "paymentStatus": [],
-            "orderFromDate": from_date,
-            "orderToDate": to_date,
+            "fromDate": from_date,
+            "toDate": to_date,
+            "parentOrderStatuses": [],
+            "paymentReceivedFromDate": None,
+            "paymentReceivedToDate": None,
+            "deliveryFromDate": None,
+            "deliveryToDate": None,
+            "withinLastCount": None,
+            "withinLastType": None,
+            "timeZone": "America/New_York",
         },
     }
 
@@ -166,7 +173,7 @@ def fetch_report() -> dict:
         from_date = (today - timedelta(days=DAYS_BACK)).strftime("%Y-%m-%d")
     to_date = today.strftime("%Y-%m-%d")
 
-    print(f"Pulling sales from {from_date} -> {to_date} (limit {ROW_LIMIT} rows)...")
+    print(f"Pulling sales from {from_date} → {to_date} (limit {ROW_LIMIT} rows)...")
 
     headers = {
         "Accept": "application/json",
@@ -188,7 +195,7 @@ def fetch_report() -> dict:
     try:
         resp = requests.post(API_URL, json=payload, headers=headers, timeout=60)
     except requests.RequestException as e:
-        print(f"ERROR: network failure - {e}")
+        print(f"ERROR: network failure — {e}")
         sys.exit(1)
 
     if resp.status_code in (401, 403):
@@ -226,7 +233,7 @@ def fetch_report() -> dict:
 def main():
     payload = fetch_report()
     OUTPUT_FILE.write_text(json.dumps(payload, indent=2, default=str))
-    print(f"Saved -> {OUTPUT_FILE}")
+    print(f"Saved → {OUTPUT_FILE}")
 
 
 if __name__ == "__main__":
