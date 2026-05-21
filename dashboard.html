@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Legacy Operations · Sales Intelligence</title>
+<title>Chill Medicated · Sales Intelligence</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -17,19 +17,22 @@
 
 <style>
   :root {
-    --bg: #0f1210;
-    --bg-elev: #161a17;
-    --bg-elev-2: #1d221f;
-    --border: #262c28;
-    --border-soft: #1f2421;
-    --text: #e8ebe7;
-    --text-dim: #9aa39c;
-    --text-faint: #5d6660;
-    --accent: #c4ff3d;
-    --accent-dim: #8aa829;
-    --warm: #e88a3c;
-    --cool: #6db4c4;
-    --rose: #d97070;
+    /* Chill Medicated · Blue Gradient palette
+       Deep navy base → bright cyan accent. Wellness, medicinal, premium. */
+    --bg: #0a1220;            /* deep navy, slightly darker than slate */
+    --bg-elev: #131c2e;        /* panel — same hue, raised */
+    --bg-elev-2: #1a2540;      /* second-level surface */
+    --border: #243149;
+    --border-soft: #1c2638;
+    --text: #e6ecf5;           /* soft off-white with cool tint */
+    --text-dim: #94a3c0;       /* muted slate-blue */
+    --text-faint: #5c6a85;     /* faint slate */
+    --accent: #4dd4ff;         /* Chill cyan — bright, medicinal */
+    --accent-dim: #2a93c4;     /* darker cyan for borders/lines */
+    --accent-deep: #1857a6;    /* deep blue, gradient endpoint */
+    --warm: #f0a868;           /* soft amber (warnings) */
+    --cool: #8fb8d4;           /* secondary blue */
+    --rose: #e07594;           /* soft rose (errors / negative) */
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -46,8 +49,8 @@
 
   body {
     background-image:
-      radial-gradient(ellipse 1200px 600px at 80% -10%, rgba(196,255,61,0.04), transparent 60%),
-      radial-gradient(ellipse 800px 400px at 0% 100%, rgba(109,180,196,0.03), transparent 60%);
+      radial-gradient(ellipse 1200px 600px at 80% -10%, rgba(77,212,255,0.05), transparent 60%),
+      radial-gradient(ellipse 800px 400px at 0% 100%, rgba(24,87,166,0.05), transparent 60%);
   }
 
   /* Typography */
@@ -373,7 +376,7 @@ if (typeof Recharts === 'undefined') {
         <li>An ad blocker / privacy extension is blocking jsdelivr.net or unpkg.com</li>
         <li>Slow network — try refreshing</li>
       </ul>
-      <p style="color:#c4ff3d;margin-top:16px;font-family:monospace;font-size:13px">Try: disable extensions for localhost, or refresh the page.</p>
+      <p style="color:#4dd4ff;margin-top:16px;font-family:monospace;font-size:13px">Try: disable extensions for localhost, or refresh the page.</p>
     </div>
   `;
   throw new Error('Recharts failed to load');
@@ -931,8 +934,8 @@ function Dashboard({ data, filters, setFilters }) {
             <AreaChart data={timeSeries} margin={{ top: 12, right: 12, left: 0, bottom: 0 }}>
               <defs>
                 <linearGradient id="revGrad" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stopColor="#c4ff3d" stopOpacity={0.4} />
-                  <stop offset="100%" stopColor="#c4ff3d" stopOpacity={0} />
+                  <stop offset="0%" stopColor="#4dd4ff" stopOpacity={0.4} />
+                  <stop offset="100%" stopColor="#4dd4ff" stopOpacity={0} />
                 </linearGradient>
               </defs>
               <CartesianGrid stroke="#262c28" strokeDasharray="2 2" vertical={false} />
@@ -944,7 +947,7 @@ function Dashboard({ data, filters, setFilters }) {
                 itemStyle={{ color: '#e8ebe7' }}
                 formatter={(v, n) => n === 'revenue' ? [fmtMoneyFull(v), 'Revenue'] : [fmtNum(v), n]}
               />
-              <Area type="monotone" dataKey="revenue" stroke="#c4ff3d" strokeWidth={2} fill="url(#revGrad)" />
+              <Area type="monotone" dataKey="revenue" stroke="#4dd4ff" strokeWidth={2} fill="url(#revGrad)" />
             </AreaChart>
           </ResponsiveContainer>
         </div>
@@ -976,7 +979,7 @@ function Dashboard({ data, filters, setFilters }) {
                     contentStyle={{ background: '#161a17', border: '1px solid #262c28', borderRadius: 4, fontSize: 12 }}
                     formatter={(v) => [fmtMoneyFull(v), 'Revenue']}
                   />
-                  <Bar dataKey="revenue" fill="#c4ff3d" radius={[0, 2, 2, 0]} />
+                  <Bar dataKey="revenue" fill="#4dd4ff" radius={[0, 2, 2, 0]} />
                 </BarChart>
               </ResponsiveContainer>
             </div>
@@ -1002,7 +1005,7 @@ function Dashboard({ data, filters, setFilters }) {
                     strokeWidth={2}
                   >
                     {byCategory.map((_, i) => {
-                      const colors = ['#c4ff3d', '#8aa829', '#6db4c4', '#e88a3c', '#d97070', '#9aa39c', '#5d6660'];
+                      const colors = ['#4dd4ff', '#2a93c4', '#8fb8d4', '#f0a868', '#e07594', '#9aa39c', '#5d6660'];
                       return <Cell key={i} fill={colors[i % colors.length]} />;
                     })}
                   </Pie>
@@ -1260,7 +1263,7 @@ function Dashboard({ data, filters, setFilters }) {
       )}
 
       <footer style={{ marginTop: 60, padding: '20px 0', borderTop: '1px solid var(--border)', display: 'flex', justifyContent: 'space-between', fontFamily: 'JetBrains Mono', fontSize: 11, color: 'var(--text-faint)', textTransform: 'uppercase', letterSpacing: '0.12em' }}>
-        <span>Legacy Operations · Sales Intelligence</span>
+        <span>Chill Medicated · Sales Intelligence</span>
         <span>Auto-refresh every 60s</span>
       </footer>
     </div>
@@ -1272,9 +1275,30 @@ function Topbar({ fetchedAt, rowCount, totalCount }) {
   const ago = Math.floor((Date.now() - fetchedAt.getTime()) / 60000);
   return (
     <div className="topbar">
-      <div className="brand-mark">
-        <span className="brand-tag">Legacy Ops</span>
-        <h1 className="brand-name">Sales <em>Intelligence</em></h1>
+      <div className="brand-mark" style={{ alignItems: 'center', gap: 16 }}>
+        <svg width="44" height="44" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" style={{ flexShrink: 0 }}>
+          <defs>
+            <linearGradient id="chillGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stopColor="#4dd4ff" />
+              <stop offset="100%" stopColor="#1857a6" />
+            </linearGradient>
+          </defs>
+          {/* Stylized droplet / leaf — wellness mark */}
+          <path d="M50 12 C 30 32, 18 50, 18 65 C 18 82, 32 92, 50 92 C 68 92, 82 82, 82 65 C 82 50, 70 32, 50 12 Z"
+                fill="url(#chillGrad)" />
+          {/* Chill 'C' inside */}
+          <path d="M58 52 C 56 47, 52 44, 47 44 C 39 44, 34 50, 34 58 C 34 66, 39 72, 47 72 C 52 72, 56 69, 58 64"
+                fill="none" stroke="#0a1220" strokeWidth="5" strokeLinecap="round" />
+        </svg>
+        <div>
+          <h1 className="brand-name" style={{ lineHeight: 1, fontSize: 26 }}>
+            <span style={{ background: 'linear-gradient(90deg, #4dd4ff 0%, #1857a6 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>Chill</span>{' '}
+            <em style={{ color: 'var(--text-dim)', fontStyle: 'italic', fontWeight: 400 }}>Medicated</em>
+          </h1>
+          <div className="brand-tag" style={{ marginTop: 4, border: 'none', padding: 0, fontSize: 9 }}>
+            Massachusetts · Sales Intelligence
+          </div>
+        </div>
       </div>
       <div className="topbar-meta">
         <span><strong>{fmtNum(rowCount)}</strong> / {fmtNum(totalCount)} rows</span>
