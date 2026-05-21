@@ -2,8 +2,6 @@ name: Scrape Apex Sales
 
 on:
   schedule:
-    # Run every 15 min — using 4 separate triggers because GitHub's free
-    # tier cron drops single-trigger jobs more often than multi-trigger ones
     - cron: '0,15,30,45 * * * *'
     - cron: '5 * * * *'
     - cron: '20 * * * *'
@@ -11,7 +9,7 @@ on:
     - cron: '50 * * * *'
   workflow_dispatch:
   push:
-    branches: [main]    # also runs on any code commit (for testing)
+    branches: [main]
 
 permissions:
   contents: write
@@ -36,7 +34,7 @@ jobs:
         run: pip install -r requirements.txt
 
       - name: Run scraper
-       env:
+        env:
           APEX_COOKIE: ${{ secrets.APEX_COOKIE }}
           APEX_USER_ID: ${{ secrets.APEX_USER_ID }}
           APEX_COMPANY_ID: ${{ secrets.APEX_COMPANY_ID }}
