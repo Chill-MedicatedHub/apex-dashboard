@@ -41,7 +41,10 @@ COOKIE = os.getenv("APEX_COOKIE", "")
 # How many rows to pull per request. Apex's UI defaults to 50; we bump it.
 ROW_LIMIT = int(os.getenv("APEX_ROW_LIMIT", "5000"))
 
-# Date range for the pull. Defaults to "last 90 days" through "today".
+# Date range for the pull.
+# Preferred: set APEX_FROM_DATE to a fixed start date (e.g. "2025-05-01").
+# Fallback: if not set, use rolling APEX_DAYS_BACK window (default 90).
+FROM_DATE_FIXED = os.getenv("APEX_FROM_DATE", "")
 DAYS_BACK = int(os.getenv("APEX_DAYS_BACK", "90"))
 
 OUTPUT_FILE = Path(__file__).parent / "sales_data.json"
@@ -155,7 +158,12 @@ def fetch_report() -> dict:
         sys.exit(1)
 
     today = datetime.now()
-    from_date = (today - timedelta(days=DAYS_BACK)).strftime("%Y-%m-%d")
+    if FROM_DATE_FIXED:
+        # Use the configured fixed start date (e.g. "2025-05-01")
+        from_date = FROM_DATE_FIXED
+    else:
+        # Fall back to rolling window
+        from_date = (today - timedelta(days=DAYS_BACK)).strftime("%Y-%m-%d")
     to_date = today.strftime("%Y-%m-%d")
 
     print(f"Pulling sales from {from_date} → {to_date} (limit {ROW_LIMIT} rows)...")
