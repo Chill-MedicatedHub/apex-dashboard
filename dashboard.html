@@ -1276,20 +1276,7 @@ function Topbar({ fetchedAt, rowCount, totalCount }) {
   return (
     <div className="topbar">
       <div className="brand-mark" style={{ alignItems: 'center', gap: 16 }}>
-        <svg width="44" height="44" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" style={{ flexShrink: 0 }}>
-          <defs>
-            <linearGradient id="chillGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stopColor="#4dd4ff" />
-              <stop offset="100%" stopColor="#1857a6" />
-            </linearGradient>
-          </defs>
-          {/* Stylized droplet / leaf — wellness mark */}
-          <path d="M50 12 C 30 32, 18 50, 18 65 C 18 82, 32 92, 50 92 C 68 92, 82 82, 82 65 C 82 50, 70 32, 50 12 Z"
-                fill="url(#chillGrad)" />
-          {/* Chill 'C' inside */}
-          <path d="M58 52 C 56 47, 52 44, 47 44 C 39 44, 34 50, 34 58 C 34 66, 39 72, 47 72 C 52 72, 56 69, 58 64"
-                fill="none" stroke="#0a1220" strokeWidth="5" strokeLinecap="round" />
-        </svg>
+       <img src="logo.png" alt="Chill Medicated" style={{ height: 48, width: 'auto', flexShrink: 0 }} />
         <div>
           <h1 className="brand-name" style={{ lineHeight: 1, fontSize: 26 }}>
             <span style={{ background: 'linear-gradient(90deg, #4dd4ff 0%, #1857a6 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>Chill</span>{' '}
