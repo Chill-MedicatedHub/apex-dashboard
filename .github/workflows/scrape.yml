@@ -40,8 +40,8 @@ jobs:
           APEX_COOKIE: ${{ secrets.APEX_COOKIE }}
           APEX_USER_ID: ${{ secrets.APEX_USER_ID }}
           APEX_COMPANY_ID: ${{ secrets.APEX_COMPANY_ID }}
-          APEX_ROW_LIMIT: '5000'
-          APEX_DAYS_BACK: '90'
+          APEX_ROW_LIMIT: '50000'
+          APEX_FROM_DATE: '2025-05-01'
         run: python scraper.py
 
       - name: Commit updated data
