@@ -36,7 +36,7 @@ jobs:
         run: pip install -r requirements.txt
 
       - name: Run scraper
-        env:
+       env:
           APEX_COOKIE: ${{ secrets.APEX_COOKIE }}
           APEX_USER_ID: ${{ secrets.APEX_USER_ID }}
           APEX_COMPANY_ID: ${{ secrets.APEX_COMPANY_ID }}
