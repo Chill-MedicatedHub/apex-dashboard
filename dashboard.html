@@ -399,7 +399,24 @@ const parseMoney = (str) => {
   return isNaN(n) ? 0 : n;
 };
 
-// Parse credits out of Apex's payments/credits text field (real field name in the API:
+// Correctly sum discounts across a set of rows. The per-line `discounts` field is
+// summed normally, but `additional_discounts` is an invoice-level value that repeats
+// on every line of the same order — so we dedupe it by order_id before summing.
+// Without this, a 5-line invoice with $330 additional discount counts as $1,650.
+const sumDiscounts = (rowSet) => {
+  let lineTotal = 0;
+  const invDiscountByOrder = new Map();
+  for (const r of rowSet) {
+    lineTotal += r._lineDiscount || 0;
+    const id = r.order_id;
+    if (id && r._invoiceDiscount > 0 && !invDiscountByOrder.has(id)) {
+      invDiscountByOrder.set(id, r._invoiceDiscount);
+    }
+  }
+  const invoiceTotal = [...invDiscountByOrder.values()].reduce((s, n) => s + n, 0);
+  return lineTotal + invoiceTotal;
+};
+
 // `payment_dates` — yes, weirdly named, but it actually holds entries like
 // "Credit of $1,045.22 on 03/17/2026"). Field may be a string OR an array of strings.
 // Returns { total, entries } where total is the summed dollar amount of all credits
@@ -588,9 +605,18 @@ function Dashboard({ data, filters, setFilters }) {
       : parseMoney(r.line_total || r.computed_sale_price || r.total),
     _cost: parseMoney(r.batch_cost_of_goods),
     _quantity: parseFloat(r.quantity_raw != null ? r.quantity_raw : r.quantity) || 0,
-    // BOTH discounts and additional_discounts come from Apex as INTEGER CENTS
-    // (e.g. 7500 = $75.00). Divide by 100. Fallback handles edge cases where the
-    // field might be a string like "$30.00".
+    // DISCOUNT FIELDS — two flavors from Apex, must be handled differently:
+    //   • discounts (per-line):       varies by product on the same invoice, sum freely
+    //   • additional_discounts (per-invoice): SAME value repeats on every line of an
+    //                                          order; must be deduped to one-per-invoice
+    //                                          before summing or totals will be inflated
+    //                                          by the number of lines per invoice.
+    // Both come from Apex as integer cents (e.g. 18000 = $180.00). Fallback handles
+    // edge cases where the field might be a string like "$30.00".
+    _lineDiscount: (typeof r.discounts === 'number' ? r.discounts / 100 : parseMoney(r.discounts)),
+    _invoiceDiscount: (typeof r.additional_discounts === 'number' ? r.additional_discounts / 100 : parseMoney(r.additional_discounts)),
+    // Combined view for display on a single row only. NOT safe for cross-row sums
+    // (would multi-count the per-invoice piece). Use sumDiscounts() for totals.
     _discount: (
       (typeof r.discounts === 'number' ? r.discounts / 100 : parseMoney(r.discounts)) +
       (typeof r.additional_discounts === 'number' ? r.additional_discounts / 100 : parseMoney(r.additional_discounts))
@@ -650,7 +676,7 @@ function Dashboard({ data, filters, setFilters }) {
     const units = filtered.reduce((s, r) => s + r._quantity, 0);
     const orderIds = new Set(filtered.map(r => r.order_id).filter(Boolean));
     const buyers = new Set(filtered.map(r => r.buyer_name).filter(Boolean));
-    const discounts = filtered.reduce((s, r) => s + r._discount, 0);
+    const discounts = sumDiscounts(filtered);
 
     // Credits — pulled from Apex's "Payments" text field where credits are recorded
     // as text like "Credit of $1,045.22 on 03/17/2026". The same payments string repeats
@@ -728,6 +754,7 @@ function Dashboard({ data, filters, setFilters }) {
 
   // Monthly breakdown matching the Apex monthly sales spreadsheet format
   const monthlyBreakdown = useMemo(() => {
+    // First pass: bucket rows by month and sum the parts that aggregate freely
     const map = {};
     filtered.forEach(r => {
       if (!r._date) return;
@@ -738,16 +765,21 @@ function Dashboard({ data, filters, setFilters }) {
         map[key] = {
           key,
           monthName: r._date.toLocaleString('en-US', { month: 'long', year: 'numeric' }),
-          units: 0, gross: 0, discounts: 0, netSales: 0, cogs: 0,
+          rows: [],
+          units: 0, netSales: 0, cogs: 0,
         };
       }
-      // Gross sales = revenue + discounts (since computed_sale_price is already net)
-      const gross = r._revenue + r._discount;
+      map[key].rows.push(r);
       map[key].units += r._quantity;
-      map[key].gross += gross;
-      map[key].discounts += r._discount;
       map[key].netSales += r._revenue;
       map[key].cogs += r._cost * r._quantity;
+    });
+    // Second pass: dedupe-aware sums for discounts (per-month bucket).
+    // Gross = net + total discounts (after dedup), so it has to be computed AFTER.
+    Object.values(map).forEach(m => {
+      m.discounts = sumDiscounts(m.rows);
+      m.gross = m.netSales + m.discounts;
+      delete m.rows; // no longer needed; saves memory in the React render
     });
     const sorted = Object.values(map).sort((a, b) => a.key.localeCompare(b.key));
     // Add MOM and Margin columns. Use modeled COGS when actual is zero.
@@ -807,9 +839,8 @@ function Dashboard({ data, filters, setFilters }) {
         map[k] = {
           name: k,
           line: r.product_type || '—',
+          rows: [],
           units: 0,
-          gross: 0,
-          discounts: 0,
           netSales: 0,
           totalCost: 0,
           unitPriceSum: 0, // for weighted avg
@@ -817,14 +848,20 @@ function Dashboard({ data, filters, setFilters }) {
           costUnit: r._cost || 0,
         };
       }
-      const gross = r._revenue + r._discount;
+      map[k].rows.push(r);
       map[k].units += r._quantity;
-      map[k].gross += gross;
-      map[k].discounts += r._discount;
       map[k].netSales += r._revenue;
       map[k].totalCost += r._cost * r._quantity;
       // Take the highest unit price seen as "listed" (since promos can drop it)
       if (r._unitPrice > map[k].listedPrice) map[k].listedPrice = r._unitPrice;
+    });
+    // Dedupe-aware discount totals per product bucket.
+    // Note: when one invoice contains multiple products, the per-invoice discount counts
+    // once per (product, invoice) pair — which IS correct for product-level attribution.
+    Object.values(map).forEach(p => {
+      p.discounts = sumDiscounts(p.rows);
+      p.gross = p.netSales + p.discounts;
+      delete p.rows;
     });
     return Object.values(map)
       .map(p => {
@@ -863,7 +900,9 @@ function Dashboard({ data, filters, setFilters }) {
           lineItems: 0,
           units: 0,
           revenue: 0,
-          discount: 0,
+          // Per-invoice discount (additional_discounts) captured once. Per-line
+          // discounts accumulate below. Combined total is the sum of both.
+          discount: r._invoiceDiscount || 0,
           // Credit applied to this invoice. The payments-text field repeats on every
           // line item, so we only capture it once per order (first line wins).
           credit: r._creditFromPayments || 0,
@@ -873,7 +912,7 @@ function Dashboard({ data, filters, setFilters }) {
       map[id].lineItems += 1;
       map[id].units += r._quantity;
       map[id].revenue += r._revenue;
-      map[id].discount += r._discount;
+      map[id].discount += r._lineDiscount;  // per-line piece accumulates per row
     });
     return Object.values(map).sort((a, b) =>
       (b._date?.getTime() || 0) - (a._date?.getTime() || 0)
@@ -913,7 +952,7 @@ function Dashboard({ data, filters, setFilters }) {
     const rawOrderNumber = rawFirst.order_number != null ? `order_number=${JSON.stringify(rawFirst.order_number)}` : '(no order_number field)';
     const sampleDiscount = firstRow._discount;
     const rawDiscountFields = `discounts=${JSON.stringify(rawFirst.discounts)} additional_discounts=${JSON.stringify(rawFirst.additional_discounts)}`;
-    const totalDiscount = normalized.reduce((s, r) => s + r._discount, 0);
+    const totalDiscount = sumDiscounts(normalized);
     // Credits: parsed from the "Payments" text field on each row.
     // Dedupe by invoice since the same payments string appears on every line item.
     const creditByInvoice = new Map();
