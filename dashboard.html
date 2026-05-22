@@ -953,6 +953,31 @@ function Dashboard({ data, filters, setFilters }) {
     const sampleDiscount = firstRow._discount;
     const rawDiscountFields = `discounts=${JSON.stringify(rawFirst.discounts)} additional_discounts=${JSON.stringify(rawFirst.additional_discounts)}`;
     const totalDiscount = sumDiscounts(normalized);
+    const filteredDiscount = sumDiscounts(filtered);
+    // Discount audit trail — same dedup logic as KPIs, but respects the current filter
+    // state so you can answer "where exactly are these discounts coming from?" for any
+    // slice (a month, a state, a buyer, etc). Combines per-line and per-invoice into
+    // one row per invoice for easy spot-checking against Apex.
+    const discountByInvoice = new Map(); // order_id -> { invoice, line, invoice_disc, total, buyer, date }
+    filtered.forEach(r => {
+      const id = r.order_id;
+      if (!id) return;
+      if (!discountByInvoice.has(id)) {
+        discountByInvoice.set(id, {
+          invoice: r.order_number || id,
+          buyer: r.buyer_name || '—',
+          date: r.order_date || '—',
+          line: 0,
+          invoiceDisc: r._invoiceDiscount || 0,  // captured once per invoice
+        });
+      }
+      discountByInvoice.get(id).line += r._lineDiscount || 0;
+    });
+    const discountAudit = [...discountByInvoice.values()]
+      .map(d => ({ ...d, total: d.line + d.invoiceDisc }))
+      .filter(d => d.total > 0)
+      .sort((a, b) => b.total - a.total);
+    const discountAuditTotal = discountAudit.reduce((s, d) => s + d.total, 0);
     // Credits: parsed from the "Payments" text field on each row.
     // Dedupe by invoice since the same payments string appears on every line item.
     const creditByInvoice = new Map();
@@ -970,13 +995,14 @@ function Dashboard({ data, filters, setFilters }) {
       sampleDate, sampleRep,
       orderIdsPresent, distinctOrderIds,
       rawOrderIdField, rawOrderNumber,
-      sampleDiscount, rawDiscountFields, totalDiscount,
+      sampleDiscount, rawDiscountFields, totalDiscount, filteredDiscount,
+      discountAudit, discountAuditTotal,
       creditLineCount: creditByInvoice.size,
       creditTotal,
       creditInvoices,
       rawPaymentsSample,
     };
-  }, [normalized, rows]);
+  }, [normalized, rows, filtered]);
 
   return (
     <div className="app">
@@ -1010,6 +1036,39 @@ function Dashboard({ data, filters, setFilters }) {
           <div>Raw first row: {diag.rawDiscountFields}</div>
           <div>First row computed _discount: ${diag.sampleDiscount?.toFixed(2)}</div>
           <div>Total discounts (all rows): ${diag.totalDiscount?.toLocaleString(undefined, {maximumFractionDigits:2})}</div>
+          <div>Total discounts (current filter): ${diag.filteredDiscount?.toLocaleString(undefined, {maximumFractionDigits:2})}</div>
+          {diag.discountAudit && diag.discountAudit.length > 0 && (
+            <details style={{ marginTop: 6 }}>
+              <summary style={{ cursor: 'pointer', color: 'var(--accent)' }}>
+                Per-invoice audit ({diag.discountAudit.length} invoice{diag.discountAudit.length === 1 ? '' : 's'}, ${diag.discountAuditTotal.toLocaleString(undefined, {minimumFractionDigits:2, maximumFractionDigits:2})} total · click to expand)
+              </summary>
+              <div style={{ marginTop: 6, marginLeft: 12, fontFamily: 'monospace', fontSize: '0.85em' }}>
+                <div style={{ display: 'grid', gridTemplateColumns: '120px 100px 1fr 90px 90px 90px', gap: '4px 12px', color: 'var(--text-dim)' }}>
+                  <div style={{ fontWeight: 600 }}>Invoice</div>
+                  <div style={{ fontWeight: 600 }}>Date</div>
+                  <div style={{ fontWeight: 600 }}>Buyer</div>
+                  <div style={{ fontWeight: 600, textAlign: 'right' }}>Per-line</div>
+                  <div style={{ fontWeight: 600, textAlign: 'right' }}>Invoice-level</div>
+                  <div style={{ fontWeight: 600, textAlign: 'right' }}>Total</div>
+                  {diag.discountAudit.slice(0, 50).map((d, i) => (
+                    <React.Fragment key={i}>
+                      <div style={{ color: 'var(--accent)' }}>{d.invoice}</div>
+                      <div>{d.date}</div>
+                      <div style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }} title={d.buyer}>{d.buyer}</div>
+                      <div style={{ textAlign: 'right' }}>{d.line > 0 ? '$' + d.line.toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2}) : '—'}</div>
+                      <div style={{ textAlign: 'right' }}>{d.invoiceDisc > 0 ? '$' + d.invoiceDisc.toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2}) : '—'}</div>
+                      <div style={{ textAlign: 'right', fontWeight: 600 }}>${d.total.toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2})}</div>
+                    </React.Fragment>
+                  ))}
+                </div>
+                {diag.discountAudit.length > 50 && (
+                  <div style={{ marginTop: 6, color: 'var(--text-faint)' }}>
+                    Showing top 50 of {diag.discountAudit.length} · narrow with filters to see specific invoices
+                  </div>
+                )}
+              </div>
+            </details>
+          )}
           <div style={{ marginTop: 8, color: 'var(--accent)' }}>--- CREDIT DEBUG ---</div>
           <div>Sample "payments" field (first row): {typeof diag.rawPaymentsSample === 'string' ? `"${diag.rawPaymentsSample}"` : JSON.stringify(diag.rawPaymentsSample)}</div>
           <div>Invoices with credits parsed: {diag.creditLineCount}</div>
