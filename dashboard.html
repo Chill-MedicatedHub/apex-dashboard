@@ -391,7 +391,11 @@ const {
 const parseMoney = (str) => {
   if (str == null) return 0;
   if (typeof str === 'number') return str;
-  const n = parseFloat(String(str).replace(/[$,]/g, ''));
+  // Strip currency, commas, whitespace. Handle accounting-style negatives:
+  // "($50.00)" → -50.00, which is how credits/refunds often appear in reports.
+  let s = String(str).replace(/[$,\s]/g, '');
+  if (/^\(.*\)$/.test(s)) s = '-' + s.slice(1, -1);
+  const n = parseFloat(s);
   return isNaN(n) ? 0 : n;
 };
 
@@ -551,7 +555,7 @@ function Dashboard({ data, filters, setFilters }) {
     // Computed fields
     _date: parseDate(r.order_date_utc_raw || r.order_date_localized_raw || r.order_date_raw || r.order_date_utc || r.order_date),
     _delivery: parseDate(r.delivery_date_raw || r.delivery_date),
-    _revenue: (typeof r.line_total_raw === 'number' && r.line_total_raw > 0)
+    _revenue: (typeof r.line_total_raw === 'number')
       ? r.line_total_raw / 100
       : parseMoney(r.line_total || r.computed_sale_price || r.total),
     _cost: parseMoney(r.batch_cost_of_goods),
@@ -565,6 +569,12 @@ function Dashboard({ data, filters, setFilters }) {
     ),
     _unitPrice: parseMoney(r.product_listing_price || r.unit_price),
     _isSample: isSampleRow(r),
+    // Credit detection — a line with negative revenue is a refund/credit memo.
+    // Flagged here so KPIs and the invoice table can surface it separately.
+    _isCredit: (
+      (typeof r.line_total_raw === 'number' && r.line_total_raw < 0) ||
+      parseMoney(r.line_total || r.computed_sale_price || r.total) < 0
+    ),
   })), [rows]);
 
   // Distinct values for filters
@@ -610,6 +620,14 @@ function Dashboard({ data, filters, setFilters }) {
     const buyers = new Set(filtered.map(r => r.buyer_name).filter(Boolean));
     const discounts = filtered.reduce((s, r) => s + r._discount, 0);
 
+    // Credits = sum of negative revenue lines, expressed as a positive number for display.
+    // grossRevenue = revenue before credits are subtracted (revenue + |credits|).
+    const creditLines = filtered.filter(r => r._isCredit);
+    const credits = -creditLines.reduce((s, r) => s + r._revenue, 0); // flip sign
+    const creditCount = creditLines.length;
+    const creditOrders = new Set(creditLines.map(r => r.order_id).filter(Boolean)).size;
+    const grossRevenue = revenue + credits;
+
     // If Apex isn't returning real COGS, fall back to the modeled ratio
     const isModeled = actualCost === 0 && revenue > 0;
     const cost = isModeled ? revenue * filters.cogsRatio : actualCost;
@@ -639,6 +657,7 @@ function Dashboard({ data, filters, setFilters }) {
 
     return {
       revenue,
+      grossRevenue,
       cost,
       grossProfit: revenue - cost,
       netProfit,
@@ -653,6 +672,9 @@ function Dashboard({ data, filters, setFilters }) {
       momChange,
       momLabel,
       discounts,
+      credits,
+      creditCount,
+      creditOrders,
       lineItems: filtered.length,
     };
   }, [filtered, filters.cogsRatio]);
@@ -841,12 +863,19 @@ function Dashboard({ data, filters, setFilters }) {
     const sampleDiscount = firstRow._discount;
     const rawDiscountFields = `discounts=${JSON.stringify(rawFirst.discounts)} additional_discounts=${JSON.stringify(rawFirst.additional_discounts)}`;
     const totalDiscount = normalized.reduce((s, r) => s + r._discount, 0);
+    // Credits: any line where revenue went negative (refund / credit memo)
+    const creditLines = normalized.filter(r => r._isCredit);
+    const creditTotal = -creditLines.reduce((s, r) => s + r._revenue, 0);
+    const creditInvoices = [...new Set(creditLines.map(r => r.order_number || r.order_id).filter(Boolean))];
     return {
       datesValid, datesNull, repsPresent, repsEmpty,
       sampleDate, sampleRep,
       orderIdsPresent, distinctOrderIds,
       rawOrderIdField, rawOrderNumber,
       sampleDiscount, rawDiscountFields, totalDiscount,
+      creditLineCount: creditLines.length,
+      creditTotal,
+      creditInvoices,
     };
   }, [normalized, rows]);
 
@@ -882,6 +911,10 @@ function Dashboard({ data, filters, setFilters }) {
           <div>Raw first row: {diag.rawDiscountFields}</div>
           <div>First row computed _discount: ${diag.sampleDiscount?.toFixed(2)}</div>
           <div>Total discounts (all rows): ${diag.totalDiscount?.toLocaleString(undefined, {maximumFractionDigits:2})}</div>
+          <div style={{ marginTop: 8, color: 'var(--accent)' }}>--- CREDIT DEBUG ---</div>
+          <div>Credit lines (negative revenue): {diag.creditLineCount}</div>
+          <div>Total credits issued: ${diag.creditTotal?.toLocaleString(undefined, {maximumFractionDigits:2})}</div>
+          <div>Invoices with credits: {diag.creditInvoices.length === 0 ? '(none)' : diag.creditInvoices.slice(0, 10).join(', ') + (diag.creditInvoices.length > 10 ? ` … +${diag.creditInvoices.length - 10} more` : '')}</div>
         </div>
       </details>
 
@@ -889,7 +922,14 @@ function Dashboard({ data, filters, setFilters }) {
 
       {/* KPI Row 1 — top-line money */}
       <div className="kpi-grid">
-        <Kpi label="Net Revenue" value={fmtMoney(kpis.revenue)} sub={`${fmtNum(kpis.lineItems)} line items`} accent />
+        <Kpi
+          label="Net Revenue"
+          value={fmtMoney(kpis.revenue)}
+          sub={kpis.credits > 0
+            ? `${fmtMoney(kpis.grossRevenue)} gross − ${fmtMoney(kpis.credits)} credits`
+            : `${fmtNum(kpis.lineItems)} line items`}
+          accent
+        />
         <Kpi
           label={'Net Profit' + (kpis.isModeled ? ' *' : '')}
           value={fmtMoney(kpis.netProfit)}
@@ -919,8 +959,18 @@ function Dashboard({ data, filters, setFilters }) {
       <div className="kpi-grid">
         <Kpi label="Active Buyers" value={fmtNum(kpis.buyers)} sub="unique accounts" />
         <Kpi label="Markets" value={fmtNum(distinct.states.filter(s => filtered.some(r => r.buyer_state === s)).length)} sub="states with sales" />
-        <Kpi label="Brands Selling" value={fmtNum(distinct.brands.filter(b => filtered.some(r => r.brand === b)).length)} sub="in current view" />
-        <Kpi label="Discounts Given" value={fmtMoney(kpis.discounts)} sub={kpis.revenue ? ((kpis.discounts / (kpis.revenue + kpis.discounts)) * 100).toFixed(1) + '% of gross' : '—'} />
+        <Kpi
+          label="Discounts Given"
+          value={fmtMoney(kpis.discounts)}
+          sub={kpis.grossRevenue ? ((kpis.discounts / (kpis.grossRevenue + kpis.discounts)) * 100).toFixed(1) + '% of gross' : '—'}
+        />
+        <Kpi
+          label="Credits Issued"
+          value={fmtMoney(kpis.credits)}
+          sub={kpis.creditCount
+            ? `${fmtNum(kpis.creditCount)} line${kpis.creditCount === 1 ? '' : 's'} · ${fmtNum(kpis.creditOrders)} invoice${kpis.creditOrders === 1 ? '' : 's'}`
+            : 'none in current view'}
+        />
       </div>
 
       {/* Revenue trend */}
