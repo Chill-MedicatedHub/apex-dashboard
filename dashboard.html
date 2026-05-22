@@ -859,6 +859,10 @@ function Dashboard({ data, filters, setFilters }) {
           units: 0,
           revenue: 0,
           discount: 0,
+          // Credit applied to this invoice. The payments-text field repeats on every
+          // line item, so we only capture it once per order (first line wins).
+          credit: r._creditFromPayments || 0,
+          creditEntries: r._creditEntries || [],
         };
       }
       map[id].lineItems += 1;
@@ -1278,6 +1282,7 @@ function Dashboard({ data, filters, setFilters }) {
                   <th className="num">Line Items</th>
                   <th className="num">Total Units</th>
                   <th className="num">Revenue</th>
+                  <th className="num">Credit Applied</th>
                   <th>Payment</th>
                 </tr>
               </thead>
@@ -1296,6 +1301,15 @@ function Dashboard({ data, filters, setFilters }) {
                     <td className="num dim">{fmtNum(inv.lineItems)}</td>
                     <td className="num"><strong>{fmtNum(Math.round(inv.units))}</strong></td>
                     <td className="num">{fmtMoneyFull(inv.revenue)}</td>
+                    <td
+                      className="num"
+                      style={inv.credit > 0 ? { color: 'var(--accent)' } : { color: 'var(--text-faint)' }}
+                      title={inv.credit > 0 && inv.creditEntries.length
+                        ? inv.creditEntries.map(e => `Credit of $${e.amount.toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2})} on ${e.date}`).join('\n')
+                        : ''}
+                    >
+                      {inv.credit > 0 ? fmtMoneyFull(inv.credit) : '—'}
+                    </td>
                     <td><StatusPill status={inv.status} /></td>
                   </tr>
                 ))}
