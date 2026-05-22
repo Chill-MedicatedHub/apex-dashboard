@@ -399,14 +399,19 @@ const parseMoney = (str) => {
   return isNaN(n) ? 0 : n;
 };
 
-// Parse credits out of Apex's "Payments" text field.
-// Format: "Credit of $1,045.22 on 03/17/2026" (sometimes mixed with "Payment of ..." entries,
-// separated by commas or semicolons). Returns { total, entries } where total is the summed
-// dollar amount of all credits found and entries is an array of { amount, date } for display.
+// Parse credits out of Apex's payments/credits text field (real field name in the API:
+// `payment_dates` — yes, weirdly named, but it actually holds entries like
+// "Credit of $1,045.22 on 03/17/2026"). Field may be a string OR an array of strings.
+// Returns { total, entries } where total is the summed dollar amount of all credits
+// found and entries is an array of { amount, date } for display.
 const parsePaymentsForCredits = (paymentsField) => {
   const empty = { total: 0, entries: [] };
   if (!paymentsField) return empty;
-  const text = String(paymentsField);
+  // Normalize: accept either an array of strings or a single string
+  const text = Array.isArray(paymentsField)
+    ? paymentsField.filter(Boolean).join(', ')
+    : String(paymentsField);
+  if (!text) return empty;
   // Match "Credit of $<amount> on <date>". The amount may include commas (e.g. 1,045.22).
   const re = /Credit\s+of\s+\$([\d,]+(?:\.\d+)?)\s+on\s+(\d{1,2}\/\d{1,2}\/\d{2,4})/gi;
   const entries = [];
@@ -593,11 +598,11 @@ function Dashboard({ data, filters, setFilters }) {
     _unitPrice: parseMoney(r.product_listing_price || r.unit_price),
     _isSample: isSampleRow(r),
     // Credit detection — Apex records "credits applied to payment" inside the
-    // payments text field, e.g. "Credit of $1,045.22 on 03/17/2026".
+    // `payment_dates` array, with entries like "Credit of $1,045.22 on 03/17/2026".
     // We parse those out and also keep the original negative-revenue fallback
     // (in case Apex ever sends a credit as a negative line item).
-    _creditFromPayments: parsePaymentsForCredits(r.payments || r.payment_text || r.payment_history || '').total,
-    _creditEntries: parsePaymentsForCredits(r.payments || r.payment_text || r.payment_history || '').entries,
+    _creditFromPayments: parsePaymentsForCredits(r.payment_dates || r.payments || r.payment_text || r.payment_history || '').total,
+    _creditEntries: parsePaymentsForCredits(r.payment_dates || r.payments || r.payment_text || r.payment_history || '').entries,
     _isNegativeLine: (
       (typeof r.line_total_raw === 'number' && r.line_total_raw < 0) ||
       parseMoney(r.line_total || r.computed_sale_price || r.total) < 0
@@ -920,7 +925,7 @@ function Dashboard({ data, filters, setFilters }) {
     });
     const creditTotal = [...creditByInvoice.values()].reduce((s, v) => s + v.amount, 0);
     const creditInvoices = [...creditByInvoice.keys()];
-    const rawPaymentsSample = rawFirst.payments || rawFirst.payment_text || rawFirst.payment_history || '(no payments field on first row)';
+    const rawPaymentsSample = rawFirst.payment_dates || rawFirst.payments || rawFirst.payment_text || rawFirst.payment_history || '(no payment_dates field on first row)';
     return {
       datesValid, datesNull, repsPresent, repsEmpty,
       sampleDate, sampleRep,
