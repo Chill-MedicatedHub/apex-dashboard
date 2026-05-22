@@ -417,6 +417,26 @@ const sumDiscounts = (rowSet) => {
   return lineTotal + invoiceTotal;
 };
 
+// Per-line `discounts` only — matches what the Apex CSV export shows and what most
+// finance reports look for. Use this when reconciling against the CSV.
+const sumLineDiscounts = (rowSet) =>
+  rowSet.reduce((s, r) => s + (r._lineDiscount || 0), 0);
+
+// Invoice-level `additional_discounts` only — applied once per invoice (deduped).
+// Apex's CSV export silently drops this field, so it's effectively hidden money
+// unless surfaced separately.
+const sumInvoiceDiscounts = (rowSet) => {
+  const byOrder = new Map();
+  for (const r of rowSet) {
+    const id = r.order_id;
+    if (id && r._invoiceDiscount > 0 && !byOrder.has(id)) {
+      byOrder.set(id, r._invoiceDiscount);
+    }
+  }
+  return [...byOrder.values()].reduce((s, n) => s + n, 0);
+};
+
+
 // `payment_dates` — yes, weirdly named, but it actually holds entries like
 // "Credit of $1,045.22 on 03/17/2026"). Field may be a string OR an array of strings.
 // Returns { total, entries } where total is the summed dollar amount of all credits
@@ -676,7 +696,9 @@ function Dashboard({ data, filters, setFilters }) {
     const units = filtered.reduce((s, r) => s + r._quantity, 0);
     const orderIds = new Set(filtered.map(r => r.order_id).filter(Boolean));
     const buyers = new Set(filtered.map(r => r.buyer_name).filter(Boolean));
-    const discounts = sumDiscounts(filtered);
+    const discounts = sumLineDiscounts(filtered);          // matches CSV — what finance expects
+    const invoiceDiscounts = sumInvoiceDiscounts(filtered); // hidden in CSV — surface separately
+    const totalDiscounts = discounts + invoiceDiscounts;    // for "% of gross" math
 
     // Credits — pulled from Apex's "Payments" text field where credits are recorded
     // as text like "Credit of $1,045.22 on 03/17/2026". The same payments string repeats
@@ -744,7 +766,9 @@ function Dashboard({ data, filters, setFilters }) {
       avgUnitPrice,
       momChange,
       momLabel,
-      discounts,
+      discounts,           // per-line only (matches CSV)
+      invoiceDiscounts,    // additional_discounts (invoice-level, CSV-hidden)
+      totalDiscounts,      // both combined, for % math
       credits,
       creditCount,
       creditOrders,
@@ -774,10 +798,12 @@ function Dashboard({ data, filters, setFilters }) {
       map[key].netSales += r._revenue;
       map[key].cogs += r._cost * r._quantity;
     });
-    // Second pass: dedupe-aware sums for discounts (per-month bucket).
-    // Gross = net + total discounts (after dedup), so it has to be computed AFTER.
+    // Second pass: per-month discount totals.
+    // Use line-level only (matches CSV/Apex monthly report). Invoice-level discounts
+    // are tracked separately and shown in the diagnostics audit panel.
     Object.values(map).forEach(m => {
-      m.discounts = sumDiscounts(m.rows);
+      m.discounts = sumLineDiscounts(m.rows);
+      m.invoiceDiscounts = sumInvoiceDiscounts(m.rows);
       m.gross = m.netSales + m.discounts;
       delete m.rows; // no longer needed; saves memory in the React render
     });
@@ -855,11 +881,10 @@ function Dashboard({ data, filters, setFilters }) {
       // Take the highest unit price seen as "listed" (since promos can drop it)
       if (r._unitPrice > map[k].listedPrice) map[k].listedPrice = r._unitPrice;
     });
-    // Dedupe-aware discount totals per product bucket.
-    // Note: when one invoice contains multiple products, the per-invoice discount counts
-    // once per (product, invoice) pair — which IS correct for product-level attribution.
+    // Per-product discount totals (line-level, matches CSV/Apex product report).
     Object.values(map).forEach(p => {
-      p.discounts = sumDiscounts(p.rows);
+      p.discounts = sumLineDiscounts(p.rows);
+      p.invoiceDiscounts = sumInvoiceDiscounts(p.rows);
       p.gross = p.netSales + p.discounts;
       delete p.rows;
     });
@@ -952,8 +977,10 @@ function Dashboard({ data, filters, setFilters }) {
     const rawOrderNumber = rawFirst.order_number != null ? `order_number=${JSON.stringify(rawFirst.order_number)}` : '(no order_number field)';
     const sampleDiscount = firstRow._discount;
     const rawDiscountFields = `discounts=${JSON.stringify(rawFirst.discounts)} additional_discounts=${JSON.stringify(rawFirst.additional_discounts)}`;
-    const totalDiscount = sumDiscounts(normalized);
+    const totalDiscount = sumDiscounts(normalized);        // line + invoice (full picture)
     const filteredDiscount = sumDiscounts(filtered);
+    const filteredLineDiscount = sumLineDiscounts(filtered);     // matches CSV
+    const filteredInvoiceDiscount = sumInvoiceDiscounts(filtered); // hidden in CSV
     // Discount audit trail — same dedup logic as KPIs, but respects the current filter
     // state so you can answer "where exactly are these discounts coming from?" for any
     // slice (a month, a state, a buyer, etc). Combines per-line and per-invoice into
@@ -996,6 +1023,7 @@ function Dashboard({ data, filters, setFilters }) {
       orderIdsPresent, distinctOrderIds,
       rawOrderIdField, rawOrderNumber,
       sampleDiscount, rawDiscountFields, totalDiscount, filteredDiscount,
+      filteredLineDiscount, filteredInvoiceDiscount,
       discountAudit, discountAuditTotal,
       creditLineCount: creditByInvoice.size,
       creditTotal,
@@ -1035,8 +1063,10 @@ function Dashboard({ data, filters, setFilters }) {
           <div style={{ marginTop: 8, color: 'var(--accent)' }}>--- DISCOUNT DEBUG ---</div>
           <div>Raw first row: {diag.rawDiscountFields}</div>
           <div>First row computed _discount: ${diag.sampleDiscount?.toFixed(2)}</div>
-          <div>Total discounts (all rows): ${diag.totalDiscount?.toLocaleString(undefined, {maximumFractionDigits:2})}</div>
-          <div>Total discounts (current filter): ${diag.filteredDiscount?.toLocaleString(undefined, {maximumFractionDigits:2})}</div>
+          <div>Total discounts — all rows, line + invoice: ${diag.totalDiscount?.toLocaleString(undefined, {maximumFractionDigits:2})}</div>
+          <div>Current filter — line-level (matches CSV): ${diag.filteredLineDiscount?.toLocaleString(undefined, {maximumFractionDigits:2})}</div>
+          <div>Current filter — invoice-level (CSV-hidden): ${diag.filteredInvoiceDiscount?.toLocaleString(undefined, {maximumFractionDigits:2})}</div>
+          <div>Current filter — combined total: ${diag.filteredDiscount?.toLocaleString(undefined, {maximumFractionDigits:2})}</div>
           {diag.discountAudit && diag.discountAudit.length > 0 && (
             <details style={{ marginTop: 6 }}>
               <summary style={{ cursor: 'pointer', color: 'var(--accent)' }}>
@@ -1119,7 +1149,9 @@ function Dashboard({ data, filters, setFilters }) {
         <Kpi
           label="Discounts Given"
           value={fmtMoney(kpis.discounts)}
-          sub={kpis.grossRevenue ? ((kpis.discounts / (kpis.grossRevenue + kpis.discounts)) * 100).toFixed(1) + '% of gross' : '—'}
+          sub={kpis.grossRevenue
+            ? ((kpis.discounts / (kpis.grossRevenue + kpis.totalDiscounts)) * 100).toFixed(1) + '% of gross · matches CSV'
+            : 'per-line · matches CSV'}
         />
         <Kpi
           label="Credits Applied"
@@ -1127,6 +1159,34 @@ function Dashboard({ data, filters, setFilters }) {
           sub={kpis.creditCount
             ? `${fmtNum(kpis.creditOrders)} invoice${kpis.creditOrders === 1 ? '' : 's'} · applied as payment`
             : 'none in current view'}
+        />
+      </div>
+
+      {/* KPI Row 4 — additional finance metrics */}
+      <div className="kpi-grid">
+        <Kpi
+          label="Invoice-Level Discounts"
+          value={fmtMoney(kpis.invoiceDiscounts)}
+          sub={kpis.invoiceDiscounts > 0
+            ? 'additional_discounts · hidden in CSV export'
+            : 'none in current view'}
+        />
+        <Kpi
+          label="Total Discounts"
+          value={fmtMoney(kpis.totalDiscounts)}
+          sub={kpis.grossRevenue
+            ? ((kpis.totalDiscounts / (kpis.grossRevenue + kpis.totalDiscounts)) * 100).toFixed(1) + '% of gross · line + invoice'
+            : 'line + invoice combined'}
+        />
+        <Kpi
+          label="Gross Revenue"
+          value={fmtMoney(kpis.grossRevenue + kpis.totalDiscounts)}
+          sub="net revenue + all discounts"
+        />
+        <Kpi
+          label="Avg Discount / Invoice"
+          value={kpis.orders ? fmtMoneyFull(kpis.totalDiscounts / kpis.orders) : '—'}
+          sub={`across ${fmtNum(kpis.orders)} invoices`}
         />
       </div>
 
