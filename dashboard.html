@@ -399,42 +399,11 @@ const parseMoney = (str) => {
   return isNaN(n) ? 0 : n;
 };
 
-// Correctly sum discounts across a set of rows. The per-line `discounts` field is
-// summed normally, but `additional_discounts` is an invoice-level value that repeats
-// on every line of the same order — so we dedupe it by order_id before summing.
-// Without this, a 5-line invoice with $330 additional discount counts as $1,650.
-const sumDiscounts = (rowSet) => {
-  let lineTotal = 0;
-  const invDiscountByOrder = new Map();
-  for (const r of rowSet) {
-    lineTotal += r._lineDiscount || 0;
-    const id = r.order_id;
-    if (id && r._invoiceDiscount > 0 && !invDiscountByOrder.has(id)) {
-      invDiscountByOrder.set(id, r._invoiceDiscount);
-    }
-  }
-  const invoiceTotal = [...invDiscountByOrder.values()].reduce((s, n) => s + n, 0);
-  return lineTotal + invoiceTotal;
-};
-
-// Per-line `discounts` only — matches what the Apex CSV export shows and what most
-// finance reports look for. Use this when reconciling against the CSV.
+// Sum line-level discounts across a set of rows. Apex's `discounts` field is per-line,
+// so it can be summed freely without deduplication. (Apex also has an `additional_discounts`
+// field, but it's not consistently reflected in the Apex UI, so we don't include it.)
 const sumLineDiscounts = (rowSet) =>
   rowSet.reduce((s, r) => s + (r._lineDiscount || 0), 0);
-
-// Invoice-level `additional_discounts` only — applied once per invoice (deduped).
-// Apex's CSV export silently drops this field, so it's effectively hidden money
-// unless surfaced separately.
-const sumInvoiceDiscounts = (rowSet) => {
-  const byOrder = new Map();
-  for (const r of rowSet) {
-    const id = r.order_id;
-    if (id && r._invoiceDiscount > 0 && !byOrder.has(id)) {
-      byOrder.set(id, r._invoiceDiscount);
-    }
-  }
-  return [...byOrder.values()].reduce((s, n) => s + n, 0);
-};
 
 
 // `payment_dates` — yes, weirdly named, but it actually holds entries like
@@ -625,22 +594,14 @@ function Dashboard({ data, filters, setFilters }) {
       : parseMoney(r.line_total || r.computed_sale_price || r.total),
     _cost: parseMoney(r.batch_cost_of_goods),
     _quantity: parseFloat(r.quantity_raw != null ? r.quantity_raw : r.quantity) || 0,
-    // DISCOUNT FIELDS — two flavors from Apex, must be handled differently:
-    //   • discounts (per-line):       varies by product on the same invoice, sum freely
-    //   • additional_discounts (per-invoice): SAME value repeats on every line of an
-    //                                          order; must be deduped to one-per-invoice
-    //                                          before summing or totals will be inflated
-    //                                          by the number of lines per invoice.
-    // Both come from Apex as integer cents (e.g. 18000 = $180.00). Fallback handles
+    // DISCOUNT FIELD — using `discounts` (per-line) only. Apex also has
+    // `additional_discounts` (invoice-level), but it's not consistently reflected
+    // in the Apex UI, so we don't trust it as real discount activity. Line-level
+    // discounts here match what the CSV export and Apex invoice screens show.
+    // Comes from Apex as integer cents (e.g. 18000 = $180.00). Fallback handles
     // edge cases where the field might be a string like "$30.00".
     _lineDiscount: (typeof r.discounts === 'number' ? r.discounts / 100 : parseMoney(r.discounts)),
-    _invoiceDiscount: (typeof r.additional_discounts === 'number' ? r.additional_discounts / 100 : parseMoney(r.additional_discounts)),
-    // Combined view for display on a single row only. NOT safe for cross-row sums
-    // (would multi-count the per-invoice piece). Use sumDiscounts() for totals.
-    _discount: (
-      (typeof r.discounts === 'number' ? r.discounts / 100 : parseMoney(r.discounts)) +
-      (typeof r.additional_discounts === 'number' ? r.additional_discounts / 100 : parseMoney(r.additional_discounts))
-    ),
+    _discount: (typeof r.discounts === 'number' ? r.discounts / 100 : parseMoney(r.discounts)),
     _unitPrice: parseMoney(r.product_listing_price || r.unit_price),
     _isSample: isSampleRow(r),
     // Credit detection — Apex records "credits applied to payment" inside the
@@ -696,9 +657,7 @@ function Dashboard({ data, filters, setFilters }) {
     const units = filtered.reduce((s, r) => s + r._quantity, 0);
     const orderIds = new Set(filtered.map(r => r.order_id).filter(Boolean));
     const buyers = new Set(filtered.map(r => r.buyer_name).filter(Boolean));
-    const discounts = sumLineDiscounts(filtered);          // matches CSV — what finance expects
-    const invoiceDiscounts = sumInvoiceDiscounts(filtered); // hidden in CSV — surface separately
-    const totalDiscounts = discounts + invoiceDiscounts;    // for "% of gross" math
+    const discounts = sumLineDiscounts(filtered);
 
     // Credits — pulled from Apex's "Payments" text field where credits are recorded
     // as text like "Credit of $1,045.22 on 03/17/2026". The same payments string repeats
@@ -766,9 +725,7 @@ function Dashboard({ data, filters, setFilters }) {
       avgUnitPrice,
       momChange,
       momLabel,
-      discounts,           // per-line only (matches CSV)
-      invoiceDiscounts,    // additional_discounts (invoice-level, CSV-hidden)
-      totalDiscounts,      // both combined, for % math
+      discounts,
       credits,
       creditCount,
       creditOrders,
@@ -798,12 +755,9 @@ function Dashboard({ data, filters, setFilters }) {
       map[key].netSales += r._revenue;
       map[key].cogs += r._cost * r._quantity;
     });
-    // Second pass: per-month discount totals.
-    // Use line-level only (matches CSV/Apex monthly report). Invoice-level discounts
-    // are tracked separately and shown in the diagnostics audit panel.
+    // Second pass: per-month line-level discount totals.
     Object.values(map).forEach(m => {
       m.discounts = sumLineDiscounts(m.rows);
-      m.invoiceDiscounts = sumInvoiceDiscounts(m.rows);
       m.gross = m.netSales + m.discounts;
       delete m.rows; // no longer needed; saves memory in the React render
     });
@@ -881,10 +835,9 @@ function Dashboard({ data, filters, setFilters }) {
       // Take the highest unit price seen as "listed" (since promos can drop it)
       if (r._unitPrice > map[k].listedPrice) map[k].listedPrice = r._unitPrice;
     });
-    // Per-product discount totals (line-level, matches CSV/Apex product report).
+    // Per-product line-level discount totals.
     Object.values(map).forEach(p => {
       p.discounts = sumLineDiscounts(p.rows);
-      p.invoiceDiscounts = sumInvoiceDiscounts(p.rows);
       p.gross = p.netSales + p.discounts;
       delete p.rows;
     });
@@ -925,9 +878,7 @@ function Dashboard({ data, filters, setFilters }) {
           lineItems: 0,
           units: 0,
           revenue: 0,
-          // Per-invoice discount (additional_discounts) captured once. Per-line
-          // discounts accumulate below. Combined total is the sum of both.
-          discount: r._invoiceDiscount || 0,
+          discount: 0,
           // Credit applied to this invoice. The payments-text field repeats on every
           // line item, so we only capture it once per order (first line wins).
           credit: r._creditFromPayments || 0,
@@ -937,7 +888,7 @@ function Dashboard({ data, filters, setFilters }) {
       map[id].lineItems += 1;
       map[id].units += r._quantity;
       map[id].revenue += r._revenue;
-      map[id].discount += r._lineDiscount;  // per-line piece accumulates per row
+      map[id].discount += r._lineDiscount;
     });
     return Object.values(map).sort((a, b) =>
       (b._date?.getTime() || 0) - (a._date?.getTime() || 0)
@@ -976,16 +927,13 @@ function Dashboard({ data, filters, setFilters }) {
     const rawOrderIdField = rawFirst.order_id != null ? `order_id=${JSON.stringify(rawFirst.order_id)}` : '(no order_id field)';
     const rawOrderNumber = rawFirst.order_number != null ? `order_number=${JSON.stringify(rawFirst.order_number)}` : '(no order_number field)';
     const sampleDiscount = firstRow._discount;
-    const rawDiscountFields = `discounts=${JSON.stringify(rawFirst.discounts)} additional_discounts=${JSON.stringify(rawFirst.additional_discounts)}`;
-    const totalDiscount = sumDiscounts(normalized);        // line + invoice (full picture)
-    const filteredDiscount = sumDiscounts(filtered);
-    const filteredLineDiscount = sumLineDiscounts(filtered);     // matches CSV
-    const filteredInvoiceDiscount = sumInvoiceDiscounts(filtered); // hidden in CSV
-    // Discount audit trail — same dedup logic as KPIs, but respects the current filter
-    // state so you can answer "where exactly are these discounts coming from?" for any
-    // slice (a month, a state, a buyer, etc). Combines per-line and per-invoice into
-    // one row per invoice for easy spot-checking against Apex.
-    const discountByInvoice = new Map(); // order_id -> { invoice, line, invoice_disc, total, buyer, date }
+    const rawDiscountFields = `discounts=${JSON.stringify(rawFirst.discounts)}`;
+    const totalDiscount = sumLineDiscounts(normalized);
+    const filteredDiscount = sumLineDiscounts(filtered);
+    // Per-invoice audit trail — respects the current filter state so you can answer
+    // "where exactly are these discounts coming from?" for any slice (a month, a state,
+    // a buyer, etc), making spot-checking against Apex straightforward.
+    const discountByInvoice = new Map();
     filtered.forEach(r => {
       const id = r.order_id;
       if (!id) return;
@@ -995,13 +943,12 @@ function Dashboard({ data, filters, setFilters }) {
           buyer: r.buyer_name || '—',
           date: r.order_date || '—',
           line: 0,
-          invoiceDisc: r._invoiceDiscount || 0,  // captured once per invoice
         });
       }
       discountByInvoice.get(id).line += r._lineDiscount || 0;
     });
     const discountAudit = [...discountByInvoice.values()]
-      .map(d => ({ ...d, total: d.line + d.invoiceDisc }))
+      .map(d => ({ ...d, total: d.line }))
       .filter(d => d.total > 0)
       .sort((a, b) => b.total - a.total);
     const discountAuditTotal = discountAudit.reduce((s, d) => s + d.total, 0);
@@ -1023,7 +970,6 @@ function Dashboard({ data, filters, setFilters }) {
       orderIdsPresent, distinctOrderIds,
       rawOrderIdField, rawOrderNumber,
       sampleDiscount, rawDiscountFields, totalDiscount, filteredDiscount,
-      filteredLineDiscount, filteredInvoiceDiscount,
       discountAudit, discountAuditTotal,
       creditLineCount: creditByInvoice.size,
       creditTotal,
@@ -1063,30 +1009,24 @@ function Dashboard({ data, filters, setFilters }) {
           <div style={{ marginTop: 8, color: 'var(--accent)' }}>--- DISCOUNT DEBUG ---</div>
           <div>Raw first row: {diag.rawDiscountFields}</div>
           <div>First row computed _discount: ${diag.sampleDiscount?.toFixed(2)}</div>
-          <div>Total discounts — all rows, line + invoice: ${diag.totalDiscount?.toLocaleString(undefined, {maximumFractionDigits:2})}</div>
-          <div>Current filter — line-level (matches CSV): ${diag.filteredLineDiscount?.toLocaleString(undefined, {maximumFractionDigits:2})}</div>
-          <div>Current filter — invoice-level (CSV-hidden): ${diag.filteredInvoiceDiscount?.toLocaleString(undefined, {maximumFractionDigits:2})}</div>
-          <div>Current filter — combined total: ${diag.filteredDiscount?.toLocaleString(undefined, {maximumFractionDigits:2})}</div>
+          <div>Total discounts (all rows): ${diag.totalDiscount?.toLocaleString(undefined, {maximumFractionDigits:2})}</div>
+          <div>Total discounts (current filter): ${diag.filteredDiscount?.toLocaleString(undefined, {maximumFractionDigits:2})}</div>
           {diag.discountAudit && diag.discountAudit.length > 0 && (
             <details style={{ marginTop: 6 }}>
               <summary style={{ cursor: 'pointer', color: 'var(--accent)' }}>
                 Per-invoice audit ({diag.discountAudit.length} invoice{diag.discountAudit.length === 1 ? '' : 's'}, ${diag.discountAuditTotal.toLocaleString(undefined, {minimumFractionDigits:2, maximumFractionDigits:2})} total · click to expand)
               </summary>
               <div style={{ marginTop: 6, marginLeft: 12, fontFamily: 'monospace', fontSize: '0.85em' }}>
-                <div style={{ display: 'grid', gridTemplateColumns: '120px 100px 1fr 90px 90px 90px', gap: '4px 12px', color: 'var(--text-dim)' }}>
+                <div style={{ display: 'grid', gridTemplateColumns: '120px 100px 1fr 110px', gap: '4px 12px', color: 'var(--text-dim)' }}>
                   <div style={{ fontWeight: 600 }}>Invoice</div>
                   <div style={{ fontWeight: 600 }}>Date</div>
                   <div style={{ fontWeight: 600 }}>Buyer</div>
-                  <div style={{ fontWeight: 600, textAlign: 'right' }}>Per-line</div>
-                  <div style={{ fontWeight: 600, textAlign: 'right' }}>Invoice-level</div>
-                  <div style={{ fontWeight: 600, textAlign: 'right' }}>Total</div>
+                  <div style={{ fontWeight: 600, textAlign: 'right' }}>Discount</div>
                   {diag.discountAudit.slice(0, 50).map((d, i) => (
                     <React.Fragment key={i}>
                       <div style={{ color: 'var(--accent)' }}>{d.invoice}</div>
                       <div>{d.date}</div>
                       <div style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }} title={d.buyer}>{d.buyer}</div>
-                      <div style={{ textAlign: 'right' }}>{d.line > 0 ? '$' + d.line.toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2}) : '—'}</div>
-                      <div style={{ textAlign: 'right' }}>{d.invoiceDisc > 0 ? '$' + d.invoiceDisc.toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2}) : '—'}</div>
                       <div style={{ textAlign: 'right', fontWeight: 600 }}>${d.total.toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2})}</div>
                     </React.Fragment>
                   ))}
@@ -1150,8 +1090,8 @@ function Dashboard({ data, filters, setFilters }) {
           label="Discounts Given"
           value={fmtMoney(kpis.discounts)}
           sub={kpis.grossRevenue
-            ? ((kpis.discounts / (kpis.grossRevenue + kpis.totalDiscounts)) * 100).toFixed(1) + '% of gross · matches CSV'
-            : 'per-line · matches CSV'}
+            ? ((kpis.discounts / (kpis.grossRevenue + kpis.discounts)) * 100).toFixed(1) + '% of gross'
+            : '—'}
         />
         <Kpi
           label="Credits Applied"
@@ -1159,34 +1099,6 @@ function Dashboard({ data, filters, setFilters }) {
           sub={kpis.creditCount
             ? `${fmtNum(kpis.creditOrders)} invoice${kpis.creditOrders === 1 ? '' : 's'} · applied as payment`
             : 'none in current view'}
-        />
-      </div>
-
-      {/* KPI Row 4 — additional finance metrics */}
-      <div className="kpi-grid">
-        <Kpi
-          label="Invoice-Level Discounts"
-          value={fmtMoney(kpis.invoiceDiscounts)}
-          sub={kpis.invoiceDiscounts > 0
-            ? 'additional_discounts · hidden in CSV export'
-            : 'none in current view'}
-        />
-        <Kpi
-          label="Total Discounts"
-          value={fmtMoney(kpis.totalDiscounts)}
-          sub={kpis.grossRevenue
-            ? ((kpis.totalDiscounts / (kpis.grossRevenue + kpis.totalDiscounts)) * 100).toFixed(1) + '% of gross · line + invoice'
-            : 'line + invoice combined'}
-        />
-        <Kpi
-          label="Gross Revenue"
-          value={fmtMoney(kpis.grossRevenue + kpis.totalDiscounts)}
-          sub="net revenue + all discounts"
-        />
-        <Kpi
-          label="Avg Discount / Invoice"
-          value={kpis.orders ? fmtMoneyFull(kpis.totalDiscounts / kpis.orders) : '—'}
-          sub={`across ${fmtNum(kpis.orders)} invoices`}
         />
       </div>
 
