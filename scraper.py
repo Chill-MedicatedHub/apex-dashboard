@@ -171,7 +171,9 @@ def fetch_report() -> dict:
     else:
         # Fall back to rolling window
         from_date = (today - timedelta(days=DAYS_BACK)).strftime("%Y-%m-%d")
-    to_date = today.strftime("%Y-%m-%d")
+    # Apex's report treats `toDate` as exclusive of that day, so using today's
+    # date drops same-day orders. Add one day so today is fully included.
+    to_date = (today + timedelta(days=1)).strftime("%Y-%m-%d")
 
     print(f"Pulling sales from {from_date} → {to_date} (limit {ROW_LIMIT} rows)...")
 
