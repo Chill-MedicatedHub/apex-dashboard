@@ -316,6 +316,7 @@ def fetch_inventory(xsrf: str) -> dict:
 
     by_sku, by_name, catalog, seen = {}, {}, [], set()
     avail_hits, sample_keys, total_rows = {}, None, 0
+    debug_first_row, debug_first_detail = None, None
 
     for page in range(1, INV_MAX_PAGES + 1):
         body = {
@@ -355,6 +356,20 @@ def fetch_inventory(xsrf: str) -> dict:
                 continue
             if sample_keys is None:
                 sample_keys = sorted(it.keys())
+            if debug_first_row is None:
+                # One-time debug: capture the first raw list row and its detail
+                # response so the exact quantity fields (often nested per-batch)
+                # can be confirmed from the committed JSON. Removed once locked.
+                debug_first_row = it
+                _id = it.get("id") or it.get("product_id") or it.get("inventory_id")
+                if _id is not None:
+                    try:
+                        dr = requests.get(f"https://app.apextrading.com/b-api/inventory/{_id}",
+                                          headers=headers, timeout=60)
+                        debug_first_detail = (dr.json() if dr.status_code == 200
+                                              else {"_status": dr.status_code, "_text": dr.text[:500]})
+                    except requests.RequestException as e:
+                        debug_first_detail = {"_error": str(e)}
             total_rows += 1
             name = (it.get("product_name") or it.get("name") or it.get("productName")
                     or it.get("title") or "")
@@ -391,7 +406,8 @@ def fetch_inventory(xsrf: str) -> dict:
                   f"{sample_keys}. Set APEX_INV_AVAILABLE_FIELDS to the right name.")
     else:
         print("  inventory: nothing returned — column will show '—'.")
-    return {"by_sku": by_sku, "by_name": by_name, "catalog": catalog}
+    return {"by_sku": by_sku, "by_name": by_name, "catalog": catalog,
+            "debug": {"first_row": debug_first_row, "first_detail": debug_first_detail}}
 
 
 def _name_of(v):
@@ -427,6 +443,9 @@ def main():
                     stamped += 1
             print(f"  Stamped current_inventory on {stamped} of {len(payload['rows'])} rows.")
         payload["inventory"] = inv["catalog"]
+        # One-time field-discovery aid (safe to leave; small). Lets the raw
+        # inventory shape be read from the committed JSON, then removed.
+        payload["_inventory_debug"] = inv.get("debug")
 
     OUTPUT_FILE.write_text(json.dumps(payload, indent=2, default=str))
     print(f"Saved → {OUTPUT_FILE}")
