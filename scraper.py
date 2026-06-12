@@ -49,6 +49,32 @@ DAYS_BACK = int(os.getenv("APEX_DAYS_BACK", "90"))
 
 OUTPUT_FILE = Path(__file__).parent / "sales_data.json"
 
+# --- Current inventory pull -------------------------------------------------
+# Apex exposes current on-hand stock at a separate endpoint than the sales
+# report. POST /b-api/inventory/paginated with the same session, plus a
+# `current-company-id` header, returns the seller's inventory rows. We filter
+# to the Chill Medicated brand and page through everything. ON by default.
+INVENTORY_URL = "https://app.apextrading.com/b-api/inventory/paginated"
+PULL_INVENTORY = os.getenv("APEX_PULL_INVENTORY", "1") == "1"
+BRAND_ID = int(os.getenv("APEX_BRAND_ID", "2500"))
+BRAND_NAME = os.getenv("APEX_BRAND_NAME", "Chill Medicated")
+INV_PER_PAGE = int(os.getenv("APEX_INV_PER_PAGE", "100"))
+INV_MAX_PAGES = int(os.getenv("APEX_INV_MAX_PAGES", "50"))
+# Candidate field names for the quantity columns (confirmed/locked on first run
+# via the diagnostics this scraper prints). Tried in order; first hit wins.
+INV_AVAILABLE_FIELDS = [f.strip() for f in os.getenv(
+    "APEX_INV_AVAILABLE_FIELDS",
+    "available,available_quantity,available_inventory,quantity_available,quantity,on_hand,on_hand_quantity,inventory_quantity,total_quantity"
+).split(",") if f.strip()]
+INV_RESERVED_FIELDS = [f.strip() for f in os.getenv(
+    "APEX_INV_RESERVED_FIELDS",
+    "reserved,reserved_quantity,committed,committed_quantity,allocated,allocated_quantity"
+).split(",") if f.strip()]
+INV_ONHAND_FIELDS = [f.strip() for f in os.getenv(
+    "APEX_INV_ONHAND_FIELDS",
+    "on_hand,on_hand_quantity,total_quantity,quantity,quantity_on_hand,inventory_quantity"
+).split(",") if f.strip()]
+
 
 # ----------------------------------------------------------------------------
 # Build the request payload (mirrors what the Apex UI sends)
@@ -232,8 +258,176 @@ def fetch_report() -> dict:
     }
 
 
+def _inv_num(v):
+    """Coerce a possibly-stringy/nested numeric value to float, else None."""
+    if v is None:
+        return None
+    if isinstance(v, bool):
+        return None
+    if isinstance(v, (int, float)):
+        return float(v)
+    if isinstance(v, dict):
+        # Sometimes a qty is nested like {"value": 30} or {"amount": 30}
+        for k in ("value", "amount", "quantity", "qty"):
+            if k in v:
+                return _inv_num(v[k])
+        return None
+    try:
+        s = str(v).replace(",", "").replace("$", "").strip()
+        return float(s) if s not in ("", "-") else None
+    except (TypeError, ValueError):
+        return None
+
+
+def _pick(row, fields):
+    """First recognizable numeric field from a candidate list -> (value, name)."""
+    for f in fields:
+        if f in row and row[f] is not None:
+            v = _inv_num(row[f])
+            if v is not None:
+                return v, f
+    return None, None
+
+
+def fetch_inventory(xsrf: str) -> dict:
+    """Pull current on-hand inventory from Apex's inventory endpoint.
+
+    Returns {"by_sku": {...}, "by_name": {...}, "catalog": [...]}. Defensive:
+    any failure leaves the maps empty and the dashboard column shows '—'. Tries
+    several candidate field names for available/reserved/on-hand and prints the
+    first row's keys so the exact field mapping can be locked on a real run.
+    """
+    empty = {"by_sku": {}, "by_name": {}, "catalog": []}
+    headers = {
+        "Accept": "application/json",
+        "Content-Type": "application/json",
+        "Origin": "https://app.apextrading.com",
+        "Referer": "https://app.apextrading.com/inventory",
+        "User-Agent": (
+            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+            "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36"
+        ),
+        "Cookie": COOKIE,
+        "X-XSRF-TOKEN": xsrf,
+        "X-Requested-With": "XMLHttpRequest",
+        # This endpoint requires the active company id as a header.
+        "current-company-id": str(COMPANY_ID),
+    }
+
+    by_sku, by_name, catalog, seen = {}, {}, [], set()
+    avail_hits, sample_keys, total_rows = {}, None, 0
+
+    for page in range(1, INV_MAX_PAGES + 1):
+        body = {
+            "page": page,
+            "per-page": INV_PER_PAGE,
+            "sort": "name",
+            "order": "desc",
+            "brand": [{"id": BRAND_ID, "name": BRAND_NAME}],
+        }
+        try:
+            resp = requests.post(INVENTORY_URL, json=body, headers=headers, timeout=60)
+        except requests.RequestException as e:
+            print(f"  inventory: network error on page {page} ({e}); skipping inventory.")
+            break
+        if resp.status_code in (401, 403, 419):
+            print(f"  inventory: status {resp.status_code} on /inventory/paginated — "
+                  f"session/permission issue; skipping inventory (sales unaffected).")
+            break
+        if resp.status_code != 200:
+            print(f"  inventory: unexpected status {resp.status_code}; skipping. "
+                  f"{resp.text[:200]}")
+            break
+        data = resp.json()
+        # Response shape unknown — handle the common Laravel/paginator variants.
+        items = (data.get("data") if isinstance(data, dict) else None)
+        if isinstance(items, dict):  # e.g. {"data": {"data": [...]}}
+            items = items.get("data") or items.get("results") or items.get("rows")
+        if items is None and isinstance(data, dict):
+            items = data.get("results") or data.get("rows") or data.get("inventory")
+        if items is None and isinstance(data, list):
+            items = data
+        if not items:
+            break
+
+        for it in items:
+            if not isinstance(it, dict):
+                continue
+            if sample_keys is None:
+                sample_keys = sorted(it.keys())
+            total_rows += 1
+            name = (it.get("product_name") or it.get("name") or it.get("productName")
+                    or it.get("title") or "")
+            sku = str(it.get("sku") or it.get("product_sku") or it.get("productSku") or "").strip()
+            line = (it.get("product_type") or it.get("category") or it.get("product_category")
+                    or it.get("type") or "")
+            avail, af = _pick(it, INV_AVAILABLE_FIELDS)
+            reserved, _ = _pick(it, INV_RESERVED_FIELDS)
+            onhand, _ = _pick(it, INV_ONHAND_FIELDS)
+            if af:
+                avail_hits[af] = avail_hits.get(af, 0) + 1
+            if avail is not None:
+                if sku:
+                    by_sku[sku] = avail
+                if name:
+                    by_name[name] = avail
+            key = sku or name
+            if key and key not in seen:
+                seen.add(key)
+                catalog.append({
+                    "name": name or "—", "sku": sku, "line": _name_of(line),
+                    "available": avail, "reserved": reserved, "on_hand": onhand,
+                })
+
+        # Stop when the page wasn't full (last page) unless the API echoes paging.
+        if len(items) < INV_PER_PAGE:
+            break
+
+    if catalog or by_sku or by_name:
+        print(f"Inventory: {total_rows} '{BRAND_NAME}' rows; {len(catalog)} catalog entries "
+              f"(available field: {avail_hits or 'NONE FOUND'}).")
+        if not avail_hits:
+            print(f"  WARNING: couldn't find an availability field. First row keys: "
+                  f"{sample_keys}. Set APEX_INV_AVAILABLE_FIELDS to the right name.")
+    else:
+        print("  inventory: nothing returned — column will show '—'.")
+    return {"by_sku": by_sku, "by_name": by_name, "catalog": catalog}
+
+
+def _name_of(v):
+    """Unwrap {'name': ...} / {'label': ...} objects to a display string."""
+    if isinstance(v, dict):
+        return v.get("name") or v.get("label") or v.get("title") or ""
+    return v or ""
+
+
 def main():
     payload = fetch_report()
+
+    # Current inventory (separate Apex endpoint). Non-fatal: if it fails, the
+    # sales data still writes and the dashboard inventory section shows '—'.
+    if PULL_INVENTORY:
+        print("Pulling current inventory...")
+        try:
+            inv = fetch_inventory(extract_xsrf_token(COOKIE))
+        except Exception as e:
+            print(f"  inventory pull errored ({e}); continuing without it.")
+            inv = {"by_sku": {}, "by_name": {}, "catalog": []}
+        by_sku, by_name = inv["by_sku"], inv["by_name"]
+        if by_sku or by_name:
+            stamped = 0
+            for r in payload["rows"]:
+                sku = str(r.get("product_sku") or "").strip()
+                nm = r.get("product_name") or ""
+                cur = (by_sku.get(sku) if sku else None)
+                if cur is None and nm:
+                    cur = by_name.get(nm)
+                if cur is not None:
+                    r["current_inventory"] = cur
+                    stamped += 1
+            print(f"  Stamped current_inventory on {stamped} of {len(payload['rows'])} rows.")
+        payload["inventory"] = inv["catalog"]
+
     OUTPUT_FILE.write_text(json.dumps(payload, indent=2, default=str))
     print(f"Saved → {OUTPUT_FILE}")
 
