@@ -595,7 +595,14 @@ function Dashboard({ data, filters, setFilters }) {
       ? r.line_total_raw / 100
       : parseMoney(r.line_total || r.computed_sale_price || r.total),
     _cost: parseMoney(r.batch_cost_of_goods),
-    _quantity: parseFloat(r.quantity_raw != null ? r.quantity_raw : r.quantity) || 0,
+    // Physical units sold. Apex's order_quantity (a.k.a. quantity) is in the
+    // order's unit of measure — "Case" for ~380 lines — so it mixes cases and
+    // eaches. inventory_quantity is the Total Unit Quantity (always "Unit"), the
+    // true physical-units measure, so we use it and fall back only if absent.
+    _quantity: parseFloat(
+      r.inventory_quantity != null ? r.inventory_quantity
+        : (r.quantity_raw != null ? r.quantity_raw : r.quantity)
+    ) || 0,
     // DISCOUNT FIELD — using `discounts` (per-line) only. Apex also has
     // `additional_discounts` (invoice-level), but it's not consistently reflected
     // in the Apex UI, so we don't trust it as real discount activity. Line-level
