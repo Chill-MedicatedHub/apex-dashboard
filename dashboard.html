@@ -925,18 +925,17 @@ function Dashboard({ data, filters, setFilters }) {
       const sold = (p.sku && soldBySku[p.sku] != null) ? soldBySku[p.sku] : (soldByName[p.name] || 0);
       return {
         name: p.name || '—', line: p.line || '—', sku: p.sku || '',
-        qty: (p.on_hand != null ? p.on_hand : null),
-        reserved: (p.reserved != null ? p.reserved : null),
-        inv: (p.available != null ? p.available : null),
+        qty: (p.qty != null ? p.qty : null),
+        batches: p.batches || 0,
+        listed: !!p.listed,
         sold, neverSold: sold <= 0,
       };
-    }).sort((a, b) => (b.inv || 0) - (a.inv || 0));
-    const withInv = list.filter(p => p.inv != null);
-    const availableTotal = withInv.reduce((s, p) => s + p.inv, 0);
-    const reservedTotal = list.reduce((s, p) => s + (p.reserved || 0), 0);
-    const onHandTotal = list.reduce((s, p) => s + (p.qty || 0), 0);
-    const out = withInv.filter(p => p.inv <= 0).length;
-    return { list, availableTotal, reservedTotal, onHandTotal, skus: list.length, out };
+    }).sort((a, b) => (b.qty || 0) - (a.qty || 0));
+    const withQty = list.filter(p => p.qty != null);
+    const onHandTotal = withQty.reduce((s, p) => s + p.qty, 0);
+    const listedN = list.filter(p => p.listed).length;
+    const out = withQty.filter(p => p.qty <= 0).length;
+    return { list, onHandTotal, listedN, skus: list.length, out };
   }, [normalized, data.inventory]);
 
   const resetFilters = () => setFilters({
@@ -1286,9 +1285,9 @@ function Dashboard({ data, filters, setFilters }) {
         {inventory.skus > 0 ? (
           <React.Fragment>
             <div className="kpi-grid" style={{ marginBottom: 24 }}>
-              <Kpi label="Available" value={fmtNum(Math.round(inventory.availableTotal))} sub="units sellable now" accent />
-              <Kpi label="Reserved" value={fmtNum(Math.round(inventory.reservedTotal))} sub="held by open orders" />
-              <Kpi label="On Hand" value={fmtNum(Math.round(inventory.onHandTotal))} sub="total inventory" />
+              <Kpi label="On Hand" value={fmtNum(Math.round(inventory.onHandTotal))} sub="total units in stock" accent />
+              <Kpi label="Listed" value={fmtNum(inventory.listedN)} sub="visible to buyers" />
+              <Kpi label="Products" value={fmtNum(inventory.skus)} sub="in catalog" />
               <Kpi label="Out Of Stock" value={fmtNum(inventory.out)} sub={`of ${fmtNum(inventory.skus)} products`} />
             </div>
             <div className="card" style={{ padding: 0, overflow: 'hidden' }}>
@@ -1301,8 +1300,7 @@ function Dashboard({ data, filters, setFilters }) {
                       <th>SKU</th>
                       <th className="num">Units Sold</th>
                       <th className="num">On Hand</th>
-                      <th className="num">Reserved</th>
-                      <th className="num">Available</th>
+                      <th className="num">Batches</th>
                       <th>Status</th>
                     </tr>
                   </thead>
@@ -1313,12 +1311,13 @@ function Dashboard({ data, filters, setFilters }) {
                         <td className="dim">{p.line}</td>
                         <td className="dim font-mono" style={{ fontSize: 11 }}>{p.sku || '—'}</td>
                         <td className="num dim">{fmtNum(Math.round(p.sold))}</td>
-                        <td className="num dim">{p.qty == null ? '—' : fmtNum(Math.round(p.qty))}</td>
-                        <td className="num dim">{p.reserved == null ? '—' : fmtNum(Math.round(p.reserved))}</td>
-                        <td className="num"><strong style={{ color: p.inv == null ? 'var(--text-faint)' : p.inv <= 0 ? 'var(--rose)' : 'var(--accent)' }}>{p.inv == null ? '—' : fmtNum(Math.round(p.inv))}</strong></td>
-                        <td>{p.neverSold
-                          ? <span style={{ fontFamily: 'JetBrains Mono', fontSize: 10, textTransform: 'uppercase', letterSpacing: '0.08em', color: 'var(--warm)', border: '1px solid var(--warm)', borderRadius: 2, padding: '2px 6px', whiteSpace: 'nowrap' }}>Never sold</span>
-                          : <span style={{ color: 'var(--text-faint)' }}>—</span>}</td>
+                        <td className="num"><strong style={{ color: p.qty == null ? 'var(--text-faint)' : p.qty <= 0 ? 'var(--rose)' : 'var(--accent)' }}>{p.qty == null ? '—' : fmtNum(Math.round(p.qty))}</strong></td>
+                        <td className="num dim">{p.batches || '—'}</td>
+                        <td>{!p.listed
+                          ? <span style={{ fontFamily: 'JetBrains Mono', fontSize: 10, textTransform: 'uppercase', letterSpacing: '0.08em', color: 'var(--text-faint)', border: '1px solid var(--border)', borderRadius: 2, padding: '2px 6px', whiteSpace: 'nowrap' }}>Unlisted</span>
+                          : p.neverSold
+                            ? <span style={{ fontFamily: 'JetBrains Mono', fontSize: 10, textTransform: 'uppercase', letterSpacing: '0.08em', color: 'var(--warm)', border: '1px solid var(--warm)', borderRadius: 2, padding: '2px 6px', whiteSpace: 'nowrap' }}>Never sold</span>
+                            : <span style={{ color: 'var(--text-faint)' }}>—</span>}</td>
                       </tr>
                     ))}
                   </tbody>
