@@ -316,7 +316,6 @@ def fetch_inventory(xsrf: str) -> dict:
 
     by_sku, by_name, catalog, seen = {}, {}, [], set()
     avail_hits, sample_keys, total_rows = {}, None, 0
-    debug_first_row, debug_first_detail = None, None
 
     for page in range(1, INV_MAX_PAGES + 1):
         body = {
@@ -356,42 +355,28 @@ def fetch_inventory(xsrf: str) -> dict:
                 continue
             if sample_keys is None:
                 sample_keys = sorted(it.keys())
-            if debug_first_row is None:
-                # One-time debug: capture the first raw list row and its detail
-                # response so the exact quantity fields (often nested per-batch)
-                # can be confirmed from the committed JSON. Removed once locked.
-                debug_first_row = it
-                _id = it.get("id") or it.get("product_id") or it.get("inventory_id")
-                if _id is not None:
-                    try:
-                        dr = requests.get(f"https://app.apextrading.com/b-api/inventory/{_id}",
-                                          headers=headers, timeout=60)
-                        debug_first_detail = (dr.json() if dr.status_code == 200
-                                              else {"_status": dr.status_code, "_text": dr.text[:500]})
-                    except requests.RequestException as e:
-                        debug_first_detail = {"_error": str(e)}
             total_rows += 1
-            name = (it.get("product_name") or it.get("name") or it.get("productName")
-                    or it.get("title") or "")
-            sku = str(it.get("sku") or it.get("product_sku") or it.get("productSku") or "").strip()
-            line = (it.get("product_type") or it.get("category") or it.get("product_category")
-                    or it.get("type") or "")
-            avail, af = _pick(it, INV_AVAILABLE_FIELDS)
-            reserved, _ = _pick(it, INV_RESERVED_FIELDS)
-            onhand, _ = _pick(it, INV_ONHAND_FIELDS)
-            if af:
-                avail_hits[af] = avail_hits.get(af, 0) + 1
-            if avail is not None:
+            name = it.get("name") or it.get("product_name") or ""
+            sku = str(it.get("product_sku") or it.get("sku") or "").strip()
+            line = (it.get("product_category_short_display_name") or it.get("product_category")
+                    or it.get("product_type_name") or "")
+            # On-hand stock = total_batch_quantity (string like "390.0000000").
+            qty = _inv_num(it.get("total_batch_quantity"))
+            # Listed/visible to buyers and not archived (Apex's "Available" concept).
+            listed = bool(it.get("list_to_buyers")) and not bool(it.get("archived"))
+            nbatch = len(it.get("batches")) if isinstance(it.get("batches"), list) else 0
+            if qty is not None:
+                avail_hits["total_batch_quantity"] = avail_hits.get("total_batch_quantity", 0) + 1
                 if sku:
-                    by_sku[sku] = avail
+                    by_sku[sku] = qty
                 if name:
-                    by_name[name] = avail
+                    by_name[name] = qty
             key = sku or name
             if key and key not in seen:
                 seen.add(key)
                 catalog.append({
                     "name": name or "—", "sku": sku, "line": _name_of(line),
-                    "available": avail, "reserved": reserved, "on_hand": onhand,
+                    "qty": qty, "listed": listed, "batches": nbatch,
                 })
 
         # Stop when the page wasn't full (last page) unless the API echoes paging.
@@ -399,15 +384,14 @@ def fetch_inventory(xsrf: str) -> dict:
             break
 
     if catalog or by_sku or by_name:
+        listed_n = sum(1 for c in catalog if c.get("listed"))
         print(f"Inventory: {total_rows} '{BRAND_NAME}' rows; {len(catalog)} catalog entries "
-              f"(available field: {avail_hits or 'NONE FOUND'}).")
+              f"({listed_n} listed; on-hand field: total_batch_quantity).")
         if not avail_hits:
-            print(f"  WARNING: couldn't find an availability field. First row keys: "
-                  f"{sample_keys}. Set APEX_INV_AVAILABLE_FIELDS to the right name.")
+            print(f"  WARNING: total_batch_quantity not found. First row keys: {sample_keys}.")
     else:
         print("  inventory: nothing returned — column will show '—'.")
-    return {"by_sku": by_sku, "by_name": by_name, "catalog": catalog,
-            "debug": {"first_row": debug_first_row, "first_detail": debug_first_detail}}
+    return {"by_sku": by_sku, "by_name": by_name, "catalog": catalog}
 
 
 def _name_of(v):
@@ -443,9 +427,6 @@ def main():
                     stamped += 1
             print(f"  Stamped current_inventory on {stamped} of {len(payload['rows'])} rows.")
         payload["inventory"] = inv["catalog"]
-        # One-time field-discovery aid (safe to leave; small). Lets the raw
-        # inventory shape be read from the committed JSON, then removed.
-        payload["_inventory_debug"] = inv.get("debug")
 
     OUTPUT_FILE.write_text(json.dumps(payload, indent=2, default=str))
     print(f"Saved → {OUTPUT_FILE}")
