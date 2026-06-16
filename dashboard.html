@@ -9,11 +9,11 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600;9..144,700&family=JetBrains+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-<!-- Libraries served from this repo (no external CDN). -->
-<script src="vendor/react.production.min.js"></script>
-<script src="vendor/react-dom.production.min.js"></script>
-<script src="vendor/prop-types.min.js"></script>
-<script src="vendor/Recharts.js"></script>
+<!-- Libraries served from this repo root (no external CDN, no subfolder). -->
+<script src="react.production.min.js"></script>
+<script src="react-dom.production.min.js"></script>
+<script src="prop-types.min.js"></script>
+<script src="Recharts.js"></script>
 
 <style>
   :root {
@@ -2222,7 +2222,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(/*#__PURE__*/React.c
 </script>
 
 <script>
-/* Fail-loud watchdog (self-hosted build: no Babel; libraries load from /vendor). */
+/* Fail-loud watchdog (self-hosted build: libraries load from this repo root). */
 (function () {
   function diagnose() {
     var root = document.getElementById('root');
@@ -2230,10 +2230,10 @@ ReactDOM.createRoot(document.getElementById('root')).render(/*#__PURE__*/React.c
     var libs = { React: typeof window.React, ReactDOM: typeof window.ReactDOM, Recharts: typeof window.Recharts };
     var missing = Object.keys(libs).filter(function (k) { return libs[k] === 'undefined'; });
     var why = missing.length
-      ? 'These library files did not load from this site: <b>' + missing.join(', ') + '</b>. Make sure the <b>vendor/</b> folder was uploaded next to dashboard.html.'
+      ? 'These library files did not load: <b>' + missing.join(', ') + '</b>. Make sure react.production.min.js, react-dom.production.min.js, prop-types.min.js and Recharts.js were uploaded into the same folder as dashboard.html.'
       : 'The libraries loaded but the app did not render. A hard refresh usually clears this.';
     root.innerHTML =
-      '<div style="max-width:640px;margin:80px auto;padding:28px;background:var(--bg-elev,#161a17);border:1px solid var(--border,#262c28);border-left:3px solid var(--warm,#e0a85a);border-radius:10px;color:var(--text,#e8ebe7);font-family:Inter,system-ui,sans-serif">'
+      '<div style="max-width:680px;margin:80px auto;padding:28px;background:var(--bg-elev,#161a17);border:1px solid var(--border,#262c28);border-left:3px solid var(--warm,#e0a85a);border-radius:10px;color:var(--text,#e8ebe7);font-family:Inter,system-ui,sans-serif">'
       + '<div style="font-family:Fraunces,serif;font-size:22px;font-style:italic;margin-bottom:10px">Dashboard didn\u2019t load</div>'
       + '<p style="color:var(--text-dim,#9aa39c);line-height:1.7;font-size:14px;margin:0 0 12px">' + why + '</p>'
       + '<button onclick="location.reload()" style="background:var(--accent,#4dd4ff);border:none;color:var(--bg,#0a1220);font-weight:600;padding:9px 16px;border-radius:7px;cursor:pointer;font-family:JetBrains Mono,monospace;font-size:12px">Reload</button>'
