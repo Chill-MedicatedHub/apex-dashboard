@@ -457,25 +457,13 @@ const parsePaymentsForCredits = paymentsField => {
 };
 const fmtMoney = n => {
   if (!n && n !== 0) return '—';
-  if (Math.abs(n) >= 1e6) return '
-</body>
-</html>
- + (n / 1e6).toFixed(2) + 'M';
-  if (Math.abs(n) >= 1e3) return '
-</body>
-</html>
- + (n / 1e3).toFixed(1) + 'K';
-  return '
-</body>
-</html>
- + n.toLocaleString(undefined, {
+  if (Math.abs(n) >= 1e6) return '$' + (n / 1e6).toFixed(2) + 'M';
+  if (Math.abs(n) >= 1e3) return '$' + (n / 1e3).toFixed(1) + 'K';
+  return '$' + n.toLocaleString(undefined, {
     maximumFractionDigits: 0
   });
 };
-const fmtMoneyFull = n => '
-</body>
-</html>
- + (n || 0).toLocaleString(undefined, {
+const fmtMoneyFull = n => '$' + (n || 0).toLocaleString(undefined, {
   minimumFractionDigits: 2,
   maximumFractionDigits: 2
 });
@@ -1450,7 +1438,7 @@ function Dashboard({
     } : {
       color: 'var(--text-faint)'
     },
-    title: inv.credit > 0 && inv.creditEntries.length ? inv.creditEntries.map(e => `Credit of ${e.amount.toLocaleString(undefined, {
+    title: inv.credit > 0 && inv.creditEntries.length ? inv.creditEntries.map(e => `Credit of $${e.amount.toLocaleString(undefined, {
       minimumFractionDigits: 2,
       maximumFractionDigits: 2
     })} on ${e.date}`).join('\n') : ''
