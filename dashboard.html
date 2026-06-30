@@ -664,6 +664,7 @@ function App() {
     status: '',
     invoice: '',
     productLine: '',
+    product: '',
     excludeSamples: false,
     cogsRatio: 0.45
   });
@@ -805,10 +806,12 @@ function Dashboard({
       if (filters.from && rowYmd < filters.from) return false;
       if (filters.to && rowYmd > filters.to) return false;
     }
-    if (filters.brand && r.brand !== filters.brand) return false;
     if (filters.buyer && r.buyer_name !== filters.buyer) return false;
     if (filters.rep && r.sales_rep !== filters.rep) return false;
-    if (filters.state && r.buyer_state !== filters.state) return false;
+    if (filters.product) {
+      const pq = filters.product.toLowerCase();
+      if (!String(r.product_name || '').toLowerCase().includes(pq)) return false;
+    }
     if (filters.status && r.payment_status !== filters.status) return false;
     if (filters.productLine && r.product_type !== filters.productLine) return false;
     if (filters.excludeSamples && r._isSample) return false;
@@ -1140,6 +1143,7 @@ function Dashboard({
     status: '',
     invoice: '',
     productLine: '',
+    product: '',
     excludeSamples: false,
     cogsRatio: 0.45
   });
@@ -1979,172 +1983,51 @@ function FilterBar({
   distinct,
   onReset
 }) {
-  const upd = (k, v) => setFilters(f => ({
-    ...f,
-    [k]: v
-  }));
-  return /*#__PURE__*/React.createElement("div", {
-    className: "filters"
-  }, /*#__PURE__*/React.createElement("div", {
-    className: "filter-group"
-  }, /*#__PURE__*/React.createElement("label", {
-    className: "filter-label"
-  }, "From"), /*#__PURE__*/React.createElement("input", {
-    type: "date",
-    className: "filter-input",
-    value: filters.from,
-    onChange: e => upd('from', e.target.value)
-  })), /*#__PURE__*/React.createElement("div", {
-    className: "filter-group"
-  }, /*#__PURE__*/React.createElement("label", {
-    className: "filter-label"
-  }, "To"), /*#__PURE__*/React.createElement("input", {
-    type: "date",
-    className: "filter-input",
-    value: filters.to,
-    onChange: e => upd('to', e.target.value)
-  })), /*#__PURE__*/React.createElement("div", {
-    className: "filter-group",
-    style: {
-      minWidth: 'auto'
-    }
-  }, /*#__PURE__*/React.createElement("label", {
-    className: "filter-label"
-  }, "Quick range"), /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: 'flex',
-      gap: 6,
-      flexWrap: 'wrap'
-    }
-  }, [['Today', 0], ['Last wk', 7], ['30 days', 30], ['90 days', 90], ['YTD', 'ytd']].map(([lbl, d]) => /*#__PURE__*/React.createElement("button", {
-    key: lbl,
-    className: "date-preset",
-    onClick: () => {
-      const t = new Date();
-      const fmt = x => `${x.getFullYear()}-${String(x.getMonth() + 1).padStart(2, '0')}-${String(x.getDate()).padStart(2, '0')}`;
-      let from;
-      if (d === 'ytd') {
-        from = new Date(t.getFullYear(), 0, 1);
-      } else {
-        from = new Date(t);
-        from.setDate(from.getDate() - d);
+  const e = React.createElement;
+  const upd = (k, v) => setFilters(f => ({ ...f, [k]: v }));
+  const group = (label, control) => e("div", { className: "filter-group" },
+    e("label", { className: "filter-label" }, label), control);
+  const sel = (key, opts) => e("select", {
+    className: "filter-select", value: filters[key],
+    onChange: ev => upd(key, ev.target.value)
+  }, e("option", { value: "" }, "All"), opts.map(o => e("option", { key: o }, o)));
+
+  return e("div", { className: "filters" },
+    group("From", e("input", { type: "date", className: "filter-input", value: filters.from, onChange: ev => upd('from', ev.target.value) })),
+    group("To", e("input", { type: "date", className: "filter-input", value: filters.to, onChange: ev => upd('to', ev.target.value) })),
+    e("div", { className: "filter-group", style: { minWidth: 'auto' } },
+      e("label", { className: "filter-label" }, "Quick range"),
+      e("div", { style: { display: 'flex', gap: 6, flexWrap: 'wrap' } },
+        [['Today', 0], ['Last wk', 7], ['30 days', 30], ['90 days', 90], ['YTD', 'ytd']].map(([lbl, d]) =>
+          e("button", { key: lbl, className: "date-preset", onClick: () => {
+            const t = new Date();
+            const fmt = x => `${x.getFullYear()}-${String(x.getMonth() + 1).padStart(2, '0')}-${String(x.getDate()).padStart(2, '0')}`;
+            let from;
+            if (d === 'ytd') { from = new Date(t.getFullYear(), 0, 1); }
+            else { from = new Date(t); from.setDate(from.getDate() - d); }
+            setFilters(f => ({ ...f, from: fmt(from), to: fmt(t) }));
+          } }, lbl)))),
+    group("Product", e("input", { type: "text", className: "filter-input", placeholder: "search products\u2026", value: filters.product, onChange: ev => upd('product', ev.target.value) })),
+    group("Sales Rep", sel('rep', distinct.reps)),
+    group("Buyer", sel('buyer', distinct.buyers)),
+    group("Payment", sel('status', distinct.statuses)),
+    group("Invoice #", e("input", { type: "text", className: "filter-input", placeholder: "search\u2026", value: filters.invoice, onChange: ev => upd('invoice', ev.target.value) })),
+    group("Product Line", sel('productLine', distinct.productLines)),
+    e("div", { className: "filter-group", style: { justifyContent: 'flex-end' } },
+      e("label", { className: "filter-label", style: { display: 'flex', alignItems: 'center', gap: 8, cursor: 'pointer', marginTop: 'auto', paddingBottom: 9 } },
+        e("input", { type: "checkbox", checked: filters.excludeSamples, onChange: ev => upd('excludeSamples', ev.target.checked), style: { accentColor: 'var(--accent)', width: 14, height: 14 } }),
+        "Exclude samples")),
+    e("button", {
+      className: "filter-reset",
+      onClick: onReset,
+      style: {
+        marginLeft: 'auto', alignSelf: 'flex-end',
+        background: 'var(--accent)', color: '#0d0f0e', border: 'none',
+        fontWeight: 700, padding: '10px 22px', borderRadius: 6,
+        boxShadow: '0 2px 12px rgba(77,212,255,0.45)', cursor: 'pointer',
+        letterSpacing: '0.05em', textTransform: 'uppercase', fontSize: 12
       }
-      setFilters(f => ({
-        ...f,
-        from: fmt(from),
-        to: fmt(t)
-      }));
-    }
-  }, lbl)))), /*#__PURE__*/React.createElement("div", {
-    className: "filter-group"
-  }, /*#__PURE__*/React.createElement("label", {
-    className: "filter-label"
-  }, "Brand"), /*#__PURE__*/React.createElement("select", {
-    className: "filter-select",
-    value: filters.brand,
-    onChange: e => upd('brand', e.target.value)
-  }, /*#__PURE__*/React.createElement("option", {
-    value: ""
-  }, "All"), distinct.brands.map(b => /*#__PURE__*/React.createElement("option", {
-    key: b
-  }, b)))), /*#__PURE__*/React.createElement("div", {
-    className: "filter-group"
-  }, /*#__PURE__*/React.createElement("label", {
-    className: "filter-label"
-  }, "Sales Rep"), /*#__PURE__*/React.createElement("select", {
-    className: "filter-select",
-    value: filters.rep,
-    onChange: e => upd('rep', e.target.value)
-  }, /*#__PURE__*/React.createElement("option", {
-    value: ""
-  }, "All"), distinct.reps.map(b => /*#__PURE__*/React.createElement("option", {
-    key: b
-  }, b)))), /*#__PURE__*/React.createElement("div", {
-    className: "filter-group"
-  }, /*#__PURE__*/React.createElement("label", {
-    className: "filter-label"
-  }, "Buyer"), /*#__PURE__*/React.createElement("select", {
-    className: "filter-select",
-    value: filters.buyer,
-    onChange: e => upd('buyer', e.target.value)
-  }, /*#__PURE__*/React.createElement("option", {
-    value: ""
-  }, "All"), distinct.buyers.map(b => /*#__PURE__*/React.createElement("option", {
-    key: b
-  }, b)))), /*#__PURE__*/React.createElement("div", {
-    className: "filter-group"
-  }, /*#__PURE__*/React.createElement("label", {
-    className: "filter-label"
-  }, "State"), /*#__PURE__*/React.createElement("select", {
-    className: "filter-select",
-    value: filters.state,
-    onChange: e => upd('state', e.target.value)
-  }, /*#__PURE__*/React.createElement("option", {
-    value: ""
-  }, "All"), distinct.states.map(b => /*#__PURE__*/React.createElement("option", {
-    key: b
-  }, b)))), /*#__PURE__*/React.createElement("div", {
-    className: "filter-group"
-  }, /*#__PURE__*/React.createElement("label", {
-    className: "filter-label"
-  }, "Payment"), /*#__PURE__*/React.createElement("select", {
-    className: "filter-select",
-    value: filters.status,
-    onChange: e => upd('status', e.target.value)
-  }, /*#__PURE__*/React.createElement("option", {
-    value: ""
-  }, "All"), distinct.statuses.map(b => /*#__PURE__*/React.createElement("option", {
-    key: b
-  }, b)))), /*#__PURE__*/React.createElement("div", {
-    className: "filter-group"
-  }, /*#__PURE__*/React.createElement("label", {
-    className: "filter-label"
-  }, "Invoice #"), /*#__PURE__*/React.createElement("input", {
-    type: "text",
-    className: "filter-input",
-    placeholder: "search\u2026",
-    value: filters.invoice,
-    onChange: e => upd('invoice', e.target.value)
-  })), /*#__PURE__*/React.createElement("div", {
-    className: "filter-group"
-  }, /*#__PURE__*/React.createElement("label", {
-    className: "filter-label"
-  }, "Product Line"), /*#__PURE__*/React.createElement("select", {
-    className: "filter-select",
-    value: filters.productLine,
-    onChange: e => upd('productLine', e.target.value)
-  }, /*#__PURE__*/React.createElement("option", {
-    value: ""
-  }, "All"), distinct.productLines.map(b => /*#__PURE__*/React.createElement("option", {
-    key: b
-  }, b)))), /*#__PURE__*/React.createElement("div", {
-    className: "filter-group",
-    style: {
-      justifyContent: 'flex-end'
-    }
-  }, /*#__PURE__*/React.createElement("label", {
-    className: "filter-label",
-    style: {
-      display: 'flex',
-      alignItems: 'center',
-      gap: 8,
-      cursor: 'pointer',
-      marginTop: 'auto',
-      paddingBottom: 9
-    }
-  }, /*#__PURE__*/React.createElement("input", {
-    type: "checkbox",
-    checked: filters.excludeSamples,
-    onChange: e => upd('excludeSamples', e.target.checked),
-    style: {
-      accentColor: 'var(--accent)',
-      width: 14,
-      height: 14
-    }
-  }), "Exclude samples")), /*#__PURE__*/React.createElement("button", {
-    className: "filter-reset",
-    onClick: onReset
-  }, "Reset"));
+    }, "Reset"));
 }
 function Kpi({
   label,
