@@ -651,6 +651,45 @@ function RevenueOverTime({ rows }) {
   );
 }
 
+// ── Paginated inventory table with per-product value ──────────────────
+function InventoryTable({ list }) {
+  const e = React.createElement;
+  const PAGE = 25;
+  const [page, setPage] = React.useState(0);
+  const pages = Math.max(1, Math.ceil(list.length / PAGE));
+  const cur = Math.min(page, pages - 1);
+  const slice = list.slice(cur * PAGE, cur * PAGE + PAGE);
+  const badge = (color, border, text) => e("span", { style: { fontFamily: "JetBrains Mono", fontSize: 10, textTransform: "uppercase", letterSpacing: "0.08em", color, border: "1px solid " + border, borderRadius: 2, padding: "2px 6px", whiteSpace: "nowrap" } }, text);
+  const rows = slice.map((p, i) => e("tr", { key: cur * PAGE + i },
+    e("td", null, p.name),
+    e("td", { className: "dim" }, p.line),
+    e("td", { className: "dim font-mono", style: { fontSize: 11 } }, p.sku || "\u2014"),
+    e("td", { className: "num dim" }, fmtNum(Math.round(p.sold))),
+    e("td", { className: "num" }, e("strong", { style: { color: p.qty == null ? "var(--text-faint)" : p.qty <= 0 ? "var(--rose)" : "var(--accent)" } }, p.qty == null ? "\u2014" : fmtNum(Math.round(p.qty)))),
+    e("td", { className: "num dim" }, p.value ? fmtMoney(p.value) : "\u2014"),
+    e("td", { className: "num dim" }, p.batches || "\u2014"),
+    e("td", null, !p.listed ? badge("var(--text-faint)", "var(--border)", "Unlisted") : p.neverSold ? badge("var(--warm)", "var(--warm)", "Never sold") : e("span", { style: { color: "var(--text-faint)" } }, "\u2014"))
+  ));
+  const navBtn = (label, disabled, onClick) => e("button", { className: "date-preset", disabled, onClick, style: { opacity: disabled ? 0.35 : 1, cursor: disabled ? "default" : "pointer" } }, label);
+  const pager = e("div", { style: { display: "flex", alignItems: "center", justifyContent: "space-between", padding: "12px 16px", borderTop: "1px solid var(--border)", fontFamily: "JetBrains Mono", fontSize: 11, color: "var(--text-dim)" } },
+    e("span", null, fmtNum(list.length) + " products \u00b7 page " + (cur + 1) + " of " + pages),
+    e("div", { style: { display: "flex", gap: 8 } },
+      navBtn("\u2039 Prev", cur <= 0, () => setPage(cur - 1)),
+      navBtn("Next \u203a", cur >= pages - 1, () => setPage(cur + 1))));
+  return e("div", { className: "card", style: { padding: 0, overflow: "hidden" } },
+    e("div", { style: { overflowX: "auto" } },
+      e("table", { className: "data-table" },
+        e("thead", null, e("tr", null,
+          e("th", null, "Product"), e("th", null, "Line"), e("th", null, "SKU"),
+          e("th", { className: "num" }, "Units Sold"),
+          e("th", { className: "num" }, "On Hand"),
+          e("th", { className: "num" }, "Value"),
+          e("th", { className: "num" }, "Batches"),
+          e("th", null, "Status"))),
+        e("tbody", null, rows))),
+    pager);
+}
+
 function App() {
   const [data, setData] = useState(null);
   const [error, setError] = useState(null);
@@ -1101,33 +1140,43 @@ function Dashboard({
   // totals join by sku, then name, using physical units (inventory_quantity).
   const inventory = useMemo(() => {
     const soldBySku = {},
-      soldByName = {};
+      soldByName = {},
+      revBySku = {},
+      revByName = {};
     normalized.forEach(r => {
       const u = parseFloat(r.inventory_quantity) || r._quantity || 0;
-      if (r.product_sku) soldBySku[r.product_sku] = (soldBySku[r.product_sku] || 0) + u;
-      if (r.product_name) soldByName[r.product_name] = (soldByName[r.product_name] || 0) + u;
+      const rev = r._revenue || 0;
+      if (r.product_sku) { soldBySku[r.product_sku] = (soldBySku[r.product_sku] || 0) + u; revBySku[r.product_sku] = (revBySku[r.product_sku] || 0) + rev; }
+      if (r.product_name) { soldByName[r.product_name] = (soldByName[r.product_name] || 0) + u; revByName[r.product_name] = (revByName[r.product_name] || 0) + rev; }
     });
     const cat = Array.isArray(data.inventory) ? data.inventory : [];
     const list = cat.map(p => {
       const sold = p.sku && soldBySku[p.sku] != null ? soldBySku[p.sku] : soldByName[p.name] || 0;
+      const revT = p.sku && revBySku[p.sku] != null ? revBySku[p.sku] : revByName[p.name] || 0;
+      const unitPrice = sold > 0 ? revT / sold : 0;
+      const qty = p.qty != null ? p.qty : null;
       return {
         name: p.name || '—',
         line: p.line || '—',
         sku: p.sku || '',
-        qty: p.qty != null ? p.qty : null,
+        qty,
         batches: p.batches || 0,
         listed: !!p.listed,
         sold,
-        neverSold: sold <= 0
+        neverSold: sold <= 0,
+        unitPrice,
+        value: qty != null ? qty * unitPrice : 0
       };
     }).sort((a, b) => (b.qty || 0) - (a.qty || 0));
     const withQty = list.filter(p => p.qty != null);
     const onHandTotal = withQty.reduce((s, p) => s + p.qty, 0);
     const listedN = list.filter(p => p.listed).length;
     const out = withQty.filter(p => p.qty <= 0).length;
+    const onHandValue = list.reduce((s, p) => s + (p.value || 0), 0);
     return {
       list,
       onHandTotal,
+      onHandValue,
       listedN,
       skus: list.length,
       out
@@ -1567,10 +1616,14 @@ function Dashboard({
       marginBottom: 24
     }
   }, /*#__PURE__*/React.createElement(Kpi, {
+    label: "On Hand Value",
+    value: fmtMoney(inventory.onHandValue),
+    sub: "est. value of stock",
+    accent: true
+  }), /*#__PURE__*/React.createElement(Kpi, {
     label: "On Hand",
     value: fmtNum(Math.round(inventory.onHandTotal)),
-    sub: "total units in stock",
-    accent: true
+    sub: "total units in stock"
   }), /*#__PURE__*/React.createElement(Kpi, {
     label: "Listed",
     value: fmtNum(inventory.listedN),
@@ -1583,73 +1636,7 @@ function Dashboard({
     label: "Out Of Stock",
     value: fmtNum(inventory.out),
     sub: `of ${fmtNum(inventory.skus)} products`
-  })), /*#__PURE__*/React.createElement("div", {
-    className: "card",
-    style: {
-      padding: 0,
-      overflow: 'hidden'
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      overflowX: 'auto',
-      maxHeight: 520
-    }
-  }, /*#__PURE__*/React.createElement("table", {
-    className: "data-table"
-  }, /*#__PURE__*/React.createElement("thead", null, /*#__PURE__*/React.createElement("tr", null, /*#__PURE__*/React.createElement("th", null, "Product"), /*#__PURE__*/React.createElement("th", null, "Line"), /*#__PURE__*/React.createElement("th", null, "SKU"), /*#__PURE__*/React.createElement("th", {
-    className: "num"
-  }, "Units Sold"), /*#__PURE__*/React.createElement("th", {
-    className: "num"
-  }, "On Hand"), /*#__PURE__*/React.createElement("th", {
-    className: "num"
-  }, "Batches"), /*#__PURE__*/React.createElement("th", null, "Status"))), /*#__PURE__*/React.createElement("tbody", null, inventory.list.map((p, i) => /*#__PURE__*/React.createElement("tr", {
-    key: i
-  }, /*#__PURE__*/React.createElement("td", null, p.name), /*#__PURE__*/React.createElement("td", {
-    className: "dim"
-  }, p.line), /*#__PURE__*/React.createElement("td", {
-    className: "dim font-mono",
-    style: {
-      fontSize: 11
-    }
-  }, p.sku || '—'), /*#__PURE__*/React.createElement("td", {
-    className: "num dim"
-  }, fmtNum(Math.round(p.sold))), /*#__PURE__*/React.createElement("td", {
-    className: "num"
-  }, /*#__PURE__*/React.createElement("strong", {
-    style: {
-      color: p.qty == null ? 'var(--text-faint)' : p.qty <= 0 ? 'var(--rose)' : 'var(--accent)'
-    }
-  }, p.qty == null ? '—' : fmtNum(Math.round(p.qty)))), /*#__PURE__*/React.createElement("td", {
-    className: "num dim"
-  }, p.batches || '—'), /*#__PURE__*/React.createElement("td", null, !p.listed ? /*#__PURE__*/React.createElement("span", {
-    style: {
-      fontFamily: 'JetBrains Mono',
-      fontSize: 10,
-      textTransform: 'uppercase',
-      letterSpacing: '0.08em',
-      color: 'var(--text-faint)',
-      border: '1px solid var(--border)',
-      borderRadius: 2,
-      padding: '2px 6px',
-      whiteSpace: 'nowrap'
-    }
-  }, "Unlisted") : p.neverSold ? /*#__PURE__*/React.createElement("span", {
-    style: {
-      fontFamily: 'JetBrains Mono',
-      fontSize: 10,
-      textTransform: 'uppercase',
-      letterSpacing: '0.08em',
-      color: 'var(--warm)',
-      border: '1px solid var(--warm)',
-      borderRadius: 2,
-      padding: '2px 6px',
-      whiteSpace: 'nowrap'
-    }
-  }, "Never sold") : /*#__PURE__*/React.createElement("span", {
-    style: {
-      color: 'var(--text-faint)'
-    }
-  }, "\u2014"))))))))) : /*#__PURE__*/React.createElement("div", {
+  })), /*#__PURE__*/React.createElement(InventoryTable, { list: inventory.list })) : /*#__PURE__*/React.createElement("div", {
     className: "card",
     style: {
       padding: '24px',
