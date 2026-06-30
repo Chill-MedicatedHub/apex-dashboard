@@ -562,6 +562,95 @@ const normalizeState = raw => {
 };
 
 // --- Main App ---------------------------------------------------------------
+
+// ── Revenue Over Time: Month (year-over-year) / Year toggle ──────────────
+function RevenueOverTime({ rows }) {
+  const e = React.createElement;
+  const [view, setView] = React.useState('month');
+  const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  const YEAR_COLORS = ['#4dd4ff','#ffb454','#a6e22e','#f95f8f','#c792ea','#ff6e6e','#7bdff2','#fcd34d'];
+
+  const years = React.useMemo(() => {
+    const s = new Set();
+    rows.forEach(r => { if (r._date) s.add(r._date.getFullYear()); });
+    return [...s].sort((a, b) => a - b);
+  }, [rows]);
+
+  // Month view: one entry per month, a separate revenue key per year.
+  const monthData = React.useMemo(() => {
+    const base = MONTHS.map(m => ({ month: m }));
+    rows.forEach(r => {
+      if (!r._date) return;
+      const y = r._date.getFullYear();
+      const row = base[r._date.getMonth()];
+      row[y] = (row[y] || 0) + r._revenue;
+    });
+    return base;
+  }, [rows, years]);
+
+  // Year view: one entry per year (annual totals).
+  const yearData = React.useMemo(() => {
+    const map = {};
+    rows.forEach(r => { if (r._date) { const y = r._date.getFullYear(); map[y] = (map[y] || 0) + r._revenue; } });
+    return years.map(y => ({ year: String(y), revenue: map[y] || 0 }));
+  }, [rows, years]);
+
+  const colorFor = y => YEAR_COLORS[years.indexOf(y) % YEAR_COLORS.length];
+  const axisTick = { fontSize: 11, fontFamily: 'JetBrains Mono' };
+  const tooltip = fmt => e(Tooltip, {
+    contentStyle: { background: '#161a17', border: '1px solid #262c28', borderRadius: 4, fontSize: 12 },
+    labelStyle: { color: '#9aa39c', fontFamily: 'JetBrains Mono', fontSize: 11 },
+    itemStyle: { color: '#e8ebe7' }, formatter: fmt
+  });
+
+  const btn = (id, label) => e('button', {
+    key: id, onClick: () => setView(id),
+    style: {
+      padding: '4px 12px', fontSize: 11, fontFamily: 'JetBrains Mono', cursor: 'pointer', borderRadius: 4,
+      border: '1px solid ' + (view === id ? '#4dd4ff' : '#262c28'),
+      background: view === id ? 'rgba(77,212,255,0.12)' : '#161a17',
+      color: view === id ? '#4dd4ff' : '#9aa39c'
+    }
+  }, label);
+
+  const chart = view === 'month'
+    ? e(LineChart, { data: monthData, margin: { top: 12, right: 12, left: 0, bottom: 0 } },
+        e(CartesianGrid, { stroke: '#262c28', strokeDasharray: '2 2', vertical: false }),
+        e(XAxis, { dataKey: 'month', stroke: '#5d6660', tick: axisTick, tickLine: false, axisLine: { stroke: '#262c28' } }),
+        e(YAxis, { stroke: '#5d6660', tick: axisTick, tickLine: false, axisLine: false, tickFormatter: fmtMoney }),
+        tooltip((v, n) => [fmtMoneyFull(v), n]),
+        e(Legend, { wrapperStyle: { fontSize: 11, fontFamily: 'JetBrains Mono' } }),
+        ...years.map(y => e(Line, {
+          key: y, type: 'monotone', dataKey: String(y), name: String(y),
+          stroke: colorFor(y), strokeWidth: 2, dot: { r: 2 }, activeDot: { r: 4 }, connectNulls: false
+        }))
+      )
+    : e(LineChart, { data: yearData, margin: { top: 12, right: 12, left: 0, bottom: 0 } },
+        e(CartesianGrid, { stroke: '#262c28', strokeDasharray: '2 2', vertical: false }),
+        e(XAxis, { dataKey: 'year', stroke: '#5d6660', tick: axisTick, tickLine: false, axisLine: { stroke: '#262c28' } }),
+        e(YAxis, { stroke: '#5d6660', tick: axisTick, tickLine: false, axisLine: false, tickFormatter: fmtMoney }),
+        tooltip(v => [fmtMoneyFull(v), 'Revenue']),
+        e(Line, { type: 'monotone', dataKey: 'revenue', name: 'Revenue', stroke: '#4dd4ff', strokeWidth: 2, dot: { r: 3 }, activeDot: { r: 5 } })
+      );
+
+  const meta = view === 'month'
+    ? years.length + ' year' + (years.length === 1 ? '' : 's') + ' compared'
+    : yearData.length + ' year' + (yearData.length === 1 ? '' : 's');
+
+  return e('section', { className: 'section' },
+    e('div', { className: 'section-header' },
+      e('h2', { className: 'section-title' }, 'Revenue ', e('em', null, 'over time')),
+      e('div', { style: { display: 'flex', alignItems: 'center', gap: 12 } },
+        e('div', { style: { display: 'flex', gap: 6 } }, btn('month', 'Month'), btn('year', 'Year')),
+        e('span', { className: 'section-meta' }, meta)
+      )
+    ),
+    e('div', { className: 'card', style: { height: 320 } },
+      e(ResponsiveContainer, { width: '100%', height: '100%' }, chart)
+    )
+  );
+}
+
 function App() {
   const [data, setData] = useState(null);
   const [error, setError] = useState(null);
@@ -1303,91 +1392,7 @@ function Dashboard({
     label: "Credits Applied",
     value: fmtMoney(kpis.credits),
     sub: kpis.creditCount ? `${fmtNum(kpis.creditOrders)} invoice${kpis.creditOrders === 1 ? '' : 's'} · applied as payment` : 'none in current view'
-  })), /*#__PURE__*/React.createElement("section", {
-    className: "section"
-  }, /*#__PURE__*/React.createElement("div", {
-    className: "section-header"
-  }, /*#__PURE__*/React.createElement("h2", {
-    className: "section-title"
-  }, "Revenue ", /*#__PURE__*/React.createElement("em", null, "over time")), /*#__PURE__*/React.createElement("span", {
-    className: "section-meta"
-  }, timeSeries.length, " days")), /*#__PURE__*/React.createElement("div", {
-    className: "card",
-    style: {
-      height: 320
-    }
-  }, /*#__PURE__*/React.createElement(ResponsiveContainer, {
-    width: "100%",
-    height: "100%"
-  }, /*#__PURE__*/React.createElement(AreaChart, {
-    data: timeSeries,
-    margin: {
-      top: 12,
-      right: 12,
-      left: 0,
-      bottom: 0
-    }
-  }, /*#__PURE__*/React.createElement("defs", null, /*#__PURE__*/React.createElement("linearGradient", {
-    id: "revGrad",
-    x1: "0",
-    y1: "0",
-    x2: "0",
-    y2: "1"
-  }, /*#__PURE__*/React.createElement("stop", {
-    offset: "0%",
-    stopColor: "#4dd4ff",
-    stopOpacity: 0.4
-  }), /*#__PURE__*/React.createElement("stop", {
-    offset: "100%",
-    stopColor: "#4dd4ff",
-    stopOpacity: 0
-  }))), /*#__PURE__*/React.createElement(CartesianGrid, {
-    stroke: "#262c28",
-    strokeDasharray: "2 2",
-    vertical: false
-  }), /*#__PURE__*/React.createElement(XAxis, {
-    dataKey: "date",
-    stroke: "#5d6660",
-    tick: {
-      fontSize: 11,
-      fontFamily: 'JetBrains Mono'
-    },
-    tickLine: false,
-    axisLine: {
-      stroke: '#262c28'
-    }
-  }), /*#__PURE__*/React.createElement(YAxis, {
-    stroke: "#5d6660",
-    tick: {
-      fontSize: 11,
-      fontFamily: 'JetBrains Mono'
-    },
-    tickLine: false,
-    axisLine: false,
-    tickFormatter: fmtMoney
-  }), /*#__PURE__*/React.createElement(Tooltip, {
-    contentStyle: {
-      background: '#161a17',
-      border: '1px solid #262c28',
-      borderRadius: 4,
-      fontSize: 12
-    },
-    labelStyle: {
-      color: '#9aa39c',
-      fontFamily: 'JetBrains Mono',
-      fontSize: 11
-    },
-    itemStyle: {
-      color: '#e8ebe7'
-    },
-    formatter: (v, n) => n === 'revenue' ? [fmtMoneyFull(v), 'Revenue'] : [fmtNum(v), n]
-  }), /*#__PURE__*/React.createElement(Area, {
-    type: "monotone",
-    dataKey: "revenue",
-    stroke: "#4dd4ff",
-    strokeWidth: 2,
-    fill: "url(#revGrad)"
-  }))))), /*#__PURE__*/React.createElement("section", {
+  })), /*#__PURE__*/React.createElement(RevenueOverTime, { rows: filtered }), /*#__PURE__*/React.createElement("section", {
     className: "section"
   }, /*#__PURE__*/React.createElement("div", {
     className: "section-header"
