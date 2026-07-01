@@ -733,12 +733,82 @@ function MonthlyGrossBySku({ rows }) {
   const cell = v => v ? fmtMoney(v) : e("span", { className: "dim" }, "\u2014");
   const sel = (val, set, opts) => e("select", { className: "filter-select", value: val, onChange: ev => set(ev.target.value), style: { minWidth: 88, height: 30 } },
     opts.map(o => e("option", { key: o.v, value: o.v }, o.l)));
+  const esc = s => String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  const money2 = n => '$' + (n || 0).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  const intFmt = n => Math.round(n || 0).toLocaleString();
+  const scopeLabel = () => (yr === 'all' ? 'All years' : yr) + ' / ' + (mo === 'all' ? 'All months' : MONTHS[parseInt(mo, 10) - 1]);
+  const scoped = () => rows.filter(r => {
+    if (!r._date) return false;
+    if (yr !== 'all' && String(r._date.getFullYear()) !== yr) return false;
+    if (mo !== 'all' && String(r._date.getMonth() + 1).padStart(2, '0') !== mo) return false;
+    return true;
+  });
+  const tableHtml = () => {
+    const head = '<tr><th>SKU / Product</th>' + months.map(m => '<th>' + esc(mlabel(m)) + '</th>').join('') + '<th>Total</th></tr>';
+    const body = list.map(p => '<tr><td>' + esc(p.name) + '</td>' + months.map(m => '<td>' + (p.cells[m] ? money2(p.cells[m]) : '') + '</td>').join('') + '<td>' + money2(p.total) + '</td></tr>').join('');
+    const tot = '<tr><td>All products</td>' + months.map(m => '<td>' + money2(colTotals[m]) + '</td>').join('') + '<td>' + money2(grand) + '</td></tr>';
+    return '<table border="1"><thead>' + head + '</thead><tbody>' + body + tot + '</tbody></table>';
+  };
+  const summaryHtml = () => {
+    const rs = scoped();
+    let net = 0, disc = 0, units = 0; const orders = {}, prods = {};
+    rs.forEach(r => { net += r._revenue || 0; disc += r._lineDiscount || 0; units += r._quantity || 0; if (r.order_id) orders[r.order_id] = 1; if (r.product_name) prods[r.product_name] = 1; });
+    const rowsH = [['Gross sales', money2(net + disc)], ['Discounts', money2(disc)], ['Net sales', money2(net)], ['Units sold', intFmt(units)], ['Orders', intFmt(Object.keys(orders).length)], ['Products', intFmt(Object.keys(prods).length)]]
+      .map(r => '<tr><td>' + esc(r[0]) + '</td><td>' + esc(r[1]) + '</td></tr>').join('');
+    return '<table border="1"><thead><tr><th>Summary</th><th>Value</th></tr></thead><tbody>' + rowsH + '</tbody></table>';
+  };
+  const breakdownHtml = () => {
+    const rs = scoped(); const map = {};
+    rs.forEach(r => {
+      const k = r.product_name || '(unnamed)';
+      if (!map[k]) map[k] = { name: k, line: r.product_type || '', units: 0, net: 0, disc: 0 };
+      map[k].units += r._quantity || 0; map[k].net += r._revenue || 0; map[k].disc += r._lineDiscount || 0;
+    });
+    const arr = Object.keys(map).map(k => map[k]).sort((a, b) => (b.net + b.disc) - (a.net + a.disc));
+    const head = '<tr><th>Product</th><th>Line</th><th>Units</th><th>Gross</th><th>Discounts</th><th>Net</th><th>Avg Unit $</th></tr>';
+    const body = arr.map(p => '<tr><td>' + esc(p.name) + '</td><td>' + esc(p.line) + '</td><td>' + intFmt(p.units) + '</td><td>' + money2(p.net + p.disc) + '</td><td>' + money2(p.disc) + '</td><td>' + money2(p.net) + '</td><td>' + money2(p.units ? p.net / p.units : 0) + '</td></tr>').join('');
+    return '<table border="1"><thead>' + head + '</thead><tbody>' + body + '</tbody></table>';
+  };
+  const dl = (filename, blob) => {
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a'); a.href = url; a.download = filename;
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    setTimeout(function () { URL.revokeObjectURL(url); }, 1500);
+  };
+  const RTITLE = 'Chill Medicated MA \u2014 Sales Report';
+  const rMeta = () => 'Scope: ' + scopeLabel() + '  \u00b7  Gross = before discounts  \u00b7  Generated ' + new Date().toLocaleString();
+  const exportExcel = () => {
+    if (!scoped().length) { alert('Nothing to export for this selection.'); return; }
+    const html = '<html xmlns:x="urn:schemas-microsoft-com:office:excel"><head><meta charset="utf-8"></head><body>'
+      + '<table><tr><td><b>' + esc(RTITLE) + '</b></td></tr><tr><td>' + esc(rMeta()) + '</td></tr></table>'
+      + '<br><b>Summary</b>' + summaryHtml()
+      + '<br><b>Product breakdown</b>' + breakdownHtml()
+      + '<br><b>Monthly gross by SKU</b>' + tableHtml()
+      + '</body></html>';
+    dl('Chill_MA_Sales_Report.xls', new Blob([html], { type: 'application/vnd.ms-excel' }));
+  };
+  const exportPDF = () => {
+    if (!scoped().length) { alert('Nothing to export for this selection.'); return; }
+    const css = 'body{font-family:Arial,Helvetica,sans-serif;color:#111;padding:24px}h1{font-size:16px;margin:0 0 4px}h2{font-size:12px;margin:18px 0 6px;border-bottom:1px solid #ccc;padding-bottom:2px}.m{font-size:11px;color:#555;margin-bottom:8px}table{border-collapse:collapse;width:100%;font-size:10px;margin-bottom:6px}th,td{border:1px solid #ccc;padding:3px 6px;text-align:right}th:first-child,td:first-child{text-align:left}thead th{background:#eee}@media print{body{padding:0}h2{page-break-after:avoid}}';
+    const w = window.open('', '_blank');
+    if (!w) { alert('Please allow pop-ups so the PDF report can open, then use Save as PDF.'); return; }
+    w.document.write('<html><head><meta charset="utf-8"><title>' + esc(RTITLE) + '</title><style>' + css + '</style></head><body>'
+      + '<h1>' + esc(RTITLE) + '</h1><div class="m">' + esc(rMeta()) + '</div>'
+      + '<h2>Summary</h2>' + summaryHtml()
+      + '<h2>Product breakdown</h2>' + breakdownHtml()
+      + '<h2>Monthly gross by SKU</h2>' + tableHtml()
+      + '<scr' + 'ipt>window.onload=function(){setTimeout(function(){window.print();},300);};</scr' + 'ipt>'
+      + '</body></html>');
+    w.document.close();
+  };
   return e("section", { className: "section" },
     e("div", { className: "section-header" },
       e("h2", { className: "section-title" }, "Monthly gross sales ", e("em", null, "by SKU")),
       e("div", { style: { display: 'flex', gap: 8, alignItems: 'center', flexWrap: 'wrap' } },
         sel(yr, setYr, [{ v: 'all', l: 'All years' }].concat(base.years.map(y => ({ v: y, l: y })))),
         sel(mo, setMo, [{ v: 'all', l: 'All months' }].concat(MONTHS.map((m, i) => ({ v: String(i + 1).padStart(2, '0'), l: m })))),
+        e("button", { className: "date-preset", onClick: exportExcel, title: "Download as Excel" }, "\u2b07 Excel"),
+        e("button", { className: "date-preset", onClick: exportPDF, title: "Download as PDF" }, "\u2b07 PDF"),
         e("span", { className: "section-meta" }, months.length ? fmtNum(list.length) + " products \u00b7 " + months.length + " mo \u00b7 gross" : ""))),
     months.length === 0
       ? e("div", { className: "card" }, e("div", { style: { color: 'var(--text-faint)', fontSize: 13 } }, "No rows match the current filters."))
