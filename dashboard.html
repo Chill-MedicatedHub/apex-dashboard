@@ -690,6 +690,58 @@ function InventoryTable({ list }) {
     pager);
 }
 
+function MonthlyGrossBySku({ rows }) {
+  const e = React.createElement;
+  const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  const d = React.useMemo(() => {
+    const monthsSet = new Set();
+    const prods = {};
+    rows.forEach(r => {
+      if (!r._date) return;
+      const ym = r._date.getFullYear() + '-' + String(r._date.getMonth() + 1).padStart(2, '0');
+      monthsSet.add(ym);
+      const key = r.product_name || '(unnamed)';
+      if (!prods[key]) prods[key] = { name: key, cells: {}, total: 0 };
+      const gross = (r._revenue || 0) + (r._lineDiscount || 0);
+      prods[key].cells[ym] = (prods[key].cells[ym] || 0) + gross;
+      prods[key].total += gross;
+    });
+    const months = Array.from(monthsSet).sort();
+    const list = Object.values(prods).sort((a, b) => b.total - a.total);
+    const colTotals = {}; let grand = 0;
+    months.forEach(ym => { colTotals[ym] = list.reduce((s, p) => s + (p.cells[ym] || 0), 0); grand += colTotals[ym]; });
+    return { months: months, list: list, colTotals: colTotals, grand: grand };
+  }, [rows]);
+  const months = d.months, list = d.list, colTotals = d.colTotals, grand = d.grand;
+  const stick = { position: 'sticky', left: 0, background: 'var(--bg-elev)', zIndex: 1 };
+  const mlabel = ym => { const p = ym.split('-'); return MONTHS[parseInt(p[1], 10) - 1] + " '" + p[0].slice(2); };
+  const cell = v => v ? fmtMoney(v) : e("span", { className: "dim" }, "\u2014");
+  return e("section", { className: "section" },
+    e("div", { className: "section-header" },
+      e("h2", { className: "section-title" }, "Monthly gross sales ", e("em", null, "by SKU")),
+      e("span", { className: "section-meta" }, months.length ? fmtNum(list.length) + " products \u00b7 " + months.length + " months \u00b7 gross = before discounts" : "")),
+    months.length === 0
+      ? e("div", { className: "card" }, e("div", { style: { color: 'var(--text-faint)', fontSize: 13 } }, "No rows match the current filters."))
+      : e("div", { className: "card", style: { padding: 0, overflow: 'hidden' } },
+          e("div", { style: { overflowX: 'auto', maxHeight: 520 } },
+            e("table", { className: "data-table" },
+              e("thead", null,
+                e("tr", null,
+                  e("th", { style: Object.assign({}, stick, { zIndex: 2 }) }, "SKU / Product"),
+                  months.map(ym => e("th", { key: ym, className: "num" }, mlabel(ym))),
+                  e("th", { className: "num" }, "Total"))),
+              e("tbody", null,
+                list.slice(0, 100).map((p, i) => e("tr", { key: i },
+                  e("td", { style: stick }, p.name),
+                  months.map(ym => e("td", { key: ym, className: "num" }, cell(p.cells[ym]))),
+                  e("td", { className: "num" }, e("strong", null, fmtMoney(p.total))))),
+                e("tr", { style: { background: 'var(--bg)' } },
+                  e("td", { style: Object.assign({}, stick, { background: 'var(--bg)', fontWeight: 700 }) }, "All products"),
+                  months.map(ym => e("td", { key: ym, className: "num" }, e("strong", null, fmtMoney(colTotals[ym])))),
+                  e("td", { className: "num" }, e("strong", null, fmtMoney(grand))))))),
+          list.length > 100 ? e("div", { style: { padding: '8px 14px', color: 'var(--text-faint)', fontSize: 12 } }, "Showing top 100 of " + fmtNum(list.length) + " products by total gross") : null));
+}
+
 function App() {
   const [data, setData] = useState(null);
   const [error, setError] = useState(null);
@@ -1446,7 +1498,7 @@ function Dashboard({
     label: "Credits Applied",
     value: fmtMoney(kpis.credits),
     sub: kpis.creditCount ? `${fmtNum(kpis.creditOrders)} invoice${kpis.creditOrders === 1 ? '' : 's'} · applied as payment` : 'none in current view'
-  })), /*#__PURE__*/React.createElement(RevenueOverTime, { rows: filtered }), /*#__PURE__*/React.createElement("section", {
+  })), /*#__PURE__*/React.createElement(RevenueOverTime, { rows: filtered }), /*#__PURE__*/React.createElement(MonthlyGrossBySku, { rows: filtered }), /*#__PURE__*/React.createElement("section", {
     className: "section"
   }, /*#__PURE__*/React.createElement("div", {
     className: "section-header"
