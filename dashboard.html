@@ -848,8 +848,9 @@ function Dashboard({
     if (filters.buyer && r.buyer_name !== filters.buyer) return false;
     if (filters.rep && r.sales_rep !== filters.rep) return false;
     if (filters.product) {
-      const pq = filters.product.toLowerCase();
-      if (!String(r.product_name || '').toLowerCase().includes(pq)) return false;
+      const hay = [r.product_name, r.product_type, r.product_sku].map(x => String(x || '').toLowerCase()).join(' ');
+      const terms = filters.product.toLowerCase().split(/\s+/).filter(Boolean);
+      if (!terms.every(t => hay.includes(t))) return false;
     }
     if (filters.status && r.payment_status !== filters.status) return false;
     if (filters.productLine && r.product_type !== filters.productLine) return false;
