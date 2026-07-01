@@ -1445,9 +1445,7 @@ function Dashboard({
   }, /*#__PURE__*/React.createElement(Topbar, {
     fetchedAt: fetchedAt,
     rowCount: filtered.length,
-    totalCount: rows.length,
-    rows: filtered,
-    filters: filters
+    totalCount: rows.length
   }), /*#__PURE__*/React.createElement("details", {
     style: {
       background: 'var(--bg-elev)',
@@ -1563,7 +1561,8 @@ function Dashboard({
     filters: filters,
     setFilters: setFilters,
     distinct: distinct,
-    onReset: resetFilters
+    onReset: resetFilters,
+    rows: filtered
   }), /*#__PURE__*/React.createElement("div", {
     className: "kpi-grid"
   }, /*#__PURE__*/React.createElement(Kpi, {
@@ -2078,9 +2077,7 @@ function Dashboard({
 function Topbar({
   fetchedAt,
   rowCount,
-  totalCount,
-  rows,
-  filters
+  totalCount
 }) {
   const ago = Math.floor((Date.now() - fetchedAt.getTime()) / 60000);
   return /*#__PURE__*/React.createElement("div", {
@@ -2128,15 +2125,7 @@ function Topbar({
     }
   }, "Massachusetts \xB7 Sales Intelligence"))), /*#__PURE__*/React.createElement("div", {
     className: "topbar-meta"
-  }, /*#__PURE__*/React.createElement("button", {
-    className: "date-preset",
-    onClick: () => downloadReportExcel(rows, filters),
-    title: "Download the report as Excel, using the filters currently applied"
-  }, "\u2b07 Excel"), /*#__PURE__*/React.createElement("button", {
-    className: "date-preset",
-    onClick: () => downloadReportPDF(rows, filters),
-    title: "Download the report as PDF, using the filters currently applied"
-  }, "\u2b07 PDF"), /*#__PURE__*/React.createElement("span", null, "\xB7"), /*#__PURE__*/React.createElement("span", null, /*#__PURE__*/React.createElement("strong", null, fmtNum(rowCount)), " / ", fmtNum(totalCount), " rows"), /*#__PURE__*/React.createElement("span", null, "\xB7"), /*#__PURE__*/React.createElement("span", null, "Updated ", ago < 1 ? 'just now' : ago + 'm ago'), /*#__PURE__*/React.createElement("span", {
+  }, /*#__PURE__*/React.createElement("span", null, /*#__PURE__*/React.createElement("strong", null, fmtNum(rowCount)), " / ", fmtNum(totalCount), " rows"), /*#__PURE__*/React.createElement("span", null, "\xB7"), /*#__PURE__*/React.createElement("span", null, "Updated ", ago < 1 ? 'just now' : ago + 'm ago'), /*#__PURE__*/React.createElement("span", {
     className: "pulse"
   })));
 }
@@ -2144,7 +2133,8 @@ function FilterBar({
   filters,
   setFilters,
   distinct,
-  onReset
+  onReset,
+  rows
 }) {
   const e = React.createElement;
   const upd = (k, v) => setFilters(f => ({ ...f, [k]: v }));
@@ -2180,11 +2170,16 @@ function FilterBar({
       e("label", { className: "filter-label", style: { display: 'flex', alignItems: 'center', gap: 8, cursor: 'pointer', marginTop: 'auto', paddingBottom: 9 } },
         e("input", { type: "checkbox", checked: filters.excludeSamples, onChange: ev => upd('excludeSamples', ev.target.checked), style: { accentColor: 'var(--accent)', width: 14, height: 14 } }),
         "Exclude samples")),
+    e("div", { className: "filter-group", style: { minWidth: 'auto', marginLeft: 'auto', alignSelf: 'flex-end' } },
+      e("label", { className: "filter-label" }, "Download report"),
+      e("div", { style: { display: 'flex', gap: 6 } },
+        e("button", { className: "date-preset", onClick: () => downloadReportExcel(rows, filters), title: "Download the report as Excel, using the filters currently applied" }, "\u2b07 Excel"),
+        e("button", { className: "date-preset", onClick: () => downloadReportPDF(rows, filters), title: "Download the report as PDF, using the filters currently applied" }, "\u2b07 PDF"))),
     e("button", {
       className: "filter-reset",
       onClick: onReset,
       style: {
-        marginLeft: 'auto', alignSelf: 'flex-end',
+        marginLeft: 16, alignSelf: 'flex-end',
         background: 'var(--accent)', color: '#0d0f0e', border: 'none',
         fontWeight: 700, padding: '10px 22px', borderRadius: 6,
         boxShadow: '0 2px 12px rgba(77,212,255,0.45)', cursor: 'pointer',
