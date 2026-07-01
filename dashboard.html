@@ -693,7 +693,9 @@ function InventoryTable({ list }) {
 function MonthlyGrossBySku({ rows }) {
   const e = React.createElement;
   const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-  const d = React.useMemo(() => {
+  const [yr, setYr] = React.useState('all');
+  const [mo, setMo] = React.useState('all');
+  const base = React.useMemo(() => {
     const monthsSet = new Set();
     const prods = {};
     rows.forEach(r => {
@@ -701,25 +703,43 @@ function MonthlyGrossBySku({ rows }) {
       const ym = r._date.getFullYear() + '-' + String(r._date.getMonth() + 1).padStart(2, '0');
       monthsSet.add(ym);
       const key = r.product_name || '(unnamed)';
-      if (!prods[key]) prods[key] = { name: key, cells: {}, total: 0 };
+      if (!prods[key]) prods[key] = { name: key, cells: {} };
       const gross = (r._revenue || 0) + (r._lineDiscount || 0);
       prods[key].cells[ym] = (prods[key].cells[ym] || 0) + gross;
-      prods[key].total += gross;
     });
-    const months = Array.from(monthsSet).sort();
-    const list = Object.values(prods).sort((a, b) => b.total - a.total);
+    const allMonths = Array.from(monthsSet).sort();
+    const years = Array.from(new Set(allMonths.map(m => m.split('-')[0]))).sort();
+    return { allMonths: allMonths, prods: Object.values(prods), years: years };
+  }, [rows]);
+  const view = React.useMemo(() => {
+    const months = base.allMonths.filter(ym => {
+      const p = ym.split('-');
+      if (yr !== 'all' && p[0] !== yr) return false;
+      if (mo !== 'all' && p[1] !== mo) return false;
+      return true;
+    });
+    const list = base.prods.map(p => {
+      let total = 0;
+      months.forEach(ym => { total += p.cells[ym] || 0; });
+      return { name: p.name, cells: p.cells, total: total };
+    }).filter(p => p.total !== 0).sort((a, b) => b.total - a.total);
     const colTotals = {}; let grand = 0;
     months.forEach(ym => { colTotals[ym] = list.reduce((s, p) => s + (p.cells[ym] || 0), 0); grand += colTotals[ym]; });
     return { months: months, list: list, colTotals: colTotals, grand: grand };
-  }, [rows]);
-  const months = d.months, list = d.list, colTotals = d.colTotals, grand = d.grand;
+  }, [base, yr, mo]);
+  const months = view.months, list = view.list, colTotals = view.colTotals, grand = view.grand;
   const stick = { position: 'sticky', left: 0, background: 'var(--bg-elev)', zIndex: 1 };
   const mlabel = ym => { const p = ym.split('-'); return MONTHS[parseInt(p[1], 10) - 1] + " '" + p[0].slice(2); };
   const cell = v => v ? fmtMoney(v) : e("span", { className: "dim" }, "\u2014");
+  const sel = (val, set, opts) => e("select", { className: "filter-select", value: val, onChange: ev => set(ev.target.value), style: { minWidth: 88, height: 30 } },
+    opts.map(o => e("option", { key: o.v, value: o.v }, o.l)));
   return e("section", { className: "section" },
     e("div", { className: "section-header" },
       e("h2", { className: "section-title" }, "Monthly gross sales ", e("em", null, "by SKU")),
-      e("span", { className: "section-meta" }, months.length ? fmtNum(list.length) + " products \u00b7 " + months.length + " months \u00b7 gross = before discounts" : "")),
+      e("div", { style: { display: 'flex', gap: 8, alignItems: 'center', flexWrap: 'wrap' } },
+        sel(yr, setYr, [{ v: 'all', l: 'All years' }].concat(base.years.map(y => ({ v: y, l: y })))),
+        sel(mo, setMo, [{ v: 'all', l: 'All months' }].concat(MONTHS.map((m, i) => ({ v: String(i + 1).padStart(2, '0'), l: m })))),
+        e("span", { className: "section-meta" }, months.length ? fmtNum(list.length) + " products \u00b7 " + months.length + " mo \u00b7 gross" : ""))),
     months.length === 0
       ? e("div", { className: "card" }, e("div", { style: { color: 'var(--text-faint)', fontSize: 13 } }, "No rows match the current filters."))
       : e("div", { className: "card", style: { padding: 0, overflow: 'hidden' } },
