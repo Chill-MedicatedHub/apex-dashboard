@@ -398,6 +398,8 @@
   .topbar img { filter: drop-shadow(0 3px 8px rgba(20,35,60,0.22)); }
   .brand-name { font-weight: 600 !important; font-size: 30px !important;
                 filter: drop-shadow(0 2px 3px rgba(20,35,60,0.18)); }
+  /* darker labels for visibility */
+  .filter-label, .section-meta { color: #4b5563; }
 </style>
 </head>
 <body>
@@ -726,7 +728,7 @@ function RevenueOverTime({ rows }) {
   }, [rows, years]);
 
   const colorFor = y => YEAR_COLORS[years.indexOf(y) % YEAR_COLORS.length];
-  const axisTick = { fontSize: 11, fontFamily: 'JetBrains Mono' };
+  const axisTick = { fontSize: 11, fontFamily: 'JetBrains Mono', fill: '#4b5563' };
   const tooltip = fmt => e(Tooltip, {
     contentStyle: { background: '#ffffff', border: '1px solid #e7ecf2', borderRadius: 4, fontSize: 12 },
     labelStyle: { color: '#566274', fontFamily: 'JetBrains Mono', fontSize: 11 },
@@ -988,7 +990,7 @@ function MonthlyGrossBySku({ rows }) {
   const stick = { position: 'sticky', left: 0, background: 'var(--bg-elev)', zIndex: 1 };
   const mlabel = ym => { const p = ym.split('-'); return MONTHS[parseInt(p[1], 10) - 1] + " '" + p[0].slice(2); };
   const cell = v => v ? fmtMoney(v) : e("span", { className: "dim" }, "\u2014");
-  const sel = (val, set, opts) => e("select", { className: "filter-select", value: val, onChange: ev => set(ev.target.value), style: { minWidth: 88, height: 30 } },
+  const sel = (val, set, opts) => e("select", { className: "filter-select", value: val, onChange: ev => set(ev.target.value), style: { minWidth: 74, height: 26, fontSize: 12, padding: '0 8px' } },
     opts.map(o => e("option", { key: o.v, value: o.v }, o.l)));
   return e("section", { className: "section" },
     e("div", { className: "section-header" },
