@@ -894,7 +894,7 @@ function SalesByCategory({ rows }) {
   const agg = React.useMemo(() => {
     const acc = {};
     CHILL_CATS.forEach(l => { acc[l] = { units: 0, gross: 0, net: 0 }; });
-    const unmatched = { units: 0, gross: 0, net: 0, names: {} };
+    const unmatched = {};
     let tU = 0, tG = 0, tN = 0;
     rows.forEach(r => {
       const units = parseFloat(r.inventory_quantity) || r._quantity || 0;
@@ -904,7 +904,7 @@ function SalesByCategory({ rows }) {
       let label = __catKeyToLabel[r._isSample ? catCanon(nm + ' sample') : catCanon(nm)];
       if (!label && r._isSample) label = __catKeyToLabel[catCanon(nm)];   // sample with no SAMPLE row folds into base
       if (label) { acc[label].units += units; acc[label].gross += gross; acc[label].net += net; }
-      else { unmatched.units += units; unmatched.gross += gross; unmatched.net += net; if (nm) unmatched.names[nm] = 1; }
+      else { const uk = nm || '(unnamed)'; if (!unmatched[uk]) unmatched[uk] = { units: 0, gross: 0, net: 0 }; unmatched[uk].units += units; unmatched[uk].gross += gross; unmatched[uk].net += net; }
       tU += units; tG += gross; tN += net;
     });
     return { acc: acc, unmatched: unmatched, tU: tU, tG: tG, tN: tN };
@@ -918,15 +918,15 @@ function SalesByCategory({ rows }) {
     e("td", { className: "num" }, d.net ? e("strong", null, fmtMoney(d.net)) : "\u2014"),
     e("td", { className: "num dim" }, d.net ? pct(d.net) : "\u2014"));
   const body = CHILL_CATS.map(l => rowEl(l, acc[l], / SAMPLE$/.test(l)));
-  const unmatchedNames = Object.keys(unmatched.names);
-  if (unmatched.net || unmatched.units) {
-    body.push(e("tr", { key: '__unmatched', style: { background: 'rgba(255,180,80,0.06)' } },
-      e("td", { title: unmatchedNames.join(', ') }, "Uncategorized (" + unmatchedNames.length + " product" + (unmatchedNames.length === 1 ? "" : "s") + ") \u2014 hover for names"),
-      e("td", { className: "num dim" }, fmtNum(Math.round(unmatched.units))),
-      e("td", { className: "num dim" }, fmtMoney(unmatched.gross)),
-      e("td", { className: "num" }, e("strong", null, fmtMoney(unmatched.net))),
-      e("td", { className: "num dim" }, pct(unmatched.net))));
-  }
+  const unmatchedList = Object.keys(unmatched).map(k => ({ name: k, units: unmatched[k].units, gross: unmatched[k].gross, net: unmatched[k].net })).sort((a, b) => b.net - a.net);
+  unmatchedList.forEach((u, i) => {
+    body.push(e("tr", { key: '__un_' + i, style: { background: 'rgba(255,180,80,0.06)' } },
+      e("td", null, u.name, e("span", { style: { color: 'var(--text-faint)', fontSize: 10, marginLeft: 6 } }, "\u00b7 uncategorized")),
+      e("td", { className: "num dim" }, u.units ? fmtNum(Math.round(u.units)) : "\u2014"),
+      e("td", { className: "num dim" }, u.gross ? fmtMoney(u.gross) : "\u2014"),
+      e("td", { className: "num" }, u.net ? e("strong", null, fmtMoney(u.net)) : "\u2014"),
+      e("td", { className: "num dim" }, u.net ? pct(u.net) : "\u2014")));
+  });
   body.push(e("tr", { key: '__totals', style: { borderTop: '2px solid var(--border)' } },
     e("td", null, e("strong", null, "TOTALS")),
     e("td", { className: "num" }, e("strong", null, fmtNum(Math.round(tU)))),
