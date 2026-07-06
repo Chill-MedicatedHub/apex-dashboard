@@ -872,6 +872,9 @@ const CHILL_CATS = [
   'MAXX 1000mg THC : 1000mg CBD Body Rub',
   'Extreme X 2000mg THC : 2000mg CBD Body Rub',
   'Chill To Go - Extreme X 150mg THC : 150mg CBD',
+  'SNOOZE 500mg THC 250mg CBD 250 CBN Dreamberry Syrup',
+  'SUNRISE 500mg THC 400mg CBG 100 THCv Orange Creme Syrup',
+  'SUBZERO 1000mg THC : 1000mg CBD Roll-On',
   'Chill Medicated - 100MG Live Rosin Blue Razz',
   'Chill Medicated - 100MG Live Rosin Grape',
   'Chill Medicated - 100MG Live Rosin Strawberry',
@@ -911,6 +914,12 @@ function SalesByCategory({ rows }) {
   }, [rows]);
   const acc = agg.acc, unmatched = agg.unmatched, tU = agg.tU, tG = agg.tG, tN = agg.tN;
   const pct = v => tN > 0 ? (v / tN * 100).toFixed(1) + '%' : '\u2014';
+  const prettyName = s => String(s || '')
+    .replace(/\s*\|\s*/g, ' ')                    // pipe separators to spaces
+    .replace(/\b\d+\/\d+\/\d+ct\s+Case\b/gi, '')  // 24/48/72ct Case
+    .replace(/\b\d+ct\s+Case\b/gi, '')            // 30ct Case, 50ct Case
+    .replace(/\bCase\b/gi, '')                    // stray "Case"
+    .replace(/\s+/g, ' ').trim();
   const rowEl = (label, d, dim) => e("tr", { key: label },
     e("td", { className: dim ? "dim" : "" }, label),
     e("td", { className: "num dim" }, d.units ? fmtNum(Math.round(d.units)) : "\u2014"),
@@ -921,7 +930,7 @@ function SalesByCategory({ rows }) {
   const unmatchedList = Object.keys(unmatched).map(k => ({ name: k, units: unmatched[k].units, gross: unmatched[k].gross, net: unmatched[k].net })).sort((a, b) => b.net - a.net);
   unmatchedList.forEach((u, i) => {
     body.push(e("tr", { key: '__un_' + i, style: { background: 'rgba(255,180,80,0.06)' } },
-      e("td", null, u.name, e("span", { style: { color: 'var(--text-faint)', fontSize: 10, marginLeft: 6 } }, "\u00b7 uncategorized")),
+      e("td", null, prettyName(u.name), e("span", { style: { color: 'var(--text-faint)', fontSize: 10, marginLeft: 6 } }, "\u00b7 uncategorized")),
       e("td", { className: "num dim" }, u.units ? fmtNum(Math.round(u.units)) : "\u2014"),
       e("td", { className: "num dim" }, u.gross ? fmtMoney(u.gross) : "\u2014"),
       e("td", { className: "num" }, u.net ? e("strong", null, fmtMoney(u.net)) : "\u2014"),
