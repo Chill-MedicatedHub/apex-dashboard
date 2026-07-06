@@ -18,7 +18,7 @@
 <style>
   :root {
     /* Light theme · per-state tinted page + gray sections */
-    --bg: #c4d9f2;
+    --bg: #b4cdee;
     --bg-elev: #c4cdd9;
     --bg-elev-2: #b7c1cf;
     --border: #bcc6d2;
@@ -385,12 +385,12 @@
   /* ===== State tint + gray sections v2 ===== */
   body { background: var(--bg); background-image: none; }
   .card { background: var(--bg-elev); border: 1px solid var(--border); border-radius: 14px;
-          box-shadow: 0 1px 3px rgba(20,35,60,0.08), 0 12px 30px rgba(20,35,60,0.10); }
+          box-shadow: 0 2px 4px rgba(15,25,45,0.14), 0 14px 34px rgba(15,25,45,0.18); }
   .kpi { background: var(--bg-elev); border: 1px solid var(--border); border-radius: 14px;
-         box-shadow: 0 1px 3px rgba(20,35,60,0.07), 0 8px 22px rgba(20,35,60,0.09); }
+         box-shadow: 0 2px 4px rgba(15,25,45,0.12), 0 10px 26px rgba(15,25,45,0.16); }
   .kpi:hover { box-shadow: 0 4px 10px rgba(20,35,60,0.10), 0 18px 42px rgba(20,35,60,0.13); transform: translateY(-1px); }
   .filters { background: var(--bg-elev); border: 1px solid var(--border); border-radius: 14px;
-             box-shadow: 0 1px 3px rgba(20,35,60,0.07), 0 10px 26px rgba(20,35,60,0.09); }
+             box-shadow: 0 2px 4px rgba(15,25,45,0.12), 0 12px 30px rgba(15,25,45,0.16); }
   .filter-input, .filter-select { background: #ffffff; }
   .data-table thead th { background: var(--bg-elev-2); }
   .data-table tr:hover td { background: var(--bg-elev-2); }
@@ -400,6 +400,9 @@
                 filter: drop-shadow(0 2px 3px rgba(20,35,60,0.18)); }
   /* darker labels for visibility */
   .filter-label, .section-meta { color: #4b5563; }
+  /* darker KPI dividers */
+  .kpi-grid { background: #9fabbb; border-color: #9fabbb; }
+  .kpi { border-color: #9fabbb; }
 </style>
 </head>
 <body>
