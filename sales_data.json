@@ -1,5 +1,5 @@
 {
-  "fetched_at": "2026-07-09T14:17:41.638268+00:00",
+  "fetched_at": "2026-07-09T14:30:42.860554+00:00",
   "from_date": "2025-05-01",
   "to_date": "2026-07-10",
   "row_count": 2120,
@@ -779,12 +779,12 @@
       "minimum_sales_price": "$0.00",
       "total_cost_of_goods": "$0.00",
       "true_cost": "$0.00",
-      "discounts": 0,
+      "discounts": 6000,
       "surcharges": 0,
       "additional_discounts": 0,
       "tiered_surcharge": null,
-      "line_total": "$900.00",
-      "line_total_raw": 90000,
+      "line_total": "$840.00",
+      "line_total_raw": 84000,
       "inventory_quantity": 30,
       "order_quantity": 1,
       "quantity": 1,
@@ -817,9 +817,10 @@
       "buyer_state": "MA",
       "buyer_zip": "02370",
       "buyer_country": "US",
-      "sales_reps": "Derek Dambrosio",
+      "sales_reps": "Derek Dambrosio / David Shaba",
       "sales_reps_display": [
-        "Derek Dambrosio"
+        "Derek Dambrosio",
+        "David Shaba"
       ],
       "payment_dates": [],
       "metrc_packages": null,
@@ -908,9 +909,10 @@
       "buyer_state": "MA",
       "buyer_zip": "02370",
       "buyer_country": "US",
-      "sales_reps": "Derek Dambrosio",
+      "sales_reps": "Derek Dambrosio / David Shaba",
       "sales_reps_display": [
-        "Derek Dambrosio"
+        "Derek Dambrosio",
+        "David Shaba"
       ],
       "payment_dates": [],
       "metrc_packages": null,
@@ -999,9 +1001,10 @@
       "buyer_state": "MA",
       "buyer_zip": "02370",
       "buyer_country": "US",
-      "sales_reps": "Derek Dambrosio",
+      "sales_reps": "Derek Dambrosio / David Shaba",
       "sales_reps_display": [
-        "Derek Dambrosio"
+        "Derek Dambrosio",
+        "David Shaba"
       ],
       "payment_dates": [],
       "metrc_packages": null,
@@ -1090,9 +1093,10 @@
       "buyer_state": "MA",
       "buyer_zip": "02370",
       "buyer_country": "US",
-      "sales_reps": "Derek Dambrosio",
+      "sales_reps": "Derek Dambrosio / David Shaba",
       "sales_reps_display": [
-        "Derek Dambrosio"
+        "Derek Dambrosio",
+        "David Shaba"
       ],
       "payment_dates": [],
       "metrc_packages": null,
@@ -1181,9 +1185,10 @@
       "buyer_state": "MA",
       "buyer_zip": "02370",
       "buyer_country": "US",
-      "sales_reps": "Derek Dambrosio",
+      "sales_reps": "Derek Dambrosio / David Shaba",
       "sales_reps_display": [
-        "Derek Dambrosio"
+        "Derek Dambrosio",
+        "David Shaba"
       ],
       "payment_dates": [],
       "metrc_packages": null,
@@ -1272,9 +1277,10 @@
       "buyer_state": "MA",
       "buyer_zip": "02370",
       "buyer_country": "US",
-      "sales_reps": "Derek Dambrosio",
+      "sales_reps": "Derek Dambrosio / David Shaba",
       "sales_reps_display": [
-        "Derek Dambrosio"
+        "Derek Dambrosio",
+        "David Shaba"
       ],
       "payment_dates": [],
       "metrc_packages": null,
