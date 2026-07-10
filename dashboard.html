@@ -376,24 +376,14 @@ const fmtMoneyFull = n => '$' + (n || 0).toLocaleString(undefined, {
   maximumFractionDigits: 2
 });
 const fmtNum = n => (n || 0).toLocaleString();
-// Apex formats a buyer as "CORPORATE NAME--BUSINESS/STOREFRONT" — the corporate/legal
-// entity first, then the actual business (store) name, usually joined by "--" (and
-// occasionally " - "). Some records wrap the corporate entity in parentheses instead,
-// e.g. "Apex Noir (VERDANT REPARATIVE, INC.--BOSTON)". This returns the business name
-// for display, falling back to the full string when there's no separator to split on.
+// The `buyer_name` field is Apex's business/storefront name (the regular bottom
+// line in Apex's buyer list, e.g. "Northeast Alternatives - New Bedford" or
+// "JOINT OPERATIONS--GARDNER"). The corporate/legal entity is a separate field
+// (`buyer_group`, the bold top line), which the dashboard intentionally does not
+// display. So the business name is simply the full buyer_name, shown as stored.
 const buyerBusinessName = raw => {
-  let s = String(raw == null ? '' : raw).trim();
-  if (!s) return '—';
-  // "Business (Corporate, Inc.)" → keep the part before the parentheses
-  const paren = s.match(/^([^(]+?)\s*\([^)]*\)\s*$/);
-  if (paren && paren[1].trim()) return paren[1].trim();
-  // "Corporate--Business" (most common) or "Corporate - Business"
-  let parts = null;
-  if (s.indexOf('--') !== -1) parts = s.split('--');
-  else if (/\s-\s/.test(s)) parts = s.split(/\s-\s/);
-  if (!parts) return s;                       // no separator — show as-is
-  const business = parts[parts.length - 1].trim();
-  return business || s;
+  const s = String(raw == null ? '' : raw).trim();
+  return s || '—';
 };
 /* ---- Downloadable sales report (always reflects the current dashboard filters) ---- */
 const __esc = s => String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
