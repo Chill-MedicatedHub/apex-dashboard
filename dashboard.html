@@ -126,6 +126,41 @@
   }
   .date-preset:hover { color: var(--accent); border-color: var(--brand-cyan); background: var(--bg-elev-2); }
 
+  /* Multi-select dropdown (buyer filter) */
+  .ms-wrap { position: relative; }
+  .ms-toggle {
+    display: flex; align-items: center; justify-content: space-between; gap: 8px; width: 100%;
+    background: #ffffff; border: 1px solid var(--border); color: var(--text);
+    padding: 9px 11px; font-family: 'Inter', sans-serif; font-size: 13px;
+    border-radius: 9px; cursor: pointer; text-align: left; transition: border-color .15s, box-shadow .15s;
+  }
+  .ms-toggle:hover { border-color: var(--brand-cyan); }
+  .ms-toggle.active { border-color: var(--brand-cyan); box-shadow: 0 0 0 3px rgba(14,177,232,0.12); }
+  .ms-toggle .ms-caret { color: var(--text-faint); font-size: 10px; }
+  .ms-count { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: #ffffff; background: var(--accent); border-radius: 999px; padding: 1px 7px; }
+  .ms-panel {
+    position: absolute; top: calc(100% + 6px); left: 0; z-index: 40; width: 300px; max-width: 80vw;
+    background: var(--bg-elev); border: 1px solid var(--border); border-radius: 12px;
+    box-shadow: 0 14px 36px rgba(20,35,60,0.18); padding: 8px; display: none;
+  }
+  .ms-panel.open { display: block; }
+  .ms-search {
+    width: 100%; box-sizing: border-box; background: #ffffff; border: 1px solid var(--border);
+    color: var(--text); padding: 8px 10px; font-family: 'Inter', sans-serif; font-size: 13px;
+    border-radius: 8px; outline: none; margin-bottom: 6px;
+  }
+  .ms-list { max-height: 240px; overflow-y: auto; }
+  .ms-opt {
+    display: flex; align-items: center; gap: 9px; padding: 7px 8px; border-radius: 7px;
+    font-size: 13px; color: var(--text); cursor: pointer;
+  }
+  .ms-opt:hover { background: var(--bg-elev-2); }
+  .ms-opt input { accent-color: var(--accent); width: 14px; height: 14px; flex: none; }
+  .ms-opt span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .ms-actions { display: flex; justify-content: space-between; align-items: center; padding: 6px 4px 2px; border-top: 1px solid var(--border-soft); margin-top: 6px; }
+  .ms-clear { background: transparent; border: none; color: var(--text-dim); font-family: 'JetBrains Mono', monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 0.08em; cursor: pointer; }
+  .ms-clear:hover { color: var(--accent); }
+
   .kpi-grid {
     display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px;
     background: var(--border); border: 1px solid var(--border); border-radius: 16px;
@@ -341,6 +376,25 @@ const fmtMoneyFull = n => '$' + (n || 0).toLocaleString(undefined, {
   maximumFractionDigits: 2
 });
 const fmtNum = n => (n || 0).toLocaleString();
+// Apex formats a buyer as "CORPORATE NAME--BUSINESS/STOREFRONT" — the corporate/legal
+// entity first, then the actual business (store) name, usually joined by "--" (and
+// occasionally " - "). Some records wrap the corporate entity in parentheses instead,
+// e.g. "Apex Noir (VERDANT REPARATIVE, INC.--BOSTON)". This returns the business name
+// for display, falling back to the full string when there's no separator to split on.
+const buyerBusinessName = raw => {
+  let s = String(raw == null ? '' : raw).trim();
+  if (!s) return '—';
+  // "Business (Corporate, Inc.)" → keep the part before the parentheses
+  const paren = s.match(/^([^(]+?)\s*\([^)]*\)\s*$/);
+  if (paren && paren[1].trim()) return paren[1].trim();
+  // "Corporate--Business" (most common) or "Corporate - Business"
+  let parts = null;
+  if (s.indexOf('--') !== -1) parts = s.split('--');
+  else if (/\s-\s/.test(s)) parts = s.split(/\s-\s/);
+  if (!parts) return s;                       // no separator — show as-is
+  const business = parts[parts.length - 1].trim();
+  return business || s;
+};
 /* ---- Downloadable sales report (always reflects the current dashboard filters) ---- */
 const __esc = s => String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 const __m2 = n => '$' + (n || 0).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
@@ -355,7 +409,10 @@ const __activeFilters = f => {
   if (f.productLine) parts.push('Line ' + f.productLine);
   if (f.status) parts.push('Payment ' + f.status);
   if (f.rep) parts.push('Rep ' + f.rep);
-  if (f.buyer) parts.push('Buyer ' + f.buyer);
+  if (Array.isArray(f.buyer) ? f.buyer.length : f.buyer) {
+    const bl = Array.isArray(f.buyer) ? f.buyer.map(buyerBusinessName) : [buyerBusinessName(f.buyer)];
+    parts.push((bl.length > 1 ? 'Buyers ' : 'Buyer ') + bl.join(', '));
+  }
   if (f.invoice) parts.push('Invoice ' + f.invoice);
   if (f.excludeSamples) parts.push('Samples excluded');
   return parts.length ? parts.join('  \u00b7  ') : 'All data (no filters applied)';
@@ -633,6 +690,11 @@ function InventoryTable({ list }) {
     e("td", { className: "num" }, p.qty == null ? e("span", { style: { color: "var(--text-faint)" } }, "\u2014") : p.qty <= 0 ? badge("var(--rose)", "var(--rose)", "Out") : p.daysLeft == null ? badge("var(--text-faint)", "var(--border)", "No recent sales") : e("strong", { style: { color: p.daysLeft < 14 ? "var(--rose)" : p.daysLeft < 30 ? "var(--warm)" : "var(--text)" } }, Math.round(p.daysLeft) + (Math.round(p.daysLeft) === 1 ? " day" : " days"))),
     e("td", { className: "num dim" }, p.value ? fmtMoney(p.value) : "\u2014"),
     e("td", { className: "num dim" }, p.batches || "\u2014"),
+    e("td", { style: { maxWidth: 280 } }, p.batchNames && p.batchNames.length
+      ? e("div", { style: { display: "flex", flexDirection: "column", gap: 2 } },
+          p.batchNames.slice(0, 6).map((b, bi) => e("span", { key: bi, title: b, style: { fontFamily: "JetBrains Mono", fontSize: 10, color: "var(--text-dim)", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", maxWidth: 260 } }, b)),
+          p.batchNames.length > 6 ? e("span", { style: { fontSize: 10, color: "var(--text-faint)" } }, "+" + (p.batchNames.length - 6) + " more") : null)
+      : e("span", { style: { color: "var(--text-faint)" } }, "\u2014")),
     e("td", null, !p.listed ? badge("var(--text-faint)", "var(--border)", "Unlisted") : p.neverSold ? badge("var(--warm)", "var(--warm)", "Never sold") : e("span", { style: { color: "var(--text-faint)" } }, "\u2014"))
   ));
   const navBtn = (label, disabled, onClick) => e("button", { className: "date-preset", disabled, onClick, style: { opacity: disabled ? 0.35 : 1, cursor: disabled ? "default" : "pointer" } }, label);
@@ -651,6 +713,7 @@ function InventoryTable({ list }) {
           e("th", { className: "num", title: "Estimated days until this SKU runs out, based on units sold in the last 30 days" }, "Days Left"),
           e("th", { className: "num" }, "Value"),
           e("th", { className: "num" }, "Batches"),
+          e("th", null, "Batch Names"),
           e("th", null, "Status"))),
         e("tbody", null, rows))),
     pager);
@@ -726,6 +789,8 @@ const catCanon = s => {
 const __catKeyToLabel = (() => { const m = {}; CHILL_CATS.forEach(l => { m[catCanon(l)] = l; }); return m; })();
 function SalesByCategory({ rows }) {
   const e = React.createElement;
+  // Sort: 'catalog' = fixed catalog order, 'net' = highest net sales, 'units' = most units sold
+  const [sortBy, setSortBy] = React.useState('catalog');
   const agg = React.useMemo(() => {
     const acc = {};
     CHILL_CATS.forEach(l => { acc[l] = { units: 0, gross: 0, net: 0 }; });
@@ -752,32 +817,44 @@ function SalesByCategory({ rows }) {
     .replace(/\b\d+ct\s+Case\b/gi, '')            // 30ct Case, 50ct Case
     .replace(/\bCase\b/gi, '')                    // stray "Case"
     .replace(/\s+/g, ' ').trim();
-  const rowEl = (label, d, dim) => e("tr", { key: label },
-    e("td", { className: dim ? "dim" : "" }, label),
-    e("td", { className: "num dim" }, d.units ? fmtNum(Math.round(d.units)) : "\u2014"),
-    e("td", { className: "num dim" }, d.gross ? fmtMoney(d.gross) : "\u2014"),
-    e("td", { className: "num" }, d.net ? e("strong", null, fmtMoney(d.net)) : "\u2014"),
-    e("td", { className: "num dim" }, d.net ? pct(d.net) : "\u2014"));
-  const body = CHILL_CATS.map(l => rowEl(l, acc[l], / SAMPLE$/.test(l)));
-  const unmatchedList = Object.keys(unmatched).map(k => ({ name: k, units: unmatched[k].units, gross: unmatched[k].gross, net: unmatched[k].net })).sort((a, b) => b.net - a.net);
-  unmatchedList.forEach((u, i) => {
-    body.push(e("tr", { key: '__un_' + i, style: { background: 'rgba(255,180,80,0.06)' } },
-      e("td", null, prettyName(u.name), e("span", { style: { color: 'var(--text-faint)', fontSize: 10, marginLeft: 6 } }, "\u00b7 uncategorized")),
-      e("td", { className: "num dim" }, u.units ? fmtNum(Math.round(u.units)) : "\u2014"),
-      e("td", { className: "num dim" }, u.gross ? fmtMoney(u.gross) : "\u2014"),
-      e("td", { className: "num" }, u.net ? e("strong", null, fmtMoney(u.net)) : "\u2014"),
-      e("td", { className: "num dim" }, u.net ? pct(u.net) : "\u2014")));
+  // Build a unified list of entries (fixed categories + any uncategorized products),
+  // then order them by the chosen sort. Totals always render last.
+  const entries = CHILL_CATS.map(l => ({ key: l, label: l, d: acc[l], dim: / SAMPLE$/.test(l), un: false }));
+  Object.keys(unmatched).forEach((k, i) => {
+    entries.push({ key: '__un_' + i, label: prettyName(k), d: { units: unmatched[k].units, gross: unmatched[k].gross, net: unmatched[k].net }, dim: false, un: true });
   });
+  if (sortBy === 'net') entries.sort((a, b) => (b.d.net || 0) - (a.d.net || 0));
+  else if (sortBy === 'units') entries.sort((a, b) => (b.d.units || 0) - (a.d.units || 0));
+  else {
+    // catalog order: keep CHILL_CATS order, uncategorized after (highest net first)
+    const uns = entries.filter(en => en.un).sort((a, b) => (b.d.net || 0) - (a.d.net || 0));
+    const cats = entries.filter(en => !en.un);
+    entries.length = 0; Array.prototype.push.apply(entries, cats.concat(uns));
+  }
+  const rowEl = en => e("tr", { key: en.key, style: en.un ? { background: 'rgba(255,180,80,0.06)' } : undefined },
+    e("td", { className: en.dim ? "dim" : "" }, en.label, en.un ? e("span", { style: { color: 'var(--text-faint)', fontSize: 10, marginLeft: 6 } }, "\u00b7 uncategorized") : null),
+    e("td", { className: "num dim" }, en.d.units ? fmtNum(Math.round(en.d.units)) : "\u2014"),
+    e("td", { className: "num dim" }, en.d.gross ? fmtMoney(en.d.gross) : "\u2014"),
+    e("td", { className: "num" }, en.d.net ? e("strong", null, fmtMoney(en.d.net)) : "\u2014"),
+    e("td", { className: "num dim" }, en.d.net ? pct(en.d.net) : "\u2014"));
+  const body = entries.map(rowEl);
   body.push(e("tr", { key: '__totals', style: { borderTop: '2px solid var(--border)' } },
     e("td", null, e("strong", null, "TOTALS")),
     e("td", { className: "num" }, e("strong", null, fmtNum(Math.round(tU)))),
     e("td", { className: "num" }, e("strong", null, fmtMoney(tG))),
     e("td", { className: "num" }, e("strong", null, fmtMoney(tN))),
     e("td", { className: "num" }, e("strong", null, tN > 0 ? "100%" : "\u2014"))));
+  const sortSel = e("select", { className: "filter-select", value: sortBy, onChange: ev => setSortBy(ev.target.value), style: { minWidth: 150, height: 26, fontSize: 12, padding: '0 8px' } },
+    e("option", { value: "catalog" }, "Catalog order"),
+    e("option", { value: "net" }, "Highest sales"),
+    e("option", { value: "units" }, "Most units sold"));
   return e("section", { className: "section" },
     e("div", { className: "section-header" },
       e("h2", { className: "section-title" }, "Sales by ", e("em", null, "category")),
-      e("span", { className: "section-meta" }, CHILL_CATS.length + " categories \u00b7 respects filters \u00b7 net sales")),
+      e("div", { style: { display: 'flex', gap: 10, alignItems: 'center', flexWrap: 'wrap' } },
+        e("label", { className: "filter-label", style: { textTransform: 'uppercase' } }, "Sort"),
+        sortSel,
+        e("span", { className: "section-meta" }, CHILL_CATS.length + " categories \u00b7 respects filters"))),
     e("div", { className: "card", style: { padding: 0, overflow: 'hidden' } },
       e("div", { style: { overflowX: 'auto' } },
         e("table", { className: "data-table" },
@@ -795,6 +872,8 @@ function MonthlyGrossBySku({ rows }) {
   const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
   const [yr, setYr] = React.useState('all');
   const [mo, setMo] = React.useState('all');
+  // Metric toggle: 'gross' = gross dollars, 'units' = physical units sold, per SKU/month
+  const [metric, setMetric] = React.useState('gross');
   const base = React.useMemo(() => {
     const monthsSet = new Set();
     const prods = {};
@@ -803,9 +882,12 @@ function MonthlyGrossBySku({ rows }) {
       const ym = r._date.getFullYear() + '-' + String(r._date.getMonth() + 1).padStart(2, '0');
       monthsSet.add(ym);
       const key = r.product_name || '(unnamed)';
-      if (!prods[key]) prods[key] = { name: key, cells: {} };
+      if (!prods[key]) prods[key] = { name: key, sku: r.product_sku || '', cells: {} };
       const gross = (r._revenue || 0) + (r._lineDiscount || 0);
-      prods[key].cells[ym] = (prods[key].cells[ym] || 0) + gross;
+      const units = r._quantity || 0;
+      const c = prods[key].cells[ym] || (prods[key].cells[ym] = { gross: 0, units: 0 });
+      c.gross += gross; c.units += units;
+      if (!prods[key].sku && r.product_sku) prods[key].sku = r.product_sku;
     });
     const allMonths = Array.from(monthsSet).sort();
     const years = Array.from(new Set(allMonths.map(m => m.split('-')[0]))).sort();
@@ -818,28 +900,38 @@ function MonthlyGrossBySku({ rows }) {
       if (mo !== 'all' && p[1] !== mo) return false;
       return true;
     });
+    const val = c => c ? (metric === 'units' ? c.units : c.gross) : 0;
     const list = base.prods.map(p => {
       let total = 0;
-      months.forEach(ym => { total += p.cells[ym] || 0; });
-      return { name: p.name, cells: p.cells, total: total };
+      months.forEach(ym => { total += val(p.cells[ym]); });
+      return { name: p.name, sku: p.sku, cells: p.cells, total: total };
     }).filter(p => p.total !== 0).sort((a, b) => b.total - a.total);
     const colTotals = {}; let grand = 0;
-    months.forEach(ym => { colTotals[ym] = list.reduce((s, p) => s + (p.cells[ym] || 0), 0); grand += colTotals[ym]; });
+    months.forEach(ym => { colTotals[ym] = list.reduce((s, p) => s + val(p.cells[ym]), 0); grand += colTotals[ym]; });
     return { months: months, list: list, colTotals: colTotals, grand: grand };
-  }, [base, yr, mo]);
+  }, [base, yr, mo, metric]);
   const months = view.months, list = view.list, colTotals = view.colTotals, grand = view.grand;
+  const isUnits = metric === 'units';
+  const fmtVal = v => isUnits ? fmtNum(Math.round(v)) : fmtMoney(v);
+  const cellVal = c => isUnits ? (c ? c.units : 0) : (c ? c.gross : 0);
   const stick = { position: 'sticky', left: 0, background: 'var(--bg-elev)', zIndex: 1 };
   const mlabel = ym => { const p = ym.split('-'); return MONTHS[parseInt(p[1], 10) - 1] + " '" + p[0].slice(2); };
-  const cell = v => v ? fmtMoney(v) : e("span", { className: "dim" }, "\u2014");
+  const cell = c => cellVal(c) ? fmtVal(cellVal(c)) : e("span", { className: "dim" }, "\u2014");
   const sel = (val, set, opts) => e("select", { className: "filter-select", value: val, onChange: ev => set(ev.target.value), style: { minWidth: 74, height: 26, fontSize: 12, padding: '0 8px' } },
     opts.map(o => e("option", { key: o.v, value: o.v }, o.l)));
+  const mbtn = (id, label) => e('button', { key: id, onClick: () => setMetric(id),
+    style: { padding: '4px 12px', fontSize: 11, fontFamily: 'JetBrains Mono', cursor: 'pointer', borderRadius: 4,
+      border: '1px solid ' + (metric === id ? '#0EB1E8' : '#e3e9f1'),
+      background: metric === id ? 'rgba(14,177,232,0.12)' : '#ffffff',
+      color: metric === id ? '#0E86C4' : '#566274' } }, label);
   return e("section", { className: "section" },
     e("div", { className: "section-header" },
-      e("h2", { className: "section-title" }, "Monthly gross sales ", e("em", null, "by SKU")),
+      e("h2", { className: "section-title" }, "Monthly ", e("em", null, isUnits ? "units by SKU" : "gross sales by SKU")),
       e("div", { style: { display: 'flex', gap: 8, alignItems: 'center', flexWrap: 'wrap' } },
+        e("div", { style: { display: 'flex', gap: 6 } }, mbtn('gross', 'Gross $'), mbtn('units', 'Units')),
         sel(yr, setYr, [{ v: 'all', l: 'All years' }].concat(base.years.map(y => ({ v: y, l: y })))),
         sel(mo, setMo, [{ v: 'all', l: 'All months' }].concat(MONTHS.map((m, i) => ({ v: String(i + 1).padStart(2, '0'), l: m })))),
-        e("span", { className: "section-meta" }, months.length ? fmtNum(list.length) + " products \u00b7 " + months.length + " mo \u00b7 gross" : ""))),
+        e("span", { className: "section-meta" }, months.length ? fmtNum(list.length) + " products \u00b7 " + months.length + " mo \u00b7 " + (isUnits ? "units" : "gross") : ""))),
     months.length === 0
       ? e("div", { className: "card" }, e("div", { style: { color: 'var(--text-faint)', fontSize: 13 } }, "No rows match the current filters."))
       : e("div", { className: "card", style: { padding: 0, overflow: 'hidden' } },
@@ -852,14 +944,14 @@ function MonthlyGrossBySku({ rows }) {
                   e("th", { className: "num" }, "Total"))),
               e("tbody", null,
                 list.slice(0, 100).map((p, i) => e("tr", { key: i },
-                  e("td", { style: stick }, p.name),
+                  e("td", { style: stick, title: p.sku ? 'SKU: ' + p.sku : '' }, p.name),
                   months.map(ym => e("td", { key: ym, className: "num" }, cell(p.cells[ym]))),
-                  e("td", { className: "num" }, e("strong", null, fmtMoney(p.total))))),
+                  e("td", { className: "num" }, e("strong", null, fmtVal(p.total))))),
                 e("tr", { style: { background: 'var(--bg)' } },
                   e("td", { style: Object.assign({}, stick, { background: 'var(--bg)', fontWeight: 700 }) }, "All products"),
-                  months.map(ym => e("td", { key: ym, className: "num" }, e("strong", null, fmtMoney(colTotals[ym])))),
-                  e("td", { className: "num" }, e("strong", null, fmtMoney(grand))))))),
-          list.length > 100 ? e("div", { style: { padding: '8px 14px', color: 'var(--text-faint)', fontSize: 12 } }, "Showing top 100 of " + fmtNum(list.length) + " products by total gross") : null));
+                  months.map(ym => e("td", { key: ym, className: "num" }, e("strong", null, fmtVal(colTotals[ym])))),
+                  e("td", { className: "num" }, e("strong", null, fmtVal(grand))))))),
+          list.length > 100 ? e("div", { style: { padding: '8px 14px', color: 'var(--text-faint)', fontSize: 12 } }, "Showing top 100 of " + fmtNum(list.length) + " products by total " + (isUnits ? "units" : "gross")) : null));
 }
 
 function App() {
@@ -869,7 +961,7 @@ function App() {
     from: '',
     to: '',
     brand: '',
-    buyer: '',
+    buyer: [],
     rep: '',
     state: '',
     status: '',
@@ -1017,7 +1109,9 @@ function Dashboard({
       if (filters.from && rowYmd < filters.from) return false;
       if (filters.to && rowYmd > filters.to) return false;
     }
-    if (filters.buyer && r.buyer_name !== filters.buyer) return false;
+    if (Array.isArray(filters.buyer)) {
+      if (filters.buyer.length && !filters.buyer.includes(r.buyer_name)) return false;
+    } else if (filters.buyer && r.buyer_name !== filters.buyer) return false;
     if (filters.rep && r.sales_rep !== filters.rep) return false;
     if (filters.product) {
       const hay = [r.product_name, r.product_type, r.product_sku].map(x => String(x || '').toLowerCase()).join(' ');
@@ -1206,7 +1300,7 @@ function Dashboard({
     return Object.values(map).sort((a, b) => b.revenue - a.revenue).slice(0, n);
   };
   const topProducts = useMemo(() => groupSum('product_name'), [filtered]);
-  const topBuyers = useMemo(() => groupSum('buyer_name'), [filtered]);
+  const topBuyers = useMemo(() => groupSum('buyer_name').map(d => ({ ...d, name: buyerBusinessName(d.name) })), [filtered]);
   const byRep = useMemo(() => groupSum('sales_rep', 20), [filtered]);
   const byCategory = useMemo(() => groupSum('product_category'), [filtered]);
   const byState = useMemo(() => groupSum('buyer_state', 15), [filtered]);
@@ -1315,12 +1409,20 @@ function Dashboard({
     const soldBySku = {},
       soldByName = {},
       revBySku = {},
-      revByName = {};
+      revByName = {},
+      batchesBySku = {},
+      batchesByName = {};
     normalized.forEach(r => {
       const u = parseFloat(r.inventory_quantity) || r._quantity || 0;
       const rev = r._revenue || 0;
       if (r.product_sku) { soldBySku[r.product_sku] = (soldBySku[r.product_sku] || 0) + u; revBySku[r.product_sku] = (revBySku[r.product_sku] || 0) + rev; }
       if (r.product_name) { soldByName[r.product_name] = (soldByName[r.product_name] || 0) + u; revByName[r.product_name] = (revByName[r.product_name] || 0) + rev; }
+      // Track distinct batch names seen per SKU / product (from the sales feed)
+      const bn = (r.batch_name || '').trim();
+      if (bn) {
+        if (r.product_sku) (batchesBySku[r.product_sku] = batchesBySku[r.product_sku] || new Set()).add(bn);
+        if (r.product_name) (batchesByName[r.product_name] = batchesByName[r.product_name] || new Set()).add(bn);
+      }
     });
     // Sales velocity for the stock forecast: physical units sold in the trailing
     // 30 days, measured from the most recent order date in the data (not "today"),
@@ -1350,12 +1452,16 @@ function Dashboard({
         else if (velocity > 0) daysLeft = qty / velocity;
         else daysLeft = null;                     // in stock but no recent sales — no basis to forecast
       }
+      const batchNames = Array.from(
+        (p.sku && batchesBySku[p.sku]) ? batchesBySku[p.sku] : (batchesByName[p.name] || [])
+      ).sort();
       return {
         name: p.name || '—',
         line: p.line || '—',
         sku: p.sku || '',
         qty,
         batches: p.batches || 0,
+        batchNames,
         listed: !!p.listed,
         sold,
         neverSold: sold <= 0,
@@ -1385,7 +1491,7 @@ function Dashboard({
     from: '',
     to: '',
     brand: '',
-    buyer: '',
+    buyer: [],
     rep: '',
     state: '',
     status: '',
@@ -1572,7 +1678,7 @@ function Dashboard({
       whiteSpace: 'nowrap'
     },
     title: d.buyer
-  }, d.buyer), /*#__PURE__*/React.createElement("div", {
+  }, buyerBusinessName(d.buyer)), /*#__PURE__*/React.createElement("div", {
     style: {
       textAlign: 'right',
       fontWeight: 600
@@ -1651,9 +1757,31 @@ function Dashboard({
     className: "section-header"
   }, /*#__PURE__*/React.createElement("h2", {
     className: "section-title"
-  }, "Invoices ", /*#__PURE__*/React.createElement("em", null, "\xB7 units & revenue per order")), /*#__PURE__*/React.createElement("span", {
+  }, "Invoices ", /*#__PURE__*/React.createElement("em", null, "\xB7 units & revenue per order")), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      gap: 10,
+      alignItems: 'center',
+      flexWrap: 'wrap'
+    }
+  }, /*#__PURE__*/React.createElement("input", {
+    type: "text",
+    className: "filter-input",
+    placeholder: "search invoice #…",
+    value: filters.invoice,
+    onChange: ev => setFilters(f => ({ ...f, invoice: ev.target.value })),
+    style: {
+      height: 36,
+      fontSize: 13,
+      minWidth: 180
+    }
+  }), /*#__PURE__*/React.createElement("button", {
+    className: "date-preset",
+    onClick: () => setFilters(f => ({ ...f, invoice: '' })),
+    title: "Clear the invoice search"
+  }, "Reset"), /*#__PURE__*/React.createElement("span", {
     className: "section-meta"
-  }, fmtNum(invoices.length), " invoices")), /*#__PURE__*/React.createElement("div", {
+  }, fmtNum(invoices.length), " invoices"))), /*#__PURE__*/React.createElement("div", {
     className: "card",
     style: {
       padding: 0,
@@ -1691,7 +1819,9 @@ function Dashboard({
     }
   }, inv.invoice), /*#__PURE__*/React.createElement("td", {
     className: "dim font-mono"
-  }, inv.date), /*#__PURE__*/React.createElement("td", null, inv.buyer), /*#__PURE__*/React.createElement("td", {
+  }, inv.date), /*#__PURE__*/React.createElement("td", {
+    title: inv.buyer
+  }, buyerBusinessName(inv.buyer)), /*#__PURE__*/React.createElement("td", {
     className: "dim"
   }, inv.rep), /*#__PURE__*/React.createElement("td", {
     className: "num dim"
@@ -1741,7 +1871,10 @@ function Dashboard({
       maxHeight: 520
     }
   }, /*#__PURE__*/React.createElement("table", {
-    className: "data-table"
+    className: "data-table",
+    style: {
+      minWidth: 820
+    }
   }, /*#__PURE__*/React.createElement("thead", null, /*#__PURE__*/React.createElement("tr", null, /*#__PURE__*/React.createElement("th", null, "Product"), /*#__PURE__*/React.createElement("th", null, "Line"), /*#__PURE__*/React.createElement("th", {
     className: "num"
   }, "Units Sold"), /*#__PURE__*/React.createElement("th", {
@@ -2164,6 +2297,42 @@ function Topbar({
     className: "pulse"
   })));
 }
+// Multi-select dropdown with a search box. `options` are the raw values (used for
+// filtering); `labelFn` maps each to a display label. `selected` is an array.
+function MultiSelect({ options, selected, onChange, labelFn, placeholder }) {
+  const e = React.createElement;
+  const [open, setOpen] = React.useState(false);
+  const [q, setQ] = React.useState('');
+  const ref = React.useRef(null);
+  const label = labelFn || (x => x);
+  React.useEffect(() => {
+    const onDoc = ev => { if (ref.current && !ref.current.contains(ev.target)) setOpen(false); };
+    document.addEventListener('mousedown', onDoc);
+    return () => document.removeEventListener('mousedown', onDoc);
+  }, []);
+  const sel = Array.isArray(selected) ? selected : (selected ? [selected] : []);
+  const toggle = val => {
+    const next = sel.includes(val) ? sel.filter(x => x !== val) : sel.concat([val]);
+    onChange(next);
+  };
+  const ql = q.trim().toLowerCase();
+  const shown = ql ? options.filter(o => label(o).toLowerCase().includes(ql) || String(o).toLowerCase().includes(ql)) : options;
+  const summary = sel.length === 0 ? (placeholder || 'All') : sel.length === 1 ? label(sel[0]) : sel.length + ' selected';
+  return e("div", { className: "ms-wrap", ref: ref },
+    e("button", { type: "button", className: "ms-toggle" + (open || sel.length ? " active" : ""), onClick: () => setOpen(o => !o) },
+      e("span", { style: { overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' } }, summary),
+      sel.length > 1 ? e("span", { className: "ms-count" }, sel.length) : e("span", { className: "ms-caret" }, "▾")),
+    e("div", { className: "ms-panel" + (open ? " open" : "") },
+      e("input", { className: "ms-search", type: "text", placeholder: "search…", value: q, onChange: ev => setQ(ev.target.value) }),
+      e("div", { className: "ms-list" },
+        shown.length === 0 ? e("div", { style: { padding: 10, color: 'var(--text-faint)', fontSize: 12 } }, "No matches")
+          : shown.map(o => e("label", { key: o, className: "ms-opt" },
+              e("input", { type: "checkbox", checked: sel.includes(o), onChange: () => toggle(o) }),
+              e("span", { title: o }, label(o))))),
+      e("div", { className: "ms-actions" },
+        e("span", { style: { fontFamily: "'JetBrains Mono',monospace", fontSize: 10, color: 'var(--text-faint)' } }, sel.length + " of " + options.length),
+        e("button", { type: "button", className: "ms-clear", onClick: () => { onChange([]); } }, "Clear"))));
+}
 function FilterBar({
   filters,
   setFilters,
@@ -2186,19 +2355,32 @@ function FilterBar({
     e("div", { className: "filter-group", style: { minWidth: 'auto' } },
       e("label", { className: "filter-label" }, "Quick range"),
       e("div", { style: { display: 'flex', gap: 6, flexWrap: 'wrap' } },
-        [['Today', 0], ['Last 7 days', 7], ['MTD', 'mtd'], ['30 days', 30], ['90 days', 90], ['YTD', 'ytd']].map(([lbl, d]) =>
+        [['Today', 0], ['Last 7 days', 7], ['MTD', 'mtd'], ['Last month', 'lastmonth'], ['90 days', 90], ['YTD', 'ytd']].map(([lbl, d]) =>
           e("button", { key: lbl, className: "date-preset", onClick: () => {
             const t = new Date();
             const fmt = x => `${x.getFullYear()}-${String(x.getMonth() + 1).padStart(2, '0')}-${String(x.getDate()).padStart(2, '0')}`;
-            let from;
+            let from, to = t;
             if (d === 'ytd') { from = new Date(t.getFullYear(), 0, 1); }
             else if (d === 'mtd') { from = new Date(t.getFullYear(), t.getMonth(), 1); }
+            else if (d === 'lastmonth') {
+              // Previous calendar month, from the 1st through its last day
+              from = new Date(t.getFullYear(), t.getMonth() - 1, 1);
+              to = new Date(t.getFullYear(), t.getMonth(), 0);
+            }
             else { from = new Date(t); from.setDate(from.getDate() - d); }
-            setFilters(f => ({ ...f, from: fmt(from), to: fmt(t) }));
+            setFilters(f => ({ ...f, from: fmt(from), to: fmt(to) }));
           } }, lbl)))),
     group("Product", e("input", { type: "text", className: "filter-input", placeholder: "search products\u2026", value: filters.product, onChange: ev => upd('product', ev.target.value) })),
     group("Sales Rep", sel('rep', distinct.reps)),
-    group("Buyer", sel('buyer', distinct.buyers)),
+    e("div", { className: "filter-group", style: { minWidth: 180 } },
+      e("label", { className: "filter-label" }, "Buyer ", e("span", { style: { textTransform: 'none', letterSpacing: 0, color: 'var(--text-faint)' } }, "· multi")),
+      e(MultiSelect, {
+        options: distinct.buyers,
+        selected: Array.isArray(filters.buyer) ? filters.buyer : (filters.buyer ? [filters.buyer] : []),
+        onChange: vals => upd('buyer', vals),
+        labelFn: buyerBusinessName,
+        placeholder: "All buyers"
+      })),
     group("Payment", sel('status', distinct.statuses)),
     group("Invoice #", e("input", { type: "text", className: "filter-input", placeholder: "search\u2026", value: filters.invoice, onChange: ev => upd('invoice', ev.target.value) })),
     group("Product Line", sel('productLine', distinct.productLines)),
