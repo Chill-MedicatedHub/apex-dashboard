@@ -126,6 +126,19 @@
   }
   .date-preset:hover { color: var(--accent); border-color: var(--brand-cyan); background: var(--bg-elev-2); }
 
+  /* View tabs (Sales / Accounts Receivable) */
+  .view-tabs-wrap { max-width: 1600px; margin: 0 auto; padding: 28px 44px 0; }
+  .view-tabs { display: flex; gap: 8px; border-bottom: 1px solid var(--border); }
+  .view-tab {
+    font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: 0.06em;
+    padding: 10px 20px; border: 1px solid var(--border); border-bottom: none;
+    border-radius: 10px 10px 0 0; background: var(--bg-elev-2); color: var(--text-dim);
+    cursor: pointer; margin-bottom: -1px; transition: all .15s;
+  }
+  .view-tab:hover { color: var(--accent); }
+  .view-tab.active { background: var(--bg-elev); color: var(--accent); border-color: var(--border); border-bottom: 1px solid var(--bg-elev); font-weight: 600; }
+  @media (max-width: 1100px) { .view-tabs-wrap { padding: 20px 22px 0; } }
+
   /* Multi-select dropdown (buyer filter) */
   .ms-wrap { position: relative; }
   .ms-toggle {
@@ -943,9 +956,256 @@ function MonthlyGrossBySku({ rows }) {
           list.length > 100 ? e("div", { style: { padding: '8px 14px', color: 'var(--text-faint)', fontSize: 12 } }, "Showing top 100 of " + fmtNum(list.length) + " products by total " + (isUnits ? "units" : "gross")) : null));
 }
 
+// ── View tabs (Sales / Accounts Receivable) ───────────────────────────
+function ViewTabs({ tab, setTab }) {
+  const e = React.createElement;
+  const mk = (id, label) => e('button', {
+    key: id, onClick: () => setTab(id),
+    className: 'view-tab' + (tab === id ? ' active' : '')
+  }, label);
+  return e('div', { className: 'view-tabs-wrap' },
+    e('div', { className: 'view-tabs' }, mk('sales', 'Sales'), mk('ar', 'Accounts Receivable')));
+}
+
+// ── Accounts Receivable (Massachusetts) ───────────────────────────────
+// Open AR = invoices whose payment_status is Unpaid or Partial. Aging is measured
+// from the invoice due date (Apex `due_date`), falling back to Net 30 from the
+// order date when Apex has no due date. Balances are net of credits already applied.
+// Buckets: Current (0–30 days past due), 31–60, 61–90, 91+.
+function AccountsReceivable({ data }) {
+  const e = React.createElement;
+  // AR uses current Apex data only (not the 2024 historical backfill).
+  const rows = data._liveRows || data.rows || [];
+  const AGE = [
+    { key: 'current', label: 'Current', color: '#1F9E6B' },
+    { key: 'b3160', label: '31–60', color: '#C9A227' },
+    { key: 'b6190', label: '61–90', color: '#E0723A' },
+    { key: 'b91', label: '91+', color: '#D64060' }
+  ];
+  const bucketOf = days => days <= 30 ? 'current' : days <= 60 ? 'b3160' : days <= 90 ? 'b6190' : 'b91';
+  const bucketLabel = k => (AGE.find(a => a.key === k) || {}).label || k;
+  const bucketColor = k => (AGE.find(a => a.key === k) || {}).color || 'var(--text-dim)';
+
+  const [buyerSel, setBuyerSel] = React.useState([]);
+  const [bucketSel, setBucketSel] = React.useState('all');
+  const [statusSel, setStatusSel] = React.useState('all');
+  const [q, setQ] = React.useState('');
+  const [sortBy, setSortBy] = React.useState('outstanding');
+
+  const today = new Date(); today.setHours(0, 0, 0, 0);
+  const fmtD = d => d ? ((d.getMonth() + 1) + '/' + String(d.getDate()).padStart(2, '0') + '/' + d.getFullYear()) : '—';
+
+  // Build open invoices (one row per order)
+  const invoices = React.useMemo(() => {
+    const map = {};
+    rows.forEach(r => {
+      const st = r.payment_status || '';
+      if (st !== 'Unpaid' && st !== 'Partial') return;
+      const id = r.order_number || r.order_id;
+      if (!id) return;
+      if (!map[id]) {
+        map[id] = {
+          invoice: r.order_number || ('#' + r.order_id),
+          buyer: r.buyer_name || '—',
+          rep: (Array.isArray(r.sales_reps_display) && r.sales_reps_display.filter(Boolean).join(', ')) || r.sales_reps || '—',
+          status: st,
+          orderDate: parseDate(r.order_date_localized_raw || r.order_date_utc_raw || r.order_date_localized || r.order_date_utc),
+          dueDate: parseDate(r.due_date_raw || r.due_date),
+          amount: 0,
+          credit: parsePaymentsForCredits(r.payment_dates || r.payments || '').total || 0
+        };
+      }
+      const rev = typeof r.line_total_raw === 'number' ? r.line_total_raw / 100 : parseMoney(r.line_total);
+      map[id].amount += rev;
+    });
+    return Object.values(map).map(o => {
+      const due = o.dueDate || (o.orderDate ? new Date(o.orderDate.getTime() + 30 * 86400000) : null);
+      const net = Math.max(0, o.amount - (o.credit || 0));
+      const daysPastDue = due ? Math.floor((today - due) / 86400000) : 0;
+      return Object.assign({}, o, { due, net, daysPastDue, bucket: bucketOf(daysPastDue) });
+    }).filter(o => o.net > 0);
+  }, [rows]);
+
+  const buyerOptions = React.useMemo(() => [...new Set(invoices.map(o => o.buyer))].sort(), [invoices]);
+
+  const shown = React.useMemo(() => invoices.filter(o => {
+    if (buyerSel.length && !buyerSel.includes(o.buyer)) return false;
+    if (bucketSel !== 'all' && o.bucket !== bucketSel) return false;
+    if (statusSel !== 'all' && o.status !== statusSel) return false;
+    if (q) { const s = (o.invoice + ' ' + o.buyer).toLowerCase(); if (!s.includes(q.toLowerCase())) return false; }
+    return true;
+  }), [invoices, buyerSel, bucketSel, statusSel, q]);
+
+  const tot = React.useMemo(() => {
+    const agg = { total: 0, credit: 0, overdue: 0, current: 0, b3160: 0, b6190: 0, b91: 0, count: shown.length };
+    const buyers = new Set();
+    let wsum = 0, w = 0;
+    shown.forEach(o => {
+      agg.total += o.net; agg.credit += o.credit || 0;
+      if (o.daysPastDue > 30) agg.overdue += o.net;
+      agg[o.bucket] += o.net; buyers.add(o.buyer);
+      wsum += o.daysPastDue * o.net; w += o.net;
+    });
+    agg.buyers = buyers.size; agg.avgDays = w ? wsum / w : 0;
+    return agg;
+  }, [shown]);
+
+  const byBuyer = React.useMemo(() => {
+    const m = {};
+    shown.forEach(o => {
+      const k = o.buyer;
+      if (!m[k]) m[k] = { buyer: k, total: 0, current: 0, b3160: 0, b6190: 0, b91: 0, invoices: 0, oldest: 0 };
+      m[k].total += o.net; m[k][o.bucket] += o.net; m[k].invoices++;
+      if (o.daysPastDue > m[k].oldest) m[k].oldest = o.daysPastDue;
+    });
+    let arr = Object.values(m);
+    if (sortBy === 'oldest') arr.sort((a, b) => b.oldest - a.oldest);
+    else if (sortBy === 'invoices') arr.sort((a, b) => b.invoices - a.invoices);
+    else arr.sort((a, b) => b.total - a.total);
+    return arr;
+  }, [shown, sortBy]);
+
+  const openSorted = React.useMemo(() => shown.slice().sort((a, b) => b.daysPastDue - a.daysPastDue), [shown]);
+
+  const agingData = AGE.map(a => ({ name: a.label, value: tot[a.key], color: a.color }));
+  const pctOf = v => tot.total > 0 ? (v / tot.total * 100).toFixed(1) + '%' : '—';
+
+  const fetchedAt = new Date(data.fetched_at);
+  const sel = (val, set, opts) => e('select', { className: 'filter-select', value: val, onChange: ev => set(ev.target.value) },
+    opts.map(o => e('option', { key: o.v, value: o.v }, o.l)));
+
+  // KPI rows
+  const kpis1 = e('div', { className: 'kpi-grid' },
+    e(Kpi, { label: 'Total AR Outstanding', value: fmtMoney(tot.total), sub: fmtNum(tot.count) + ' open invoices', accent: true }),
+    e(Kpi, { label: 'Past Due (>30d)', value: fmtMoney(tot.overdue), sub: tot.total ? (tot.overdue / tot.total * 100).toFixed(0) + '% of AR' : '—' }),
+    e(Kpi, { label: '91+ Days', value: fmtMoney(tot.b91), sub: 'oldest & highest risk' }),
+    e(Kpi, { label: 'Buyers w/ Balance', value: fmtNum(tot.buyers), sub: 'accounts owing' }));
+  const kpis2 = e('div', { className: 'kpi-grid' },
+    e(Kpi, { label: 'Current (0–30d)', value: fmtMoney(tot.current), sub: pctOf(tot.current) + ' of AR' }),
+    e(Kpi, { label: 'Avg Days Outstanding', value: Math.round(tot.avgDays) + 'd', sub: 'weighted by balance' }),
+    e(Kpi, { label: 'Credits Applied', value: fmtMoney(tot.credit), sub: 'on open invoices' }),
+    e(Kpi, { label: 'Avg Balance / Invoice', value: fmtMoney(tot.count ? tot.total / tot.count : 0), sub: 'per open invoice' }));
+
+  // Aging chart
+  const agingCard = e('section', { className: 'section' },
+    e('div', { className: 'section-header' },
+      e('h2', { className: 'section-title' }, 'AR ', e('em', null, 'aging')),
+      e('span', { className: 'section-meta' }, 'as of ' + fmtD(today) + ' · by due date')),
+    e('div', { className: 'card', style: { height: 300 } },
+      e(ResponsiveContainer, { width: '100%', height: '100%' },
+        e(BarChart, { data: agingData, margin: { top: 8, right: 20, left: 8, bottom: 8 } },
+          e(CartesianGrid, { stroke: '#e7ecf2', strokeDasharray: '2 2', vertical: false }),
+          e(XAxis, { dataKey: 'name', stroke: '#a7b2c0', tick: { fontSize: 12, fontFamily: 'JetBrains Mono' }, tickLine: false, axisLine: { stroke: '#e7ecf2' } }),
+          e(YAxis, { stroke: '#a7b2c0', tick: { fontSize: 11, fontFamily: 'JetBrains Mono' }, tickFormatter: fmtMoney, tickLine: false, axisLine: false }),
+          e(Tooltip, { contentStyle: { background: '#fff', border: '1px solid #e7ecf2', borderRadius: 4, fontSize: 12 }, formatter: v => [fmtMoneyFull(v), 'Outstanding'] }),
+          e(Bar, { dataKey: 'value', radius: [3, 3, 0, 0] }, agingData.map((d, i) => e(Cell, { key: i, fill: d.color })))))));
+
+  // Filter bar
+  const filterBar = e('div', { className: 'filters', style: { marginBottom: 24 } },
+    e('div', { className: 'filter-group', style: { minWidth: 200 } },
+      e('label', { className: 'filter-label' }, 'Buyer ', e('span', { style: { textTransform: 'none', letterSpacing: 0, color: 'var(--text-faint)' } }, '· multi')),
+      e(MultiSelect, { options: buyerOptions, selected: buyerSel, onChange: setBuyerSel, labelFn: buyerBusinessName, placeholder: 'All buyers' })),
+    e('div', { className: 'filter-group', style: { minWidth: 130 } },
+      e('label', { className: 'filter-label' }, 'Aging'),
+      sel(bucketSel, setBucketSel, [{ v: 'all', l: 'All ages' }, { v: 'current', l: 'Current (0–30)' }, { v: 'b3160', l: '31–60 days' }, { v: 'b6190', l: '61–90 days' }, { v: 'b91', l: '91+ days' }])),
+    e('div', { className: 'filter-group', style: { minWidth: 120 } },
+      e('label', { className: 'filter-label' }, 'Status'),
+      sel(statusSel, setStatusSel, [{ v: 'all', l: 'Unpaid + Partial' }, { v: 'Unpaid', l: 'Unpaid' }, { v: 'Partial', l: 'Partial' }])),
+    e('div', { className: 'filter-group', style: { minWidth: 180 } },
+      e('label', { className: 'filter-label' }, 'Search'),
+      e('input', { type: 'text', className: 'filter-input', placeholder: 'invoice # or buyer…', value: q, onChange: ev => setQ(ev.target.value) })),
+    e('button', {
+      className: 'filter-reset',
+      onClick: () => { setBuyerSel([]); setBucketSel('all'); setStatusSel('all'); setQ(''); },
+      style: { marginLeft: 'auto', alignSelf: 'flex-end', background: 'var(--accent)', color: '#fff', border: 'none', fontWeight: 700, padding: '10px 22px', borderRadius: 6, cursor: 'pointer', letterSpacing: '0.05em', textTransform: 'uppercase', fontSize: 12 }
+    }, 'Reset'));
+
+  // AR by buyer table
+  const buyerTable = e('section', { className: 'section' },
+    e('div', { className: 'section-header' },
+      e('h2', { className: 'section-title' }, 'AR by ', e('em', null, 'buyer')),
+      e('div', { style: { display: 'flex', gap: 10, alignItems: 'center', flexWrap: 'wrap' } },
+        e('label', { className: 'filter-label', style: { textTransform: 'uppercase' } }, 'Sort'),
+        sel(sortBy, setSortBy, [{ v: 'outstanding', l: 'Highest balance' }, { v: 'oldest', l: 'Oldest overdue' }, { v: 'invoices', l: 'Most invoices' }]),
+        e('span', { className: 'section-meta' }, fmtNum(byBuyer.length) + ' buyers'))),
+    e('div', { className: 'card', style: { padding: 0, overflow: 'hidden' } },
+      e('div', { style: { overflowX: 'auto', maxHeight: 520 } },
+        e('table', { className: 'data-table', style: { minWidth: 760 } },
+          e('thead', null, e('tr', null,
+            e('th', null, 'Buyer'),
+            e('th', { className: 'num' }, 'Open Inv'),
+            e('th', { className: 'num' }, 'Current'),
+            e('th', { className: 'num' }, '31–60'),
+            e('th', { className: 'num' }, '61–90'),
+            e('th', { className: 'num' }, '91+'),
+            e('th', { className: 'num' }, 'Total Owed'),
+            e('th', { className: 'num' }, 'Oldest'))),
+          e('tbody', null,
+            byBuyer.length === 0
+              ? e('tr', null, e('td', { colSpan: 8, style: { padding: 20, color: 'var(--text-faint)', textAlign: 'center' } }, 'No open receivables match the filters.'))
+              : byBuyer.slice(0, 200).map((b, i) => e('tr', { key: i },
+                  e('td', { title: b.buyer }, buyerBusinessName(b.buyer)),
+                  e('td', { className: 'num dim' }, fmtNum(b.invoices)),
+                  e('td', { className: 'num dim' }, b.current ? fmtMoney(b.current) : '—'),
+                  e('td', { className: 'num dim' }, b.b3160 ? fmtMoney(b.b3160) : '—'),
+                  e('td', { className: 'num dim' }, b.b6190 ? fmtMoney(b.b6190) : '—'),
+                  e('td', { className: 'num', style: { color: b.b91 ? 'var(--rose)' : 'var(--text-faint)' } }, b.b91 ? fmtMoney(b.b91) : '—'),
+                  e('td', { className: 'num' }, e('strong', null, fmtMoneyFull(b.total))),
+                  e('td', { className: 'num dim' }, b.oldest > 0 ? b.oldest + 'd' : 'Current'))))))));
+
+  // Open invoices table
+  const invTable = e('section', { className: 'section' },
+    e('div', { className: 'section-header' },
+      e('h2', { className: 'section-title' }, 'Open ', e('em', null, 'invoices')),
+      e('span', { className: 'section-meta' }, fmtNum(openSorted.length) + ' invoices · ' + fmtMoney(tot.total) + ' owed')),
+    e('div', { className: 'card', style: { padding: 0, overflow: 'hidden' } },
+      e('div', { style: { overflowX: 'auto', maxHeight: 560 } },
+        e('table', { className: 'data-table', style: { minWidth: 900 } },
+          e('thead', null, e('tr', null,
+            e('th', null, 'Invoice #'),
+            e('th', null, 'Buyer'),
+            e('th', null, 'Invoice Date'),
+            e('th', null, 'Due Date'),
+            e('th', { className: 'num' }, 'Days Past Due'),
+            e('th', { className: 'num' }, 'Amount'),
+            e('th', { className: 'num' }, 'Credit'),
+            e('th', { className: 'num' }, 'Net Owed'),
+            e('th', null, 'Aging'),
+            e('th', null, 'Status'))),
+          e('tbody', null,
+            openSorted.length === 0
+              ? e('tr', null, e('td', { colSpan: 10, style: { padding: 20, color: 'var(--text-faint)', textAlign: 'center' } }, 'No open receivables match the filters.'))
+              : openSorted.slice(0, 300).map((o, i) => e('tr', { key: i },
+                  e('td', { className: 'font-mono', style: { color: 'var(--accent)' } }, o.invoice),
+                  e('td', { title: o.buyer }, buyerBusinessName(o.buyer)),
+                  e('td', { className: 'dim font-mono' }, fmtD(o.orderDate)),
+                  e('td', { className: 'dim font-mono' }, fmtD(o.due)),
+                  e('td', { className: 'num', style: { color: o.daysPastDue > 90 ? 'var(--rose)' : o.daysPastDue > 30 ? 'var(--warm)' : 'var(--text-dim)', fontWeight: o.daysPastDue > 30 ? 700 : 400 } }, o.daysPastDue > 0 ? o.daysPastDue + 'd' : 'Not due'),
+                  e('td', { className: 'num dim' }, fmtMoneyFull(o.amount)),
+                  e('td', { className: 'num dim' }, o.credit ? fmtMoneyFull(o.credit) : '—'),
+                  e('td', { className: 'num' }, e('strong', null, fmtMoneyFull(o.net))),
+                  e('td', null, e('span', { style: { fontFamily: 'JetBrains Mono', fontSize: 10, textTransform: 'uppercase', letterSpacing: '0.06em', color: bucketColor(o.bucket), border: '1px solid ' + bucketColor(o.bucket), borderRadius: 999, padding: '2px 8px', whiteSpace: 'nowrap' } }, bucketLabel(o.bucket))),
+                  e('td', null, e(StatusPill, { status: o.status })))))))));
+
+  return e('div', { className: 'app' },
+    e(Topbar, { fetchedAt: fetchedAt, rowCount: shown.length, totalCount: invoices.length }),
+    e('div', { style: { marginBottom: 20 } },
+      e('h1', { style: { fontFamily: 'Fraunces, serif', fontWeight: 400, fontSize: 30, letterSpacing: '-0.02em', margin: 0 } },
+        'Accounts ', e('em', { style: { color: 'var(--accent)', fontStyle: 'italic' } }, 'Receivable')),
+      e('div', { style: { fontFamily: 'JetBrains Mono, monospace', fontSize: 11, color: 'var(--text-dim)', marginTop: 6 } },
+        'Massachusetts · open balances (Unpaid + Partial) · net of credits · Net 30 assumed where no due date')),
+    filterBar,
+    kpis1,
+    kpis2,
+    agingCard,
+    buyerTable,
+    invTable);
+}
+
 function App() {
   const [data, setData] = useState(null);
   const [error, setError] = useState(null);
+  const [tab, setTab] = useState('sales'); // 'sales' | 'ar'
   const [filters, setFilters] = useState({
     from: '',
     to: '',
@@ -974,7 +1234,10 @@ function App() {
           .catch(() => ({ rows: [] }))
       ]).then(([live, hist]) => {
         const histRows = Array.isArray(hist) ? hist : (hist.rows || []);
-        setData({ ...live, rows: [...histRows, ...(live.rows || [])] });
+        // _liveRows = current Apex data only. Used by Accounts Receivable, which must
+        // ignore the 2024 historical backfill (old records with stale "Unpaid" flags
+        // and no due dates would otherwise inflate AR with settled invoices).
+        setData({ ...live, rows: [...histRows, ...(live.rows || [])], _liveRows: live.rows || [] });
       }).catch(e => setError(e.message));
     };
     load();
@@ -1001,11 +1264,15 @@ function App() {
       className: "empty"
     }, /*#__PURE__*/React.createElement("div", { className: "spinner" }), /*#__PURE__*/React.createElement("div", { className: "loading-label" }, "Loading")));
   }
-  return /*#__PURE__*/React.createElement(Dashboard, {
-    data: data,
-    filters: filters,
-    setFilters: setFilters
-  });
+  return /*#__PURE__*/React.createElement(React.Fragment, null,
+    /*#__PURE__*/React.createElement(ViewTabs, { tab: tab, setTab: setTab }),
+    tab === 'ar'
+      ? /*#__PURE__*/React.createElement(AccountsReceivable, { data: data })
+      : /*#__PURE__*/React.createElement(Dashboard, {
+          data: data,
+          filters: filters,
+          setFilters: setFilters
+        }));
 }
 
 // --- Dashboard --------------------------------------------------------------
