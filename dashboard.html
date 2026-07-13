@@ -1105,9 +1105,19 @@ function AccountsReceivable({ data }) {
     e('div', { className: 'filter-group', style: { minWidth: 200 } },
       e('label', { className: 'filter-label' }, 'Buyer ', e('span', { style: { textTransform: 'none', letterSpacing: 0, color: 'var(--text-faint)' } }, '· multi')),
       e(MultiSelect, { options: buyerOptions, selected: buyerSel, onChange: setBuyerSel, labelFn: buyerBusinessName, placeholder: 'All buyers' })),
-    e('div', { className: 'filter-group', style: { minWidth: 130 } },
+    e('div', { className: 'filter-group', style: { minWidth: 'auto' } },
       e('label', { className: 'filter-label' }, 'Aging'),
-      sel(bucketSel, setBucketSel, [{ v: 'all', l: 'All ages' }, { v: 'current', l: 'Current (0–30)' }, { v: 'b3160', l: '31–60 days' }, { v: 'b6190', l: '61–90 days' }, { v: 'b91', l: '91+ days' }])),
+      e('div', { style: { display: 'flex', gap: 6, flexWrap: 'wrap' } },
+        AGE.map(a => {
+          const on = bucketSel === a.key;
+          return e('button', { key: a.key, type: 'button',
+            onClick: () => setBucketSel(on ? 'all' : a.key),
+            title: on ? 'Showing this bucket — click to show all ages' : 'Filter to ' + a.label,
+            style: { fontFamily: 'JetBrains Mono, monospace', fontSize: 12, cursor: 'pointer',
+              padding: '8px 15px', borderRadius: 9, border: '1px solid ' + a.color,
+              color: a.color, background: on ? a.color + '22' : '#ffffff',
+              fontWeight: on ? 700 : 500, transition: 'all .15s' } }, a.label);
+        }))),
     e('div', { className: 'filter-group', style: { minWidth: 120 } },
       e('label', { className: 'filter-label' }, 'Status'),
       sel(statusSel, setStatusSel, [{ v: 'all', l: 'Unpaid + Partial' }, { v: 'Unpaid', l: 'Unpaid' }, { v: 'Partial', l: 'Partial' }])),
