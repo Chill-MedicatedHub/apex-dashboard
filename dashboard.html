@@ -680,10 +680,9 @@ function InventoryTable({ list }) {
     e("td", { className: "num" }, p.qty == null ? e("span", { style: { color: "var(--text-faint)" } }, "\u2014") : p.qty <= 0 ? badge("var(--rose)", "var(--rose)", "Out") : p.daysLeft == null ? badge("var(--text-faint)", "var(--border)", "No recent sales") : e("strong", { style: { color: p.daysLeft < 14 ? "var(--rose)" : p.daysLeft < 30 ? "var(--warm)" : "var(--text)" } }, Math.round(p.daysLeft) + (Math.round(p.daysLeft) === 1 ? " day" : " days"))),
     e("td", { className: "num dim" }, p.value ? fmtMoney(p.value) : "\u2014"),
     e("td", { className: "num dim" }, p.batches || "\u2014"),
-    e("td", { style: { maxWidth: 280 } }, p.batchNames && p.batchNames.length
-      ? e("div", { style: { display: "flex", flexDirection: "column", gap: 2 } },
-          p.batchNames.slice(0, 6).map((b, bi) => e("span", { key: bi, title: b, style: { fontFamily: "JetBrains Mono", fontSize: 10, color: "var(--text-dim)", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", maxWidth: 260 } }, b)),
-          p.batchNames.length > 6 ? e("span", { style: { fontSize: 10, color: "var(--text-faint)" } }, "+" + (p.batchNames.length - 6) + " more") : null)
+    e("td", { style: { minWidth: 240, maxWidth: 340, verticalAlign: "top" } }, p.batchNames && p.batchNames.length
+      ? e("div", { style: { display: "flex", flexDirection: "column", gap: 3 } },
+          p.batchNames.map((b, bi) => e("span", { key: bi, title: b, style: { fontFamily: "JetBrains Mono", fontSize: 10, lineHeight: 1.35, color: "var(--text-dim)", wordBreak: "break-all", overflowWrap: "anywhere" } }, b)))
       : e("span", { style: { color: "var(--text-faint)" } }, "\u2014")),
     e("td", null, !p.listed ? badge("var(--text-faint)", "var(--border)", "Unlisted") : p.neverSold ? badge("var(--warm)", "var(--warm)", "Never sold") : e("span", { style: { color: "var(--text-faint)" } }, "\u2014"))
   ));
