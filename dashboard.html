@@ -513,6 +513,53 @@ const downloadReportPDF = (rows, filters) => {
     + '</body></html>');
   w.document.close();
 };
+// ---- Accounts Receivable (open invoices) download: Excel + PDF ----
+const __fmtDcell = d => d ? ((d.getMonth() + 1) + '/' + String(d.getDate()).padStart(2, '0') + '/' + d.getFullYear()) : '';
+const __arTable = rows => {
+  const head = ['Days Past Due', 'Ship Date', 'Net Terms', 'Due Date', 'Destination', 'License #', 'Invoice #', 'Invoice Total', 'Partial Payment', 'Outstanding Value', 'Payment Method', 'Rep', 'Notes'];
+  const thead = '<tr>' + head.map(h => '<th>' + __esc(h) + '</th>').join('') + '</tr>';
+  let tTotal = 0, tPaid = 0, tOut = 0;
+  const body = rows.map(o => {
+    tTotal += o.total || 0; tPaid += o.credit || 0; tOut += o.net || 0;
+    return '<tr>'
+      + '<td>' + __esc(o.daysPastDue > 0 ? o.daysPastDue : 'Not due') + '</td>'
+      + '<td>' + __esc(__fmtDcell(o.deliveryDate)) + '</td>'
+      + '<td>' + __esc(o.terms) + '</td>'
+      + '<td>' + __esc(__fmtDcell(o.due)) + '</td>'
+      + '<td>' + __esc(o.destination) + '</td>'
+      + '<td>' + __esc(o.license) + '</td>'
+      + '<td>' + __esc(o.invoice) + '</td>'
+      + '<td>' + __esc(__m2(o.total)) + '</td>'
+      + '<td>' + __esc(o.credit > 0 ? __m2(o.credit) : '') + '</td>'
+      + '<td>' + __esc(__m2(o.net)) + '</td>'
+      + '<td>' + __esc(o.paymentMethod || '') + '</td>'
+      + '<td>' + __esc(o.rep) + '</td>'
+      + '<td>' + __esc(o.notes || '') + '</td>'
+      + '</tr>';
+  }).join('');
+  const totals = '<tr><td colspan="7"><b>TOTALS (' + rows.length + ' invoices)</b></td>'
+    + '<td><b>' + __esc(__m2(tTotal)) + '</b></td><td><b>' + __esc(__m2(tPaid)) + '</b></td><td><b>' + __esc(__m2(tOut)) + '</b></td><td></td><td></td><td></td></tr>';
+  return '<table border="1"><thead>' + thead + '</thead><tbody>' + body + totals + '</tbody></table>';
+};
+const __ARTITLE = 'Chill Medicated MA — Accounts Receivable (Open Invoices)';
+const downloadArExcel = rows => {
+  if (!rows || !rows.length) { alert('No open receivables to download.'); return; }
+  const html = '<html xmlns:x="urn:schemas-microsoft-com:office:excel"><head><meta charset="utf-8"></head><body>'
+    + '<table><tr><td><b>' + __esc(__ARTITLE) + '</b></td></tr><tr><td>Generated ' + __esc(new Date().toLocaleString()) + '</td></tr></table><br>'
+    + __arTable(rows) + '</body></html>';
+  __dl('Chill_MA_AR_Open_Invoices.xls', new Blob([html], { type: 'application/vnd.ms-excel' }));
+};
+const downloadArPdf = rows => {
+  if (!rows || !rows.length) { alert('No open receivables to download.'); return; }
+  const css = '@page{size:landscape;margin:12mm}body{font-family:Arial,Helvetica,sans-serif;color:#111;padding:16px}h1{font-size:15px;margin:0 0 4px}.m{font-size:10px;color:#555;margin-bottom:8px}table{border-collapse:collapse;width:100%;font-size:8.5px}th,td{border:1px solid #ccc;padding:3px 5px;text-align:left;vertical-align:top}thead th{background:#eee}@media print{body{padding:0}}';
+  const w = window.open('', '_blank');
+  if (!w) { alert('Please allow pop-ups so the PDF can open, then use Save as PDF.'); return; }
+  w.document.write('<html><head><meta charset="utf-8"><title>' + __esc(__ARTITLE) + '</title><style>' + css + '</style></head><body>'
+    + '<h1>' + __esc(__ARTITLE) + '</h1><div class="m">Generated ' + __esc(new Date().toLocaleString()) + ' · ' + rows.length + ' open invoices</div>'
+    + __arTable(rows)
+    + '<scr' + 'ipt>window.onload=function(){setTimeout(function(){window.print();},300);};</scr' + 'ipt></body></html>');
+  w.document.close();
+};
 const parseDate = str => {
   if (!str) return null;
   const s = String(str).trim();
@@ -1303,7 +1350,10 @@ function AccountsReceivable({ data }) {
   const invTable = e('section', { className: 'section' },
     e('div', { className: 'section-header' },
       e('h2', { className: 'section-title' }, 'Open ', e('em', null, 'invoices')),
-      e('span', { className: 'section-meta' }, fmtNum(openSorted.length) + ' invoices · oldest first')),
+      e('div', { style: { display: 'flex', gap: 8, alignItems: 'center', flexWrap: 'wrap' } },
+        e('span', { className: 'section-meta' }, fmtNum(openSorted.length) + ' invoices · oldest first'),
+        e('button', { className: 'date-preset', onClick: () => downloadArExcel(openSorted), title: 'Download these open invoices as Excel' }, '⬇ Excel'),
+        e('button', { className: 'date-preset', onClick: () => downloadArPdf(openSorted), title: 'Download these open invoices as PDF' }, '⬇ PDF'))),
     e('div', { className: 'card', style: { padding: 0, overflow: 'hidden' } },
       e('div', { style: { overflowX: 'auto', maxHeight: 560 } },
         e('table', { className: 'data-table', style: { minWidth: 1720 } },
