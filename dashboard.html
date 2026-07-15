@@ -681,6 +681,25 @@ function RevenueOverTime({ rows }) {
   );
 }
 
+// ── Reusable pagination: hook + pager control ─────────────────────────
+function usePager(total, pageSize) {
+  const size = pageSize || 50;
+  const [page, setPage] = React.useState(0);
+  const pages = Math.max(1, Math.ceil((total || 0) / size));
+  const cur = Math.min(page, pages - 1);
+  return { page: cur, pages: pages, size: size, start: cur * size, end: cur * size + size, setPage: setPage };
+}
+function Pager({ pager, total, unit }) {
+  const e = React.createElement;
+  if (!pager || pager.pages <= 1) return null;
+  const nav = (label, disabled, onClick) => e("button", { className: "date-preset", disabled: disabled, onClick: onClick, style: { opacity: disabled ? 0.35 : 1, cursor: disabled ? "default" : "pointer" } }, label);
+  return e("div", { style: { display: "flex", alignItems: "center", justifyContent: "space-between", padding: "12px 16px", borderTop: "1px solid var(--border)", fontFamily: "JetBrains Mono", fontSize: 11, color: "var(--text-dim)" } },
+    e("span", null, fmtNum(total) + " " + (unit || "items") + " · page " + (pager.page + 1) + " of " + pager.pages),
+    e("div", { style: { display: "flex", gap: 8 } },
+      nav("‹ Prev", pager.page <= 0, function () { pager.setPage(pager.page - 1); }),
+      nav("Next ›", pager.page >= pager.pages - 1, function () { pager.setPage(pager.page + 1); })));
+}
+
 // ── Paginated inventory table with per-product value ──────────────────
 function InventoryTable({ list }) {
   const e = React.createElement;
@@ -721,7 +740,7 @@ function InventoryTable({ list }) {
           e("th", { className: "num", title: "Estimated days until this SKU runs out, based on units sold in the last 30 days" }, "Days Left"),
           e("th", { className: "num" }, "Value"),
           e("th", { className: "num" }, "Batches"),
-          e("th", null, "Batch Names"),
+          e("th", null, "Active Batch"),
           e("th", null, "Status"))),
         e("tbody", null, rows))),
     pager);
@@ -932,6 +951,7 @@ function MonthlyGrossBySku({ rows }) {
       border: '1px solid ' + (metric === id ? '#0EB1E8' : '#e3e9f1'),
       background: metric === id ? 'rgba(14,177,232,0.12)' : '#ffffff',
       color: metric === id ? '#0E86C4' : '#566274' } }, label);
+  const pg = usePager(list.length, 50);
   return e("section", { className: "section" },
     e("div", { className: "section-header" },
       e("h2", { className: "section-title" }, "Monthly ", e("em", null, isUnits ? "units by SKU" : "gross sales by SKU")),
@@ -951,7 +971,7 @@ function MonthlyGrossBySku({ rows }) {
                   months.map(ym => e("th", { key: ym, className: "num" }, mlabel(ym))),
                   e("th", { className: "num" }, "Total"))),
               e("tbody", null,
-                list.slice(0, 100).map((p, i) => e("tr", { key: i },
+                list.slice(pg.start, pg.end).map((p, i) => e("tr", { key: i },
                   e("td", { style: stick, title: p.sku ? 'SKU: ' + p.sku : '' }, p.name),
                   months.map(ym => e("td", { key: ym, className: "num" }, cell(p.cells[ym]))),
                   e("td", { className: "num" }, e("strong", null, fmtVal(p.total))))),
@@ -959,7 +979,7 @@ function MonthlyGrossBySku({ rows }) {
                   e("td", { style: Object.assign({}, stick, { background: 'var(--bg)', fontWeight: 700 }) }, "All products"),
                   months.map(ym => e("td", { key: ym, className: "num" }, e("strong", null, fmtVal(colTotals[ym])))),
                   e("td", { className: "num" }, e("strong", null, fmtVal(grand))))))),
-          list.length > 100 ? e("div", { style: { padding: '8px 14px', color: 'var(--text-faint)', fontSize: 12 } }, "Showing top 100 of " + fmtNum(list.length) + " products by total " + (isUnits ? "units" : "gross")) : null));
+          e(Pager, { pager: pg, total: list.length, unit: "products" })));
 }
 
 // ── View tabs (Sales / Accounts Receivable) ───────────────────────────
@@ -1005,30 +1025,39 @@ function AccountsReceivable({ data }) {
   const invoices = React.useMemo(() => {
     const map = {};
     rows.forEach(r => {
-      const st = r.payment_status || '';
-      if (st !== 'Unpaid' && st !== 'Partial') return;
-      const id = r.order_number || r.order_id;
+      const stRaw = r.payment_status || '';
+      const st = String(stRaw).toLowerCase().trim();
+      // Open receivable = not paid. Statuses vary by market (Unpaid/Partial/Overdue,
+      // and some markets store them lowercase), so match case-insensitively.
+      if (!({ unpaid:1, partial:1, 'partially paid':1, overdue:1, 'past due':1, 'past-due':1 })[st]) return;
+      const id = r.order_number || r.order_id || r.order;
       if (!id) return;
       if (!map[id]) {
         map[id] = {
-          invoice: r.order_number || ('#' + r.order_id),
+          invoice: r.order_number || r.order_id || ('#' + r.order),
           buyer: r.buyer_name || '—',
           rep: repOf(r),
-          status: st,
-          orderDate: parseDate(r.order_date_localized_raw || r.order_date_utc_raw || r.order_date_localized || r.order_date_utc),
+          status: stRaw,
+          orderDate: parseDate(r.order_date_localized_raw || r.order_date_utc_raw || r.order_date_localized || r.order_date_utc || r.order_date_raw || r.order_date),
           dueDate: parseDate(r.due_date_raw || r.due_date),
           amount: 0,
           credit: parsePaymentsForCredits(r.payment_dates || r.payments || '').total || 0
         };
       }
-      const rev = typeof r.line_total_raw === 'number' ? r.line_total_raw / 100 : parseMoney(r.line_total);
-      map[id].amount += rev;
+      // Revenue schema varies by market: line-level (line_total_raw cents / line_total) is
+      // summed; order-level (order_total dollars, or order_price cents) is taken once per order.
+      const lineRev = typeof r.line_total_raw === 'number' ? r.line_total_raw / 100 : parseMoney(r.line_total || r.computed_sale_price);
+      if (lineRev) { map[id].amount += lineRev; map[id]._hasLine = true; }
+      else if (!map[id]._hasLine) {
+        map[id].orderRev = typeof r.order_total === 'number' ? r.order_total : (typeof r.order_price === 'number' ? r.order_price / 100 : 0);
+      }
     });
     return Object.values(map).map(o => {
       const due = o.dueDate || (o.orderDate ? new Date(o.orderDate.getTime() + 30 * 86400000) : null);
-      const net = Math.max(0, o.amount - (o.credit || 0));
+      const base = o._hasLine ? o.amount : (o.orderRev || 0);
+      const net = Math.max(0, base - (o.credit || 0));
       const daysPastDue = due ? Math.floor((today - due) / 86400000) : 0;
-      return Object.assign({}, o, { due, net, daysPastDue, bucket: bucketOf(daysPastDue) });
+      return Object.assign({}, o, { due, net, total: base, daysPastDue, bucket: bucketOf(daysPastDue) });
     }).filter(o => o.net > 0);
   }, [rows]);
 
@@ -1077,6 +1106,7 @@ function AccountsReceivable({ data }) {
   }, [shown]);
 
   const openSorted = React.useMemo(() => shown.slice().sort((a, b) => b.daysPastDue - a.daysPastDue), [shown]);
+  const openPg = usePager(openSorted.length, 50);
   const agingData = AGE.map(a => ({ name: a.label, value: tot[a.key], color: a.color }));
   const fetchedAt = new Date(data.fetched_at);
 
@@ -1167,16 +1197,18 @@ function AccountsReceivable({ data }) {
       e('span', { className: 'section-meta' }, fmtNum(openSorted.length) + ' invoices · oldest first')),
     e('div', { className: 'card', style: { padding: 0, overflow: 'hidden' } },
       e('div', { style: { overflowX: 'auto', maxHeight: 560 } },
-        e('table', { className: 'data-table', style: { minWidth: 880 } },
+        e('table', { className: 'data-table', style: { minWidth: 1040 } },
           e('thead', null, e('tr', null,
             e('th', null, 'Invoice #'), e('th', null, 'Buyer'), e('th', null, 'Rep'),
             e('th', null, 'Invoice'), e('th', null, 'Due'),
             e('th', { className: 'num' }, 'Days Past'), e('th', null, 'Aging'),
-            e('th', { className: 'num' }, 'Outstanding'))),
+            e('th', { className: 'num' }, 'Invoice Total'),
+            e('th', { className: 'num' }, 'Partial Payment'),
+            e('th', { className: 'num' }, 'Outstanding Balance'))),
           e('tbody', null,
             openSorted.length === 0
-              ? e('tr', null, e('td', { colSpan: 8, style: { padding: 20, color: 'var(--text-faint)', textAlign: 'center' } }, 'No open receivables match the filters.'))
-              : openSorted.slice(0, 300).map((o, i) => e('tr', { key: i },
+              ? e('tr', null, e('td', { colSpan: 10, style: { padding: 20, color: 'var(--text-faint)', textAlign: 'center' } }, 'No open receivables match the filters.'))
+              : openSorted.slice(openPg.start, openPg.end).map((o, i) => e('tr', { key: i },
                   e('td', { className: 'font-mono', style: { color: 'var(--accent)' } }, o.invoice),
                   e('td', { title: o.buyer }, buyerBusinessName(o.buyer)),
                   e('td', { className: 'dim' }, o.rep),
@@ -1184,7 +1216,10 @@ function AccountsReceivable({ data }) {
                   e('td', { className: 'dim font-mono' }, fmtD(o.due)),
                   e('td', { className: 'num', style: { color: bucketColor(o.bucket), fontWeight: o.daysPastDue > 30 ? 700 : 400 } }, o.daysPastDue > 0 ? o.daysPastDue + 'd' : 'Not due'),
                   e('td', null, e('span', { style: { fontFamily: 'JetBrains Mono', fontSize: 10, textTransform: 'uppercase', letterSpacing: '0.06em', color: bucketColor(o.bucket), border: '1px solid ' + bucketColor(o.bucket), borderRadius: 999, padding: '2px 8px', whiteSpace: 'nowrap' } }, bucketLabel(o.bucket))),
-                  e('td', { className: 'num' }, e('strong', null, fmtMoneyFull(o.net))))))))));
+                  e('td', { className: 'num dim' }, fmtMoneyFull(o.total)),
+                  e('td', { className: 'num', style: { color: (o.credit > 0 ? 'var(--accent)' : 'var(--text-faint)') } }, o.credit > 0 ? fmtMoneyFull(o.credit) : '—'),
+                  e('td', { className: 'num' }, e('strong', null, fmtMoneyFull(o.net))))))))),
+      e(Pager, { pager: openPg, total: openSorted.length, unit: 'invoices' }));
 
   return e('div', { className: 'app ar-theme' },
     e(Topbar, { fetchedAt: fetchedAt, rowCount: shown.length, totalCount: invoices.length }),
@@ -1664,18 +1699,19 @@ function Dashboard({
       soldByName = {},
       revBySku = {},
       revByName = {},
-      batchesBySku = {},
-      batchesByName = {};
+      activeBatchBySku = {},
+      activeBatchByName = {};
     normalized.forEach(r => {
       const u = parseFloat(r.inventory_quantity) || r._quantity || 0;
       const rev = r._revenue || 0;
       if (r.product_sku) { soldBySku[r.product_sku] = (soldBySku[r.product_sku] || 0) + u; revBySku[r.product_sku] = (revBySku[r.product_sku] || 0) + rev; }
       if (r.product_name) { soldByName[r.product_name] = (soldByName[r.product_name] || 0) + u; revByName[r.product_name] = (revByName[r.product_name] || 0) + rev; }
-      // Track distinct batch names seen per SKU / product (from the sales feed)
+      // Track only the ACTIVE batch per SKU / product — the most recently created lot.
       const bn = (r.batch_name || '').trim();
       if (bn) {
-        if (r.product_sku) (batchesBySku[r.product_sku] = batchesBySku[r.product_sku] || new Set()).add(bn);
-        if (r.product_name) (batchesByName[r.product_name] = batchesByName[r.product_name] || new Set()).add(bn);
+        const created = String(r.batch_created_at_raw || r.batch_created_at || '');
+        if (r.product_sku) { const cur = activeBatchBySku[r.product_sku]; if (!cur || created > cur.created) activeBatchBySku[r.product_sku] = { name: bn, created: created }; }
+        if (r.product_name) { const cur = activeBatchByName[r.product_name]; if (!cur || created > cur.created) activeBatchByName[r.product_name] = { name: bn, created: created }; }
       }
     });
     // Sales velocity for the stock forecast: physical units sold in the trailing
@@ -1706,9 +1742,8 @@ function Dashboard({
         else if (velocity > 0) daysLeft = qty / velocity;
         else daysLeft = null;                     // in stock but no recent sales — no basis to forecast
       }
-      const batchNames = Array.from(
-        (p.sku && batchesBySku[p.sku]) ? batchesBySku[p.sku] : (batchesByName[p.name] || [])
-      ).sort();
+      const activeBatch = (p.sku && activeBatchBySku[p.sku]) ? activeBatchBySku[p.sku] : activeBatchByName[p.name];
+      const batchNames = activeBatch ? [activeBatch.name] : [];
       return {
         name: p.name || '—',
         line: p.line || '—',
@@ -1835,6 +1870,10 @@ function Dashboard({
       rawPaymentsSample
     };
   }, [normalized, rows, filtered]);
+  const recentRows = useMemo(() => filtered.slice().sort((a, b) => (b._date?.getTime() || 0) - (a._date?.getTime() || 0)), [filtered]);
+  const invPg = usePager(invoices.length, 50);
+  const pbPg = usePager(productBreakdown.length, 50);
+  const rliPg = usePager(recentRows.length, 50);
   return /*#__PURE__*/React.createElement("div", {
     className: "app"
   }, /*#__PURE__*/React.createElement(Topbar, {
@@ -2056,7 +2095,7 @@ function Dashboard({
     className: "num"
   }, "Revenue"), /*#__PURE__*/React.createElement("th", {
     className: "num"
-  }, "Credit Applied"), /*#__PURE__*/React.createElement("th", null, "Payment"))), /*#__PURE__*/React.createElement("tbody", null, invoices.slice(0, 100).map((inv, i) => /*#__PURE__*/React.createElement("tr", {
+  }, "Credit Applied"), /*#__PURE__*/React.createElement("th", null, "Payment"))), /*#__PURE__*/React.createElement("tbody", null, invoices.slice(invPg.start, invPg.end).map((inv, i) => /*#__PURE__*/React.createElement("tr", {
     key: i,
     style: {
       cursor: 'pointer'
@@ -2096,16 +2135,11 @@ function Dashboard({
     })} on ${e.date}`).join('\n') : ''
   }, inv.credit > 0 ? fmtMoneyFull(inv.credit) : '—'), /*#__PURE__*/React.createElement("td", null, /*#__PURE__*/React.createElement(StatusPill, {
     status: inv.status
-  }))))))), invoices.length > 100 && /*#__PURE__*/React.createElement("div", {
-    style: {
-      padding: '12px 16px',
-      fontFamily: 'JetBrains Mono',
-      fontSize: 11,
-      color: 'var(--text-faint)',
-      textAlign: 'center',
-      borderTop: '1px solid var(--border)'
-    }
-  }, "Showing 100 of ", fmtNum(invoices.length), " \xB7 use filters to narrow further"))), /*#__PURE__*/React.createElement("section", {
+  }))))))), /*#__PURE__*/React.createElement(Pager, {
+    pager: invPg,
+    total: invoices.length,
+    unit: "invoices"
+  }))), /*#__PURE__*/React.createElement("section", {
     className: "section"
   }, /*#__PURE__*/React.createElement("div", {
     className: "section-header"
@@ -2143,7 +2177,7 @@ function Dashboard({
     className: "num"
   }, "Listed $"), /*#__PURE__*/React.createElement("th", {
     className: "num"
-  }, "Current Inv."))), /*#__PURE__*/React.createElement("tbody", null, productBreakdown.slice(0, 100).map((p, i) => /*#__PURE__*/React.createElement("tr", {
+  }, "Current Inv."))), /*#__PURE__*/React.createElement("tbody", null, productBreakdown.slice(pbPg.start, pbPg.end).map((p, i) => /*#__PURE__*/React.createElement("tr", {
     key: i
   }, /*#__PURE__*/React.createElement("td", null, p.name), /*#__PURE__*/React.createElement("td", {
     className: "dim"
@@ -2165,30 +2199,10 @@ function Dashboard({
     style: {
       color: 'var(--text-faint)'
     }
-  }, "\u2014") : fmtNum(Math.round(p.currentInventory)))))))), productBreakdown.length > 100 && /*#__PURE__*/React.createElement("div", {
-    style: {
-      padding: '12px 16px',
-      fontFamily: 'JetBrains Mono',
-      fontSize: 11,
-      color: 'var(--text-faint)',
-      textAlign: 'center',
-      borderTop: '1px solid var(--border)'
-    }
-  }, "Showing top 100 of ", fmtNum(productBreakdown.length), " products by net sales"))), /*#__PURE__*/React.createElement("section", {
-    className: "section"
-  }, /*#__PURE__*/React.createElement("div", {
-    className: "section-header"
-  }, /*#__PURE__*/React.createElement("h2", {
-    className: "section-title"
-  }, "Payment ", /*#__PURE__*/React.createElement("em", null, "status")), /*#__PURE__*/React.createElement("span", {
-    className: "section-meta"
-  }, "AR mix")), /*#__PURE__*/React.createElement("div", {
-    className: "card"
-  }, /*#__PURE__*/React.createElement(RankList, {
-    data: paymentMix.map(p => ({
-      name: p.name,
-      revenue: p.value
-    }))
+  }, "\u2014") : fmtNum(Math.round(p.currentInventory)))))))), /*#__PURE__*/React.createElement(Pager, {
+    pager: pbPg,
+    total: productBreakdown.length,
+    unit: "products"
   }))), /*#__PURE__*/React.createElement("section", {
     className: "section"
   }, /*#__PURE__*/React.createElement("div", {
@@ -2465,7 +2479,7 @@ function Dashboard({
     className: "num"
   }, "Qty"), /*#__PURE__*/React.createElement("th", {
     className: "num"
-  }, "Revenue"), /*#__PURE__*/React.createElement("th", null, "Status"))), /*#__PURE__*/React.createElement("tbody", null, filtered.slice().sort((a, b) => (b._date?.getTime() || 0) - (a._date?.getTime() || 0)).slice(0, 25).map((r, i) => /*#__PURE__*/React.createElement("tr", {
+  }, "Revenue"), /*#__PURE__*/React.createElement("th", null, "Status"))), /*#__PURE__*/React.createElement("tbody", null, recentRows.slice(rliPg.start, rliPg.end).map((r, i) => /*#__PURE__*/React.createElement("tr", {
     key: i
   }, /*#__PURE__*/React.createElement("td", {
     className: "dim font-mono"
@@ -2479,7 +2493,7 @@ function Dashboard({
     className: "num"
   }, fmtMoneyFull(r._revenue)), /*#__PURE__*/React.createElement("td", null, /*#__PURE__*/React.createElement(StatusPill, {
     status: r.payment_status
-  }))))))))), /*#__PURE__*/React.createElement("footer", {
+  })))))))), /*#__PURE__*/React.createElement(Pager, { pager: rliPg, total: recentRows.length, unit: "line items" })), /*#__PURE__*/React.createElement("footer", {
     style: {
       marginTop: 60,
       padding: '20px 0',
@@ -2820,14 +2834,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(/*#__PURE__*/React.c
 </script>
 
 <style id="back-to-top-styles">
-  #back-to-top{
-    position:fixed; right:24px; bottom:24px; z-index:70;
-    width:44px; height:44px; display:flex; align-items:center; justify-content:center;
-    background:var(--accent,#0EB1E8); color:#ffffff; border:none; border-radius:50%;
-    box-shadow:0 6px 18px rgba(20,35,60,0.22); cursor:pointer;
-    opacity:0; visibility:hidden; transform:translateY(10px);
-    transition:opacity .2s, transform .2s, visibility .2s, background .15s;
-  }
+  #back-to-top{ position:fixed; right:24px; bottom:24px; z-index:70; width:44px; height:44px; display:flex; align-items:center; justify-content:center; background:var(--accent,#0EB1E8); color:#ffffff; border:none; border-radius:50%; box-shadow:0 6px 18px rgba(20,35,60,0.22); cursor:pointer; opacity:0; visibility:hidden; transform:translateY(10px); transition:opacity .2s, transform .2s, visibility .2s, background .15s; }
   #back-to-top.show{ opacity:1; visibility:visible; transform:translateY(0); }
   #back-to-top:hover{ background:var(--brand-purple,#8462AF); }
   #back-to-top svg{ width:20px; height:20px; }
@@ -2836,22 +2843,13 @@ ReactDOM.createRoot(document.getElementById('root')).render(/*#__PURE__*/React.c
 <script>
 (function(){
   if (document.getElementById('back-to-top')) return;
-  var btn = document.createElement('button');
-  btn.id = 'back-to-top';
-  btn.type = 'button';
-  btn.setAttribute('aria-label', 'Back to top');
-  btn.title = 'Back to top';
-  btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="19" x2="12" y2="5"></line><polyline points="5 12 12 5 19 12"></polyline></svg>';
+  var btn=document.createElement('button'); btn.id='back-to-top'; btn.type='button';
+  btn.setAttribute('aria-label','Back to top'); btn.title='Back to top';
+  btn.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="19" x2="12" y2="5"></line><polyline points="5 12 12 5 19 12"></polyline></svg>';
   document.body.appendChild(btn);
-  var toggle = function(){
-    if (window.pageYOffset > 300) btn.classList.add('show');
-    else btn.classList.remove('show');
-  };
-  window.addEventListener('scroll', toggle, { passive: true });
-  toggle();
-  btn.addEventListener('click', function(){
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  });
+  var toggle=function(){ if(window.pageYOffset>300) btn.classList.add('show'); else btn.classList.remove('show'); };
+  window.addEventListener('scroll',toggle,{passive:true}); toggle();
+  btn.addEventListener('click',function(){ window.scrollTo({top:0,behavior:'smooth'}); });
 })();
 </script>
 </body>
