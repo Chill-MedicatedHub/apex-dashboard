@@ -397,6 +397,24 @@ const parsePaymentsPaid = paymentsField => {
   }
   return total;
 };
+// Money actually APPLIED to an invoice (i.e. the partial payment). Real payments
+// ("Payment of" / "Trade of") always count. A "Credit of" only counts when Apex has
+// actually applied it — which it flags by marking the invoice "Partial". On an Unpaid
+// (or Overdue) invoice the shown credit is NOT applied (Due = full total), so it is skipped.
+const parsePaymentsApplied = (paymentsField, status) => {
+  if (!paymentsField) return 0;
+  const text = Array.isArray(paymentsField) ? paymentsField.filter(Boolean).join(', ') : String(paymentsField);
+  if (!text) return 0;
+  const isPartial = /partial/i.test(String(status || ''));
+  const re = /(Payment|Credit|Trade)\s+of\s+\$([\d,]+(?:\.\d+)?)/gi;
+  let total = 0, m;
+  while ((m = re.exec(text)) !== null) {
+    if (m[1].toLowerCase() === 'credit' && !isPartial) continue;
+    const amt = parseFloat(m[2].replace(/,/g, ''));
+    if (!isNaN(amt)) total += amt;
+  }
+  return total;
+};
 const fmtMoney = n => {
   if (!n && n !== 0) return '—';
   if (Math.abs(n) >= 1e6) return '$' + (n / 1e6).toFixed(2) + 'M';
@@ -516,7 +534,7 @@ const downloadReportPDF = (rows, filters) => {
 // ---- Accounts Receivable (open invoices) download: Excel + PDF ----
 const __fmtDcell = d => d ? ((d.getMonth() + 1) + '/' + String(d.getDate()).padStart(2, '0') + '/' + d.getFullYear()) : '';
 const __arTable = rows => {
-  const head = ['Days Past Due', 'Ship Date', 'Net Terms', 'Due Date', 'Destination', 'License #', 'Invoice #', 'Invoice Total', 'Partial Payment', 'Outstanding Value', 'Payment Method', 'Rep', 'Notes'];
+  const head = ['Days Past Due', 'Ship Date', 'Net Terms', 'Due Date', 'Destination', 'License #', 'Invoice #', 'Invoice Total', 'Partial Payment', 'Outstanding Value', 'Rep', 'Notes'];
   const thead = '<tr>' + head.map(h => '<th>' + __esc(h) + '</th>').join('') + '</tr>';
   let tTotal = 0, tPaid = 0, tOut = 0;
   const body = rows.map(o => {
@@ -532,13 +550,12 @@ const __arTable = rows => {
       + '<td>' + __esc(__m2(o.total)) + '</td>'
       + '<td>' + __esc(o.credit > 0 ? __m2(o.credit) : '') + '</td>'
       + '<td>' + __esc(__m2(o.net)) + '</td>'
-      + '<td>' + __esc(o.paymentMethod || '') + '</td>'
       + '<td>' + __esc(o.rep) + '</td>'
       + '<td>' + __esc(o.notes || '') + '</td>'
       + '</tr>';
   }).join('');
   const totals = '<tr><td colspan="7"><b>TOTALS (' + rows.length + ' invoices)</b></td>'
-    + '<td><b>' + __esc(__m2(tTotal)) + '</b></td><td><b>' + __esc(__m2(tPaid)) + '</b></td><td><b>' + __esc(__m2(tOut)) + '</b></td><td></td><td></td><td></td></tr>';
+    + '<td><b>' + __esc(__m2(tTotal)) + '</b></td><td><b>' + __esc(__m2(tPaid)) + '</b></td><td><b>' + __esc(__m2(tOut)) + '</b></td><td></td><td></td></tr>';
   return '<table border="1"><thead>' + thead + '</thead><tbody>' + body + totals + '</tbody></table>';
 };
 const __ARTITLE = 'Chill Medicated MA — Accounts Receivable (Open Invoices)';
@@ -775,13 +792,12 @@ function SalesInvoicesTable({ invoices, pager, setFilters }) {
     e('td', { className: 'dim font-mono' }, inv.shipStr),
     e('td', { className: 'num dim' }, inv.terms),
     e('td', { className: 'dim font-mono' }, inv.dueStr),
-    e('td', { title: inv.destination, style: { maxWidth: 220, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' } }, inv.destination),
+    e('td', { title: inv.destination, style: { whiteSpace: 'normal', minWidth: 150 } }, inv.destination),
     e('td', { className: 'font-mono dim', style: { fontSize: 11 } }, inv.license),
     e('td', { className: 'font-mono', style: { color: 'var(--accent)' } }, inv.invoice),
     e('td', { className: 'num dim' }, fmtMoneyFull(inv.invoiceTotal)),
     e('td', { className: 'num', style: { color: inv.partialPayment > 0 ? 'var(--accent)' : 'var(--text-faint)' } }, inv.partialPayment > 0 ? fmtMoneyFull(inv.partialPayment) : '—'),
     e('td', { className: 'num' }, e('strong', null, fmtMoneyFull(inv.outstanding))),
-    e('td', { className: 'dim', style: { color: inv.paymentMethod ? 'var(--text-dim)' : 'var(--text-faint)' } }, inv.paymentMethod || '—'),
     e('td', { className: 'dim' }, inv.rep),
     e('td', { style: { minWidth: 200, maxWidth: 340, fontSize: 11, color: inv.notes ? 'var(--text-dim)' : 'var(--text-faint)', whiteSpace: 'normal', lineHeight: 1.35 } }, inv.notes || '—')
   ));
@@ -799,7 +815,6 @@ function SalesInvoicesTable({ invoices, pager, setFilters }) {
           e('th', { className: 'num' }, 'Invoice Total'),
           e('th', { className: 'num' }, 'Partial Payment'),
           e('th', { className: 'num' }, 'Outstanding Value'),
-          e('th', null, 'Payment Method'),
           e('th', null, 'Rep'),
           e('th', null, 'Notes'))),
         e('tbody', null, rows))),
@@ -1183,7 +1198,7 @@ function AccountsReceivable({ data }) {
           license: r.buyer_license || '—',
           notes: (r.notes || '').trim(),
           amount: 0,
-          credit: parsePaymentsPaid(r.payment_dates || r.payments || '')
+          credit: parsePaymentsApplied(r.payment_dates || r.payments || '', stRaw)
         };
       }
       // Revenue schema varies by market: line-level (line_total_raw cents / line_total) is
@@ -1368,24 +1383,22 @@ function AccountsReceivable({ data }) {
             e('th', { className: 'num' }, 'Invoice Total'),
             e('th', { className: 'num' }, 'Partial Payment'),
             e('th', { className: 'num' }, 'Outstanding Value'),
-            e('th', null, 'Payment Method'),
             e('th', null, 'Rep'),
             e('th', null, 'Notes'))),
           e('tbody', null,
             openSorted.length === 0
-              ? e('tr', null, e('td', { colSpan: 13, style: { padding: 20, color: 'var(--text-faint)', textAlign: 'center' } }, 'No open receivables match the filters.'))
+              ? e('tr', null, e('td', { colSpan: 12, style: { padding: 20, color: 'var(--text-faint)', textAlign: 'center' } }, 'No open receivables match the filters.'))
               : openSorted.slice(openPg.start, openPg.end).map((o, i) => e('tr', { key: i },
                   e('td', { className: 'num', style: { color: bucketColor(o.bucket), fontWeight: o.daysPastDue > 30 ? 700 : 400 } }, o.daysPastDue > 0 ? o.daysPastDue : 'Not due'),
                   e('td', { className: 'dim font-mono' }, fmtD(o.deliveryDate)),
                   e('td', { className: 'num dim' }, o.terms),
                   e('td', { className: 'dim font-mono' }, fmtD(o.due)),
-                  e('td', { title: o.destination, style: { maxWidth: 220, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' } }, o.destination),
+                  e('td', { title: o.destination, style: { whiteSpace: 'normal', minWidth: 150 } }, o.destination),
                   e('td', { className: 'font-mono dim', style: { fontSize: 11 } }, o.license),
                   e('td', { className: 'font-mono', style: { color: 'var(--accent)' } }, o.invoice),
                   e('td', { className: 'num dim' }, fmtMoneyFull(o.total)),
                   e('td', { className: 'num', style: { color: (o.credit > 0 ? 'var(--accent)' : 'var(--text-faint)') } }, o.credit > 0 ? fmtMoneyFull(o.credit) : '—'),
                   e('td', { className: 'num' }, e('strong', null, fmtMoneyFull(o.net))),
-                  e('td', { className: 'dim', style: { color: o.paymentMethod ? 'var(--text-dim)' : 'var(--text-faint)' } }, o.paymentMethod || '—'),
                   e('td', { className: 'dim' }, o.rep),
                   e('td', { style: { minWidth: 220, maxWidth: 360, fontSize: 11, color: o.notes ? 'var(--text-dim)' : 'var(--text-faint)', whiteSpace: 'normal', lineHeight: 1.35 } }, o.notes || '—'))))))),
       e(Pager, { pager: openPg, total: openSorted.length, unit: 'invoices' }));
@@ -1877,7 +1890,7 @@ function Dashboard({
           // line item, so we only capture it once per order (first line wins).
           credit: r._creditFromPayments || 0,
           creditEntries: r._creditEntries || [],
-          paid: parsePaymentsPaid(r.payment_dates || r.payments || '')
+          paid: parsePaymentsApplied(r.payment_dates || r.payments || '', r.payment_status)
         };
       }
       map[id].lineItems += 1;
@@ -2990,7 +3003,6 @@ ReactDOM.createRoot(document.getElementById('root')).render(/*#__PURE__*/React.c
   document.addEventListener('keydown', function(e){ if (e.key === 'Escape') close(); });
 })();
 </script>
-
 <style id="back-to-top-styles">
   #back-to-top{ position:fixed; right:24px; bottom:24px; z-index:70; width:44px; height:44px; display:flex; align-items:center; justify-content:center; background:var(--accent,#0EB1E8); color:#ffffff; border:none; border-radius:50%; box-shadow:0 6px 18px rgba(20,35,60,0.22); cursor:pointer; opacity:0; visibility:hidden; transform:translateY(10px); transition:opacity .2s, transform .2s, visibility .2s, background .15s; }
   #back-to-top.show{ opacity:1; visibility:visible; transform:translateY(0); }
