@@ -1349,10 +1349,33 @@ function App() {
           .catch(() => null)
       ]).then(([live, hist, ar]) => {
         const histRows = Array.isArray(hist) ? hist : (hist.rows || []);
+        // Convert AR aging report records into invoice-level sales rows so they also appear
+        // in the Sales tab (Invoices table + invoice search). They carry no product/line
+        // detail (labeled "(AR report)"), and are excluded from product/units aggregations.
+        const arRecs = (ar && Array.isArray(ar.records)) ? ar.records : [];
+        const arMoney = v => { if (v == null) return 0; const n = parseFloat(String(v).replace(/[$,\s]/g, '')); return isNaN(n) ? 0 : n; };
+        const arRows = arRecs.map(rec => {
+          const total = arMoney(rec.invoice_total), outstanding = arMoney(rec.outstanding);
+          const paid = Math.max(0, total - outstanding);
+          return {
+            order_number: rec.invoice, buyer_name: rec.destination, buyer_shipping_name: rec.destination,
+            buyer_license: rec.license, buyer_state: 'Massachusetts',
+            sales_reps: rec.rep, sales_reps_display: rec.rep ? [rec.rep] : [],
+            product_name: '(AR report)', product_category: 'AR Report', product_type: 'AR Report',
+            order_date: rec.ship_date, order_date_localized: rec.ship_date, order_date_localized_raw: rec.ship_date, order_date_raw: rec.ship_date,
+            delivery_date: rec.ship_date, delivery_date_raw: rec.ship_date,
+            due_date: rec.due_date, due_date_raw: rec.due_date,
+            payment_status: outstanding < total ? 'Partial' : 'Unpaid',
+            line_total: '$' + total.toFixed(2), line_total_raw: Math.round(total * 100),
+            inventory_quantity: 0, quantity: 0, quantity_raw: 0,
+            payment_dates: paid > 0 ? ['Payment of $' + paid.toFixed(2) + ' on ' + (rec.due_date || '')] : [],
+            notes: rec.notes || '', is_sample: 'No', _arReport: true
+          };
+        });
         // _liveRows = current Apex data only. Used by Accounts Receivable, which must
         // ignore the 2024 historical backfill (old records with stale "Unpaid" flags
         // and no due dates would otherwise inflate AR with settled invoices).
-        setData({ ...live, rows: [...histRows, ...(live.rows || [])], _liveRows: live.rows || [], arReport: ar });
+        setData({ ...live, rows: [...histRows, ...(live.rows || []), ...arRows], _liveRows: live.rows || [], arReport: ar });
       }).catch(e => setError(e.message));
     };
     load();
@@ -2914,6 +2937,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(/*#__PURE__*/React.c
   document.addEventListener('keydown', function(e){ if (e.key === 'Escape') close(); });
 })();
 </script>
+
 <style id="back-to-top-styles">
   #back-to-top{ position:fixed; right:24px; bottom:24px; z-index:70; width:44px; height:44px; display:flex; align-items:center; justify-content:center; background:var(--accent,#0EB1E8); color:#ffffff; border:none; border-radius:50%; box-shadow:0 6px 18px rgba(20,35,60,0.22); cursor:pointer; opacity:0; visibility:hidden; transform:translateY(10px); transition:opacity .2s, transform .2s, visibility .2s, background .15s; }
   #back-to-top.show{ opacity:1; visibility:visible; transform:translateY(0); }
