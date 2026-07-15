@@ -1056,6 +1056,9 @@ function AccountsReceivable({ data }) {
           orderDate: parseDate(r.order_date_localized_raw || r.order_date_utc_raw || r.order_date_localized || r.order_date_utc || r.order_date_raw || r.order_date),
           dueDate: parseDate(r.due_date_raw || r.due_date),
           deliveryDate: parseDate(r.delivery_date_raw || r.delivery_date),
+          destination: r.buyer_shipping_name || r.buyer_name || '—',
+          license: r.buyer_license || '—',
+          notes: (r.notes || '').trim(),
           amount: 0,
           credit: parsePaymentsPaid(r.payment_dates || r.payments || '')
         };
@@ -1073,7 +1076,9 @@ function AccountsReceivable({ data }) {
       const base = o._hasLine ? o.amount : (o.orderRev || 0);
       const net = Math.max(0, base - (o.credit || 0));
       const daysPastDue = due ? Math.floor((today - due) / 86400000) : 0;
-      return Object.assign({}, o, { due, net, total: base, daysPastDue, bucket: bucketOf(daysPastDue) });
+      const shipBase = o.deliveryDate || o.orderDate;
+      const terms = (o.dueDate && shipBase) ? Math.round((o.dueDate.getTime() - shipBase.getTime()) / 86400000) : 30;
+      return Object.assign({}, o, { due, net, total: base, terms, daysPastDue, bucket: bucketOf(daysPastDue) });
     }).filter(o => o.net > 0);
   }, [rows]);
 
@@ -1213,29 +1218,38 @@ function AccountsReceivable({ data }) {
       e('span', { className: 'section-meta' }, fmtNum(openSorted.length) + ' invoices · oldest first')),
     e('div', { className: 'card', style: { padding: 0, overflow: 'hidden' } },
       e('div', { style: { overflowX: 'auto', maxHeight: 560 } },
-        e('table', { className: 'data-table', style: { minWidth: 1140 } },
+        e('table', { className: 'data-table', style: { minWidth: 1720 } },
           e('thead', null, e('tr', null,
-            e('th', null, 'Invoice #'), e('th', null, 'Buyer'), e('th', null, 'Rep'),
-            e('th', null, 'Invoice'), e('th', null, 'Delivery'), e('th', null, 'Due'),
-            e('th', { className: 'num' }, 'Days Past'), e('th', null, 'Aging'),
+            e('th', { className: 'num' }, 'Days Past Due'),
+            e('th', null, 'Ship Date'),
+            e('th', { className: 'num' }, 'Net Terms'),
+            e('th', null, 'Due Date'),
+            e('th', null, 'Destination'),
+            e('th', null, 'License #'),
+            e('th', null, 'Invoice #'),
             e('th', { className: 'num' }, 'Invoice Total'),
             e('th', { className: 'num' }, 'Partial Payment'),
-            e('th', { className: 'num' }, 'Outstanding Balance'))),
+            e('th', { className: 'num' }, 'Outstanding Value'),
+            e('th', null, 'Payment Method'),
+            e('th', null, 'Rep'),
+            e('th', null, 'Notes'))),
           e('tbody', null,
             openSorted.length === 0
-              ? e('tr', null, e('td', { colSpan: 11, style: { padding: 20, color: 'var(--text-faint)', textAlign: 'center' } }, 'No open receivables match the filters.'))
+              ? e('tr', null, e('td', { colSpan: 13, style: { padding: 20, color: 'var(--text-faint)', textAlign: 'center' } }, 'No open receivables match the filters.'))
               : openSorted.slice(openPg.start, openPg.end).map((o, i) => e('tr', { key: i },
-                  e('td', { className: 'font-mono', style: { color: 'var(--accent)' } }, o.invoice),
-                  e('td', { title: o.buyer }, buyerBusinessName(o.buyer)),
-                  e('td', { className: 'dim' }, o.rep),
-                  e('td', { className: 'dim font-mono' }, fmtD(o.orderDate)),
+                  e('td', { className: 'num', style: { color: bucketColor(o.bucket), fontWeight: o.daysPastDue > 30 ? 700 : 400 } }, o.daysPastDue > 0 ? o.daysPastDue : 'Not due'),
                   e('td', { className: 'dim font-mono' }, fmtD(o.deliveryDate)),
+                  e('td', { className: 'num dim' }, o.terms),
                   e('td', { className: 'dim font-mono' }, fmtD(o.due)),
-                  e('td', { className: 'num', style: { color: bucketColor(o.bucket), fontWeight: o.daysPastDue > 30 ? 700 : 400 } }, o.daysPastDue > 0 ? o.daysPastDue + 'd' : 'Not due'),
-                  e('td', null, e('span', { style: { fontFamily: 'JetBrains Mono', fontSize: 10, textTransform: 'uppercase', letterSpacing: '0.06em', color: bucketColor(o.bucket), border: '1px solid ' + bucketColor(o.bucket), borderRadius: 999, padding: '2px 8px', whiteSpace: 'nowrap' } }, bucketLabel(o.bucket))),
+                  e('td', { title: o.destination, style: { maxWidth: 220, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' } }, o.destination),
+                  e('td', { className: 'font-mono dim', style: { fontSize: 11 } }, o.license),
+                  e('td', { className: 'font-mono', style: { color: 'var(--accent)' } }, o.invoice),
                   e('td', { className: 'num dim' }, fmtMoneyFull(o.total)),
                   e('td', { className: 'num', style: { color: (o.credit > 0 ? 'var(--accent)' : 'var(--text-faint)') } }, o.credit > 0 ? fmtMoneyFull(o.credit) : '—'),
-                  e('td', { className: 'num' }, e('strong', null, fmtMoneyFull(o.net))))))))),
+                  e('td', { className: 'num' }, e('strong', null, fmtMoneyFull(o.net))),
+                  e('td', { className: 'dim', style: { color: 'var(--text-faint)' } }, '—'),
+                  e('td', { className: 'dim' }, o.rep),
+                  e('td', { style: { minWidth: 220, maxWidth: 360, fontSize: 11, color: o.notes ? 'var(--text-dim)' : 'var(--text-faint)', whiteSpace: 'normal', lineHeight: 1.35 } }, o.notes || '—'))))))),
       e(Pager, { pager: openPg, total: openSorted.length, unit: 'invoices' }));
 
   return e('div', { className: 'app ar-theme' },
@@ -2849,7 +2863,6 @@ ReactDOM.createRoot(document.getElementById('root')).render(/*#__PURE__*/React.c
   document.addEventListener('keydown', function(e){ if (e.key === 'Escape') close(); });
 })();
 </script>
-
 <style id="back-to-top-styles">
   #back-to-top{ position:fixed; right:24px; bottom:24px; z-index:70; width:44px; height:44px; display:flex; align-items:center; justify-content:center; background:var(--accent,#0EB1E8); color:#ffffff; border:none; border-radius:50%; box-shadow:0 6px 18px rgba(20,35,60,0.22); cursor:pointer; opacity:0; visibility:hidden; transform:translateY(10px); transition:opacity .2s, transform .2s, visibility .2s, background .15s; }
   #back-to-top.show{ opacity:1; visibility:visible; transform:translateY(0); }
