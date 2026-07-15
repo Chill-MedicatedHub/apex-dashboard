@@ -1037,7 +1037,40 @@ function AccountsReceivable({ data }) {
   const fmtD = d => d ? ((d.getMonth() + 1) + '/' + String(d.getDate()).padStart(2, '0') + '/' + d.getFullYear()) : '—';
   const repOf = r => (Array.isArray(r.sales_reps_display) && r.sales_reps_display.filter(Boolean).join(', ')) || r.sales_reps || '—';
 
+  // When an AR aging report (ar_report.json) is provided, it is the authoritative
+  // source: build invoices directly from its records (all fields already populated).
+  const arReport = data.arReport;
   const invoices = React.useMemo(() => {
+    if (arReport && Array.isArray(arReport.records) && arReport.records.length) {
+      return arReport.records.map(rec => {
+        const total = parseMoney(rec.invoice_total);
+        const outstanding = parseMoney(rec.outstanding);
+        const paid = Math.max(0, total - outstanding);
+        const days = parseFloat(rec.days_past_due) || 0;
+        const due = parseDate(rec.due_date);
+        return {
+          invoice: rec.invoice || '—',
+          buyer: rec.destination || '—',
+          destination: rec.destination || '—',
+          rep: rec.rep || '—',
+          license: rec.license || '—',
+          notes: (rec.notes || '').trim(),
+          paymentMethod: rec.payment_method || '',
+          orderDate: null,
+          deliveryDate: parseDate(rec.ship_date),
+          dueDate: due,
+          due: due,
+          terms: rec.net_terms != null ? rec.net_terms : '',
+          amount: total,
+          total: total,
+          credit: paid,
+          net: outstanding,
+          daysPastDue: days,
+          bucket: bucketOf(days),
+          status: paid > 0 ? 'Partial' : 'Unpaid'
+        };
+      }).filter(o => o.net > 0);
+    }
     const map = {};
     rows.forEach(r => {
       const stRaw = r.payment_status || '';
@@ -1080,7 +1113,7 @@ function AccountsReceivable({ data }) {
       const terms = (o.dueDate && shipBase) ? Math.round((o.dueDate.getTime() - shipBase.getTime()) / 86400000) : 30;
       return Object.assign({}, o, { due, net, total: base, terms, daysPastDue, bucket: bucketOf(daysPastDue) });
     }).filter(o => o.net > 0);
-  }, [rows]);
+  }, [rows, arReport]);
 
   const buyerOptions = React.useMemo(() => [...new Set(invoices.map(o => o.buyer))].sort(), [invoices]);
   const repOptions = React.useMemo(() => [...new Set(invoices.map(o => o.rep).filter(x => x && x !== '—'))].sort(), [invoices]);
@@ -1247,7 +1280,7 @@ function AccountsReceivable({ data }) {
                   e('td', { className: 'num dim' }, fmtMoneyFull(o.total)),
                   e('td', { className: 'num', style: { color: (o.credit > 0 ? 'var(--accent)' : 'var(--text-faint)') } }, o.credit > 0 ? fmtMoneyFull(o.credit) : '—'),
                   e('td', { className: 'num' }, e('strong', null, fmtMoneyFull(o.net))),
-                  e('td', { className: 'dim', style: { color: 'var(--text-faint)' } }, '—'),
+                  e('td', { className: 'dim', style: { color: o.paymentMethod ? 'var(--text-dim)' : 'var(--text-faint)' } }, o.paymentMethod || '—'),
                   e('td', { className: 'dim' }, o.rep),
                   e('td', { style: { minWidth: 220, maxWidth: 360, fontSize: 11, color: o.notes ? 'var(--text-dim)' : 'var(--text-faint)', whiteSpace: 'normal', lineHeight: 1.35 } }, o.notes || '—'))))))),
       e(Pager, { pager: openPg, total: openSorted.length, unit: 'invoices' }));
@@ -1258,7 +1291,9 @@ function AccountsReceivable({ data }) {
       e('h1', { style: { fontFamily: 'Fraunces, serif', fontWeight: 400, fontSize: 30, letterSpacing: '-0.02em', margin: 0 } },
         'Accounts ', e('em', { style: { color: 'var(--accent)', fontStyle: 'italic' } }, 'Receivable'))),
     e('div', { style: { fontFamily: 'JetBrains Mono, monospace', fontSize: 11, color: 'var(--text-dim)', margin: '0 0 20px', letterSpacing: '0.04em' } },
-      'Massachusetts · aged as of ' + fmtD(today) + ' · due = invoice date + Net 30 (or Apex due date) · outstanding = net of credits'),
+      arReport
+        ? 'Massachusetts · from AR aging report' + (arReport.as_of ? ' · as of ' + arReport.as_of : '') + ' · ' + fmtNum(invoices.length) + ' open invoices'
+        : 'Massachusetts · aged as of ' + fmtD(today) + ' · due = invoice date + Net 30 (or Apex due date) · outstanding = net of credits'),
     filterBar,
     kpiGrid,
     twoUp,
@@ -1295,13 +1330,18 @@ function App() {
         // or fails to parse, fall back to live-only instead of breaking.
         fetch('historical_data.json?t=' + Date.now())
           .then(r => r.ok ? r.json() : { rows: [] })
-          .catch(() => ({ rows: [] }))
-      ]).then(([live, hist]) => {
+          .catch(() => ({ rows: [] })),
+        // AR aging report (manually maintained, from David's emailed report). Optional:
+        // when present it is the authoritative source for the Accounts Receivable tab.
+        fetch('ar_report.json?t=' + Date.now())
+          .then(r => r.ok ? r.json() : null)
+          .catch(() => null)
+      ]).then(([live, hist, ar]) => {
         const histRows = Array.isArray(hist) ? hist : (hist.rows || []);
         // _liveRows = current Apex data only. Used by Accounts Receivable, which must
         // ignore the 2024 historical backfill (old records with stale "Unpaid" flags
         // and no due dates would otherwise inflate AR with settled invoices).
-        setData({ ...live, rows: [...histRows, ...(live.rows || [])], _liveRows: live.rows || [] });
+        setData({ ...live, rows: [...histRows, ...(live.rows || [])], _liveRows: live.rows || [], arReport: ar });
       }).catch(e => setError(e.message));
     };
     load();
@@ -2863,6 +2903,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(/*#__PURE__*/React.c
   document.addEventListener('keydown', function(e){ if (e.key === 'Escape') close(); });
 })();
 </script>
+
 <style id="back-to-top-styles">
   #back-to-top{ position:fixed; right:24px; bottom:24px; z-index:70; width:44px; height:44px; display:flex; align-items:center; justify-content:center; background:var(--accent,#0EB1E8); color:#ffffff; border:none; border-radius:50%; box-shadow:0 6px 18px rgba(20,35,60,0.22); cursor:pointer; opacity:0; visibility:hidden; transform:translateY(10px); transition:opacity .2s, transform .2s, visibility .2s, background .15s; }
   #back-to-top.show{ opacity:1; visibility:visible; transform:translateY(0); }
