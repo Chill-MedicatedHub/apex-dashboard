@@ -1,0 +1,34 @@
+{
+  "as_of": "2026-07-15",
+  "source": "AR aging report (manually maintained). Update this file to refresh the Accounts Receivable tab.",
+  "records": [
+    {
+      "days_past_due": 445,
+      "ship_date": "3/27/2025",
+      "net_terms": 30,
+      "due_date": "4/26/2025",
+      "destination": "Zyp Run - Boston",
+      "license": "MDA1260",
+      "invoice": "988022dd",
+      "invoice_total": 7344.60,
+      "outstanding": 344.00,
+      "payment_method": "",
+      "rep": "David",
+      "notes": "PAID 2500 ON 11/6 TO UNION BANK - PAID 1250.00 ON 11/12/25 - PAID 1250 on 11/13/25 - Paid 2k 12/19 CDS"
+    },
+    {
+      "days_past_due": 416,
+      "ship_date": "4/25/2025",
+      "net_terms": 30,
+      "due_date": "5/25/2025",
+      "destination": "Zyp Run - Boston",
+      "license": "MDA1260",
+      "invoice": "988051dd",
+      "invoice_total": 8199.00,
+      "outstanding": 8199.00,
+      "payment_method": "",
+      "rep": "David",
+      "notes": "DAVE REALTIONSHIP"
+    }
+  ]
+}
