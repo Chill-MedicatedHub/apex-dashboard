@@ -1041,8 +1041,8 @@ function AccountsReceivable({ data }) {
   // source: build invoices directly from its records (all fields already populated).
   const arReport = data.arReport;
   const invoices = React.useMemo(() => {
-    if (arReport && Array.isArray(arReport.records) && arReport.records.length) {
-      return arReport.records.map(rec => {
+    // AR aging report records (authoritative). Built once, then merged with the live AR below.
+    const reportObjs = (arReport && Array.isArray(arReport.records)) ? arReport.records.map(rec => {
         const total = parseMoney(rec.invoice_total);
         const outstanding = parseMoney(rec.outstanding);
         const paid = Math.max(0, total - outstanding);
@@ -1069,8 +1069,7 @@ function AccountsReceivable({ data }) {
           bucket: bucketOf(days),
           status: paid > 0 ? 'Partial' : 'Unpaid'
         };
-      }).filter(o => o.net > 0);
-    }
+      }).filter(o => o.net > 0) : [];
     const map = {};
     rows.forEach(r => {
       const stRaw = r.payment_status || '';
@@ -1104,7 +1103,7 @@ function AccountsReceivable({ data }) {
         map[id].orderRev = typeof r.order_total === 'number' ? r.order_total : (typeof r.order_price === 'number' ? r.order_price / 100 : 0);
       }
     });
-    return Object.values(map).map(o => {
+    const live = Object.values(map).map(o => {
       const due = o.dueDate || (o.orderDate ? new Date(o.orderDate.getTime() + 30 * 86400000) : null);
       const base = o._hasLine ? o.amount : (o.orderRev || 0);
       const net = Math.max(0, base - (o.credit || 0));
@@ -1113,6 +1112,18 @@ function AccountsReceivable({ data }) {
       const terms = (o.dueDate && shipBase) ? Math.round((o.dueDate.getTime() - shipBase.getTime()) / 86400000) : 30;
       return Object.assign({}, o, { due, net, total: base, terms, daysPastDue, bucket: bucketOf(daysPastDue) });
     }).filter(o => o.net > 0);
+    if (!reportObjs.length) return live;
+    // Merge the manual AR report with the live Apex AR: a report record OVERRIDES a matching
+    // live invoice (its notes / payments / dates win), and report-only invoices are appended.
+    const byInv = {};
+    reportObjs.forEach(o => { byInv[String(o.invoice).toLowerCase()] = o; });
+    const liveSet = new Set(live.map(o => String(o.invoice).toLowerCase()));
+    const merged = live.map(o => {
+      const rep = byInv[String(o.invoice).toLowerCase()];
+      return rep ? Object.assign({}, o, rep) : o;
+    });
+    const reportOnly = reportObjs.filter(o => !liveSet.has(String(o.invoice).toLowerCase()));
+    return merged.concat(reportOnly);
   }, [rows, arReport]);
 
   const buyerOptions = React.useMemo(() => [...new Set(invoices.map(o => o.buyer))].sort(), [invoices]);
@@ -1292,7 +1303,7 @@ function AccountsReceivable({ data }) {
         'Accounts ', e('em', { style: { color: 'var(--accent)', fontStyle: 'italic' } }, 'Receivable'))),
     e('div', { style: { fontFamily: 'JetBrains Mono, monospace', fontSize: 11, color: 'var(--text-dim)', margin: '0 0 20px', letterSpacing: '0.04em' } },
       arReport
-        ? 'Massachusetts · from AR aging report' + (arReport.as_of ? ' · as of ' + arReport.as_of : '') + ' · ' + fmtNum(invoices.length) + ' open invoices'
+        ? 'Massachusetts · live Apex AR + aging report' + (arReport.as_of ? ' (as of ' + arReport.as_of + ')' : '') + ' · ' + fmtNum(invoices.length) + ' open invoices'
         : 'Massachusetts · aged as of ' + fmtD(today) + ' · due = invoice date + Net 30 (or Apex due date) · outstanding = net of credits'),
     filterBar,
     kpiGrid,
@@ -2903,7 +2914,6 @@ ReactDOM.createRoot(document.getElementById('root')).render(/*#__PURE__*/React.c
   document.addEventListener('keydown', function(e){ if (e.key === 'Escape') close(); });
 })();
 </script>
-
 <style id="back-to-top-styles">
   #back-to-top{ position:fixed; right:24px; bottom:24px; z-index:70; width:44px; height:44px; display:flex; align-items:center; justify-content:center; background:var(--accent,#0EB1E8); color:#ffffff; border:none; border-radius:50%; box-shadow:0 6px 18px rgba(20,35,60,0.22); cursor:pointer; opacity:0; visibility:hidden; transform:translateY(10px); transition:opacity .2s, transform .2s, visibility .2s, background .15s; }
   #back-to-top.show{ opacity:1; visibility:visible; transform:translateY(0); }
