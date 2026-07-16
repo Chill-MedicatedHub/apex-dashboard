@@ -853,7 +853,7 @@ function InventoryTable({ list }) {
       navBtn("\u2039 Prev", cur <= 0, () => setPage(cur - 1)),
       navBtn("Next \u203a", cur >= pages - 1, () => setPage(cur + 1))));
   return e("div", { className: "card", style: { padding: 0, overflow: "hidden" } },
-    e("div", { style: { overflowX: "auto" } },
+    e("div", { style: { overflowX: "auto", maxHeight: 560 } },
       e("table", { className: "data-table" },
         e("thead", null, e("tr", null,
           e("th", null, "Product"), e("th", null, "Line"), e("th", null, "SKU"),
@@ -1005,7 +1005,7 @@ function SalesByCategory({ rows }) {
         sortSel,
         e("span", { className: "section-meta" }, CHILL_CATS.length + " categories \u00b7 respects filters"))),
     e("div", { className: "card", style: { padding: 0, overflow: 'hidden' } },
-      e("div", { style: { overflowX: 'auto' } },
+      e("div", { style: { overflowX: 'auto', maxHeight: 560 } },
         e("table", { className: "data-table" },
           e("thead", null, e("tr", null,
             e("th", null, "Category"),
@@ -2752,7 +2752,8 @@ function Dashboard({
     }
   }, /*#__PURE__*/React.createElement("div", {
     style: {
-      overflowX: 'auto'
+      overflowX: 'auto',
+      maxHeight: 560
     }
   }, /*#__PURE__*/React.createElement("table", {
     className: "data-table"
@@ -2818,7 +2819,8 @@ function Dashboard({
     }
   }, /*#__PURE__*/React.createElement("div", {
     style: {
-      overflowX: 'auto'
+      overflowX: 'auto',
+      maxHeight: 560
     }
   }, /*#__PURE__*/React.createElement("table", {
     className: "data-table"
