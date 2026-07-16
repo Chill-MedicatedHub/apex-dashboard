@@ -534,7 +534,7 @@ const downloadReportPDF = (rows, filters) => {
 // ---- Accounts Receivable (open invoices) download: Excel + PDF ----
 const __fmtDcell = d => d ? ((d.getMonth() + 1) + '/' + String(d.getDate()).padStart(2, '0') + '/' + d.getFullYear()) : '';
 const __arTable = rows => {
-  const head = ['Days Past Due', 'Ship Date', 'Net Terms', 'Due Date', 'Destination', 'License #', 'Invoice #', 'Invoice Total', 'Partial Payment', 'Outstanding Value', 'Rep', 'Notes'];
+  const head = ['Days Past Due', 'Delivery Date', 'Net Terms', 'Due Date', 'Destination', 'License #', 'Invoice #', 'Invoice Total', 'Partial Payment', 'Outstanding Value', 'Rep', 'Notes'];
   const thead = '<tr>' + head.map(h => '<th>' + __esc(h) + '</th>').join('') + '</tr>';
   let tTotal = 0, tPaid = 0, tOut = 0;
   const body = rows.map(o => {
@@ -806,7 +806,7 @@ function SalesInvoicesTable({ invoices, pager, setFilters }) {
       e('table', { className: 'data-table', style: { minWidth: 1720 } },
         e('thead', null, e('tr', null,
           e('th', { className: 'num' }, 'Days Past Due'),
-          e('th', null, 'Ship Date'),
+          e('th', null, 'Delivery Date'),
           e('th', { className: 'num' }, 'Net Terms'),
           e('th', null, 'Due Date'),
           e('th', null, 'Destination'),
@@ -1374,7 +1374,7 @@ function AccountsReceivable({ data }) {
         e('table', { className: 'data-table', style: { minWidth: 1720 } },
           e('thead', null, e('tr', null,
             e('th', { className: 'num' }, 'Days Past Due'),
-            e('th', null, 'Ship Date'),
+            e('th', null, 'Delivery Date'),
             e('th', { className: 'num' }, 'Net Terms'),
             e('th', null, 'Due Date'),
             e('th', null, 'Destination'),
