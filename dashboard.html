@@ -548,7 +548,7 @@ const __arTable = rows => {
       + '<td>' + __esc(o.license) + '</td>'
       + '<td>' + __esc(o.invoice) + '</td>'
       + '<td>' + __esc(__m2(o.total)) + '</td>'
-      + '<td>' + __esc(o.credit > 0 ? __m2(o.credit) : '') + '</td>'
+      + '<td>' + __esc((o.credit > 0 && o.net > 0) ? __m2(o.credit) : '') + '</td>'
       + '<td>' + __esc(__m2(o.net)) + '</td>'
       + '<td>' + __esc(o.rep) + '</td>'
       + '<td>' + __esc(o.notes || '') + '</td>'
@@ -796,7 +796,7 @@ function SalesInvoicesTable({ invoices, pager, setFilters }) {
     e('td', { className: 'font-mono dim', style: { fontSize: 11 } }, inv.license),
     e('td', { className: 'font-mono', style: { color: 'var(--accent)' } }, inv.invoice),
     e('td', { className: 'num dim' }, fmtMoneyFull(inv.invoiceTotal)),
-    e('td', { className: 'num', style: { color: inv.partialPayment > 0 ? 'var(--accent)' : 'var(--text-faint)' } }, inv.partialPayment > 0 ? fmtMoneyFull(inv.partialPayment) : '—'),
+    e('td', { className: 'num', style: { color: (inv.partialPayment > 0 && inv.outstanding > 0) ? 'var(--accent)' : 'var(--text-faint)' } }, (inv.partialPayment > 0 && inv.outstanding > 0) ? fmtMoneyFull(inv.partialPayment) : '—'),
     e('td', { className: 'num' }, e('strong', null, fmtMoneyFull(inv.outstanding))),
     e('td', { className: 'dim' }, inv.rep),
     e('td', { style: { minWidth: 200, maxWidth: 340, fontSize: 11, color: inv.notes ? 'var(--text-dim)' : 'var(--text-faint)', whiteSpace: 'normal', lineHeight: 1.35 } }, inv.notes || '—')
@@ -1397,7 +1397,7 @@ function AccountsReceivable({ data }) {
                   e('td', { className: 'font-mono dim', style: { fontSize: 11 } }, o.license),
                   e('td', { className: 'font-mono', style: { color: 'var(--accent)' } }, o.invoice),
                   e('td', { className: 'num dim' }, fmtMoneyFull(o.total)),
-                  e('td', { className: 'num', style: { color: (o.credit > 0 ? 'var(--accent)' : 'var(--text-faint)') } }, o.credit > 0 ? fmtMoneyFull(o.credit) : '—'),
+                  e('td', { className: 'num', style: { color: ((o.credit > 0 && o.net > 0) ? 'var(--accent)' : 'var(--text-faint)') } }, (o.credit > 0 && o.net > 0) ? fmtMoneyFull(o.credit) : '—'),
                   e('td', { className: 'num' }, e('strong', null, fmtMoneyFull(o.net))),
                   e('td', { className: 'dim' }, o.rep),
                   e('td', { style: { minWidth: 220, maxWidth: 360, fontSize: 11, color: o.notes ? 'var(--text-dim)' : 'var(--text-faint)', whiteSpace: 'normal', lineHeight: 1.35 } }, o.notes || '—'))))))),
