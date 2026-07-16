@@ -10,8 +10,8 @@
       "destination": "Zyp Run - Boston",
       "license": "MDA1260",
       "invoice": "988022dd",
-      "invoice_total": 7344.60,
-      "outstanding": 344.00,
+      "invoice_total": 7344.6,
+      "outstanding": 344.0,
       "payment_method": "",
       "rep": "David",
       "notes": "PAID 2500 ON 11/6 TO UNION BANK - PAID 1250.00 ON 11/12/25 - PAID 1250 on 11/13/25 - Paid 2k 12/19 CDS"
@@ -24,11 +24,25 @@
       "destination": "Zyp Run - Boston",
       "license": "MDA1260",
       "invoice": "988051dd",
-      "invoice_total": 8199.00,
-      "outstanding": 8199.00,
+      "invoice_total": 8199.0,
+      "outstanding": 8199.0,
       "payment_method": "",
       "rep": "David",
       "notes": "DAVE REALTIONSHIP"
+    },
+    {
+      "days_past_due": 698,
+      "ship_date": "7/17/2024",
+      "net_terms": 30,
+      "due_date": "8/16/2024",
+      "destination": "Massachusetts Green Retail",
+      "license": "MR284144",
+      "invoice": "Erva-86",
+      "invoice_total": 2374.0,
+      "outstanding": 2299.0,
+      "payment_method": "",
+      "rep": "",
+      "notes": "Hemp/CBD invoice (billed outside Apex feed). Credit of $75.00 applied 07/17/2024. Status: Delivered."
     }
   ]
 }
