@@ -1784,12 +1784,27 @@ function Dashboard({
 
   // KPIs
   const kpis = useMemo(() => {
-    const revenue = filtered.reduce((s, r) => s + r._revenue, 0);
+    const lineRevenue = filtered.reduce((s, r) => s + r._revenue, 0);
     const actualCost = filtered.reduce((s, r) => s + r._cost * r._quantity, 0);
     const units = filtered.reduce((s, r) => s + r._quantity, 0);
     const orderIds = new Set(filtered.map(r => r.order_id).filter(Boolean));
     const buyers = new Set(filtered.map(r => r.buyer_name).filter(Boolean));
-    const discounts = sumLineDiscounts(filtered);
+    const lineDiscounts = sumLineDiscounts(filtered);
+    // Invoice-level "additional discounts" repeat on every line of an invoice, so capture
+    // them once per invoice. They reduce what the buyer actually pays but aren't in line totals.
+    const addlByInvoice = new Map();
+    filtered.forEach(r => {
+      const id = r.order_id || r.order_number;
+      if (id && !addlByInvoice.has(id)) {
+        const ad = typeof r.additional_discounts === 'number' ? r.additional_discounts / 100 : parseMoney(r.additional_discounts);
+        if (ad) addlByInvoice.set(id, ad);
+      }
+    });
+    const addlDiscounts = [...addlByInvoice.values()].reduce((s, n) => s + n, 0);
+    // Net Revenue = line subtotal minus invoice-level additional discounts (actual amount billed).
+    const revenue = Math.max(0, lineRevenue - addlDiscounts);
+    // Discounts Given = per-line discounts plus the invoice-level additional discounts.
+    const discounts = lineDiscounts + addlDiscounts;
 
     // Credits — pulled from Apex's "Payments" text field where credits are recorded
     // as text like "Credit of $1,045.22 on 03/17/2026". The same payments string repeats
@@ -3166,15 +3181,14 @@ ReactDOM.createRoot(document.getElementById('root')).render(/*#__PURE__*/React.c
 <style id="back-to-top-styles">
   #back-to-top{ position:fixed; right:24px; bottom:24px; z-index:70; width:44px; height:44px; display:flex; align-items:center; justify-content:center; background:var(--accent,#0EB1E8); color:#ffffff; border:none; border-radius:50%; box-shadow:0 6px 18px rgba(20,35,60,0.22); cursor:pointer; opacity:0; visibility:hidden; transform:translateY(10px); transition:opacity .2s, transform .2s, visibility .2s, background .15s; }
   #back-to-top.show{ opacity:1; visibility:visible; transform:translateY(0); }
-  #back-to-top:hover{ background:var(--brand-purple,#8462AF); }
-  #back-to-top svg{ width:20px; height:20px; }
-  @media print{ #back-to-top{ display:none; } }
+  #back-to-top:hover{ background:var(--brand-purple,#8462d6); }
 </style>
 <script>
 (function(){
-  if (document.getElementById('back-to-top')) return;
-  var btn=document.createElement('button'); btn.id='back-to-top'; btn.type='button';
-  btn.setAttribute('aria-label','Back to top'); btn.title='Back to top';
+  var btn=document.createElement('button');
+  btn.id='back-to-top';
+  btn.setAttribute('aria-label','Back to top');
+  btn.title='Back to top';
   btn.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="19" x2="12" y2="5"></line><polyline points="5 12 12 5 19 12"></polyline></svg>';
   document.body.appendChild(btn);
   var toggle=function(){ if(window.pageYOffset>300) btn.classList.add('show'); else btn.classList.remove('show'); };
