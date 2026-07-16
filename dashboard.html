@@ -861,7 +861,7 @@ function InventoryTable({ list }) {
           e("th", { className: "num", title: "Estimated days until this SKU runs out, based on units sold in the last 30 days" }, "Days Left"),
           e("th", { className: "num" }, "Value"),
           e("th", { className: "num" }, "Batches"),
-          e("th", null, "Active Batch"),
+          e("th", null, "Active Batches"),
           e("th", null, "Status"))),
         e("tbody", null, rows))),
     pager);
@@ -1447,8 +1447,8 @@ function InventoryView({ data }) {
       const bn = (r.batch_name || '').trim();
       if (bn) {
         const c = String(r.batch_created_at_raw || r.batch_created_at || '');
-        if (r.product_sku) { const cur = activeSku[r.product_sku]; if (!cur || c > cur.c) activeSku[r.product_sku] = { n: bn, c: c }; }
-        if (r.product_name) { const cur = activeName[r.product_name]; if (!cur || c > cur.c) activeName[r.product_name] = { n: bn, c: c }; }
+        if (r.product_sku) { (activeSku[r.product_sku] = activeSku[r.product_sku] || {})[bn] = c; }
+        if (r.product_name) { (activeName[r.product_name] = activeName[r.product_name] || {})[bn] = c; }
       }
       const dt = dOf(r);
       if (dt && dt.getTime() >= winStart) { if (r.product_sku) recentSku[r.product_sku] = (recentSku[r.product_sku] || 0) + u; if (r.product_name) recentName[r.product_name] = (recentName[r.product_name] || 0) + u; }
@@ -1463,8 +1463,11 @@ function InventoryView({ data }) {
       const velocity = recent / WIN;
       let daysLeft = null;
       if (qty != null) { if (qty <= 0) daysLeft = 0; else if (velocity > 0) daysLeft = qty / velocity; else daysLeft = null; }
-      const ab = (p.sku && activeSku[p.sku]) ? activeSku[p.sku] : activeName[p.name];
-      return { name: p.name || '—', line: p.line || '—', sku: p.sku || '', qty: qty, batches: p.batches || 0, batchNames: ab ? [ab.n] : [], listed: !!p.listed, sold: sold, neverSold: sold <= 0, unitPrice: unitPrice, value: qty != null ? qty * unitPrice : 0, velocity: velocity, daysLeft: daysLeft };
+      const bmap = (p.sku && activeSku[p.sku]) ? activeSku[p.sku] : (activeName[p.name] || {});
+      const bsorted = Object.keys(bmap).sort((a, b) => String(bmap[b]).localeCompare(String(bmap[a])));
+      const nActive = p.batches > 0 ? p.batches : (bsorted.length ? 1 : 0);
+      const batchNames = bsorted.slice(0, nActive);
+      return { name: p.name || '—', line: p.line || '—', sku: p.sku || '', qty: qty, batches: p.batches || 0, batchNames: batchNames, listed: !!p.listed, sold: sold, neverSold: sold <= 0, unitPrice: unitPrice, value: qty != null ? qty * unitPrice : 0, velocity: velocity, daysLeft: daysLeft };
     });
   }, [rows, data.inventory]);
 
@@ -2089,12 +2092,13 @@ function Dashboard({
       const rev = r._revenue || 0;
       if (r.product_sku) { soldBySku[r.product_sku] = (soldBySku[r.product_sku] || 0) + u; revBySku[r.product_sku] = (revBySku[r.product_sku] || 0) + rev; }
       if (r.product_name) { soldByName[r.product_name] = (soldByName[r.product_name] || 0) + u; revByName[r.product_name] = (revByName[r.product_name] || 0) + rev; }
-      // Track only the ACTIVE batch per SKU / product — the most recently created lot.
+      // Collect every batch seen per SKU / product (name -> created date), so we can
+      // show the ACTIVE batches (the N most-recent lots, where N = the inventory batch count).
       const bn = (r.batch_name || '').trim();
       if (bn) {
         const created = String(r.batch_created_at_raw || r.batch_created_at || '');
-        if (r.product_sku) { const cur = activeBatchBySku[r.product_sku]; if (!cur || created > cur.created) activeBatchBySku[r.product_sku] = { name: bn, created: created }; }
-        if (r.product_name) { const cur = activeBatchByName[r.product_name]; if (!cur || created > cur.created) activeBatchByName[r.product_name] = { name: bn, created: created }; }
+        if (r.product_sku) { (activeBatchBySku[r.product_sku] = activeBatchBySku[r.product_sku] || {})[bn] = created; }
+        if (r.product_name) { (activeBatchByName[r.product_name] = activeBatchByName[r.product_name] || {})[bn] = created; }
       }
     });
     // Sales velocity for the stock forecast: physical units sold in the trailing
@@ -2125,8 +2129,10 @@ function Dashboard({
         else if (velocity > 0) daysLeft = qty / velocity;
         else daysLeft = null;                     // in stock but no recent sales — no basis to forecast
       }
-      const activeBatch = (p.sku && activeBatchBySku[p.sku]) ? activeBatchBySku[p.sku] : activeBatchByName[p.name];
-      const batchNames = activeBatch ? [activeBatch.name] : [];
+      const bmap = (p.sku && activeBatchBySku[p.sku]) ? activeBatchBySku[p.sku] : (activeBatchByName[p.name] || {});
+      const bsorted = Object.keys(bmap).sort((a, b) => String(bmap[b]).localeCompare(String(bmap[a])));
+      const nActive = p.batches > 0 ? p.batches : (bsorted.length ? 1 : 0);
+      const batchNames = bsorted.slice(0, nActive);
       return {
         name: p.name || '—',
         line: p.line || '—',
