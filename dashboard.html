@@ -1198,6 +1198,7 @@ function AccountsReceivable({ data }) {
           destination: r.buyer_shipping_name || r.buyer_name || '—',
           license: r.buyer_license || '—',
           notes: (r.notes || '').trim(),
+          addlDiscount: typeof r.additional_discounts === 'number' ? r.additional_discounts / 100 : parseMoney(r.additional_discounts),
           amount: 0,
           credit: parsePaymentsApplied(r.payment_dates || r.payments || '', stRaw)
         };
@@ -1212,7 +1213,8 @@ function AccountsReceivable({ data }) {
     });
     const live = Object.values(map).map(o => {
       const due = o.dueDate || (o.orderDate ? new Date(o.orderDate.getTime() + 30 * 86400000) : null);
-      const base = o._hasLine ? o.amount : (o.orderRev || 0);
+      // Invoice total = line-item subtotal minus the invoice-level additional discount (matches the Apex invoice Total).
+      const base = Math.max(0, (o._hasLine ? o.amount : (o.orderRev || 0)) - (o.addlDiscount || 0));
       const net = Math.max(0, base - (o.credit || 0));
       const daysPastDue = due ? Math.floor((today - due) / 86400000) : 0;
       const shipBase = o.deliveryDate || o.orderDate;
@@ -2032,6 +2034,7 @@ function Dashboard({
           dueDate: parseDate(r.due_date_raw || r.due_date),
           notes: (r.notes || '').trim(),
           paymentMethod: r.payment_method || '',
+          addlDiscount: typeof r.additional_discounts === 'number' ? r.additional_discounts / 100 : parseMoney(r.additional_discounts),
           lineItems: 0,
           units: 0,
           revenue: 0,
@@ -2049,13 +2052,17 @@ function Dashboard({
       map[id].discount += r._lineDiscount;
     });
     return Object.values(map).map(o => {
-      const total = o.revenue;
-      const paid = Math.min(o.paid, total);
-      const outstanding = Math.max(0, total - paid);
+      // Invoice total = line subtotal minus the invoice-level additional discount (matches Apex).
+      const total = Math.max(0, o.revenue - (o.addlDiscount || 0));
+      // An invoice Apex marks Completed/Paid is settled — force it fully paid regardless of how
+      // the payment was recorded (credit, unrecorded, short), so it never shows a phantom balance.
+      // Word-boundary match: "paid"/"complete(d)" mean settled, but must NOT match "unpaid".
+      const paidStatus = /\bcomplet|\bpaid\b/i.test(o.status);
+      const paid = paidStatus ? total : Math.min(o.paid, total);
+      const outstanding = paidStatus ? 0 : Math.max(0, total - paid);
       const due = o.dueDate || (o.orderDate ? new Date(o.orderDate.getTime() + 30 * 86400000) : null);
       const shipBase = o.shipDate || o.orderDate;
       const terms = (o.dueDate && shipBase) ? Math.round((o.dueDate.getTime() - shipBase.getTime()) / 86400000) : 30;
-      const paidStatus = /paid|complete/i.test(o.status);
       const daysPastDue = paidStatus ? 0 : (due ? Math.floor((today - due) / 86400000) : 0);
       return Object.assign({}, o, {
         invoiceTotal: total, partialPayment: paid, outstanding: outstanding, terms: terms,
