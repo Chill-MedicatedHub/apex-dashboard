@@ -1,5 +1,5 @@
 {
-  "fetched_at": "2026-07-18T23:37:24.791960+00:00",
+  "fetched_at": "2026-07-18T23:45:27.569277+00:00",
   "from_date": "2025-05-01",
   "to_date": "2026-07-19",
   "row_count": 2227,
@@ -24195,7 +24195,7 @@
       "is_sample": "No",
       "order_number": "Legacy-5144",
       "order_status": "Delivered",
-      "payment_status": "Unpaid",
+      "payment_status": "Partial",
       "order_date_utc": "05/26/2026",
       "order_date_utc_raw": "2026-05-26",
       "order_date_localized": "05/26/2026",
@@ -24219,7 +24219,9 @@
       "sales_reps_display": [
         "Derek Dambrosio"
       ],
-      "payment_dates": [],
+      "payment_dates": [
+        "Payment of $1,000.00 on 07/17/2026"
+      ],
       "metrc_packages": null,
       "notes": null,
       "current_inventory": 9.0
@@ -81884,7 +81886,7 @@
       "is_sample": "No",
       "order_number": "Erva-970",
       "order_status": "Delivered",
-      "payment_status": "Partial",
+      "payment_status": "Completed",
       "order_date_utc": "01/09/2026",
       "order_date_utc_raw": "2026-01-09",
       "order_date_localized": "01/09/2026",
@@ -81910,7 +81912,8 @@
       ],
       "payment_dates": [
         "Payment of $1,725.00 on 07/06/2026",
-        "Payment of $1,000.00 on 05/29/2026"
+        "Payment of $1,000.00 on 05/29/2026",
+        "Payment of $2,000.00 on 07/17/2026"
       ],
       "metrc_packages": null,
       "notes": null,
@@ -81978,7 +81981,7 @@
       "is_sample": "No",
       "order_number": "Erva-970",
       "order_status": "Delivered",
-      "payment_status": "Partial",
+      "payment_status": "Completed",
       "order_date_utc": "01/09/2026",
       "order_date_utc_raw": "2026-01-09",
       "order_date_localized": "01/09/2026",
@@ -82004,7 +82007,8 @@
       ],
       "payment_dates": [
         "Payment of $1,725.00 on 07/06/2026",
-        "Payment of $1,000.00 on 05/29/2026"
+        "Payment of $1,000.00 on 05/29/2026",
+        "Payment of $2,000.00 on 07/17/2026"
       ],
       "metrc_packages": null,
       "notes": null,
@@ -82072,7 +82076,7 @@
       "is_sample": "No",
       "order_number": "Erva-970",
       "order_status": "Delivered",
-      "payment_status": "Partial",
+      "payment_status": "Completed",
       "order_date_utc": "01/09/2026",
       "order_date_utc_raw": "2026-01-09",
       "order_date_localized": "01/09/2026",
@@ -82098,7 +82102,8 @@
       ],
       "payment_dates": [
         "Payment of $1,725.00 on 07/06/2026",
-        "Payment of $1,000.00 on 05/29/2026"
+        "Payment of $1,000.00 on 05/29/2026",
+        "Payment of $2,000.00 on 07/17/2026"
       ],
       "metrc_packages": null,
       "notes": null,
@@ -82166,7 +82171,7 @@
       "is_sample": "No",
       "order_number": "Erva-970",
       "order_status": "Delivered",
-      "payment_status": "Partial",
+      "payment_status": "Completed",
       "order_date_utc": "01/09/2026",
       "order_date_utc_raw": "2026-01-09",
       "order_date_localized": "01/09/2026",
@@ -82192,7 +82197,8 @@
       ],
       "payment_dates": [
         "Payment of $1,725.00 on 07/06/2026",
-        "Payment of $1,000.00 on 05/29/2026"
+        "Payment of $1,000.00 on 05/29/2026",
+        "Payment of $2,000.00 on 07/17/2026"
       ],
       "metrc_packages": null,
       "notes": null,
@@ -82260,7 +82266,7 @@
       "is_sample": "No",
       "order_number": "Erva-970",
       "order_status": "Delivered",
-      "payment_status": "Partial",
+      "payment_status": "Completed",
       "order_date_utc": "01/09/2026",
       "order_date_utc_raw": "2026-01-09",
       "order_date_localized": "01/09/2026",
@@ -82286,7 +82292,8 @@
       ],
       "payment_dates": [
         "Payment of $1,725.00 on 07/06/2026",
-        "Payment of $1,000.00 on 05/29/2026"
+        "Payment of $1,000.00 on 05/29/2026",
+        "Payment of $2,000.00 on 07/17/2026"
       ],
       "metrc_packages": null,
       "notes": null,
@@ -82354,7 +82361,7 @@
       "is_sample": "No",
       "order_number": "Erva-970",
       "order_status": "Delivered",
-      "payment_status": "Partial",
+      "payment_status": "Completed",
       "order_date_utc": "01/09/2026",
       "order_date_utc_raw": "2026-01-09",
       "order_date_localized": "01/09/2026",
@@ -82380,7 +82387,8 @@
       ],
       "payment_dates": [
         "Payment of $1,725.00 on 07/06/2026",
-        "Payment of $1,000.00 on 05/29/2026"
+        "Payment of $1,000.00 on 05/29/2026",
+        "Payment of $2,000.00 on 07/17/2026"
       ],
       "metrc_packages": null,
       "notes": null,
@@ -82448,7 +82456,7 @@
       "is_sample": "No",
       "order_number": "Erva-970",
       "order_status": "Delivered",
-      "payment_status": "Partial",
+      "payment_status": "Completed",
       "order_date_utc": "01/09/2026",
       "order_date_utc_raw": "2026-01-09",
       "order_date_localized": "01/09/2026",
@@ -82474,7 +82482,8 @@
       ],
       "payment_dates": [
         "Payment of $1,725.00 on 07/06/2026",
-        "Payment of $1,000.00 on 05/29/2026"
+        "Payment of $1,000.00 on 05/29/2026",
+        "Payment of $2,000.00 on 07/17/2026"
       ],
       "metrc_packages": null,
       "notes": null,
