@@ -1589,9 +1589,16 @@ function Prospecting({ data }) {
     .filter(r => String(r.is_sample || '').toLowerCase() !== 'yes'
       && !/samp(le)?/i.test(String(r.product_name || '')));
 
-  const rowRev = r => (typeof r.line_total_raw === 'number')
-    ? r.line_total_raw / 100
-    : parseMoney(r.line_total || r.computed_sale_price || r.total);
+  const rowRev = r => {
+    if (typeof r.line_total_raw === 'number') return r.line_total_raw / 100;
+    if (typeof r.order_price === 'number') return r.order_price / 100;
+    if (r.gross != null) {
+      const g = parseFloat(r.gross) || 0;
+      const complete = String(r.order_status || '').toLowerCase() === 'complete';
+      return g - (complete ? (parseFloat(r.discount) || 0) : 0);
+    }
+    return parseMoney(r.line_total || r.computed_sale_price || r.total || r.revenue);
+  };
   const rowDate = r => parseDate(r.order_date_localized_raw || r.order_date_utc_raw
     || r.order_date_raw || r.order_date_localized || r.order_date_utc || r.order_date);
 
@@ -1736,6 +1743,17 @@ function Prospecting({ data }) {
     e('input', { type: 'text', className: 'filter-input', placeholder: ph, value: q,
       onChange: ev => setQ(ev.target.value) }));
 
+  // Pagination hoisted to top level so hook order is stable across section
+  // switches (Rules of Hooks): compute each section's filtered list, then ONE pager.
+  const _newFlt = prospects
+    ? (q ? prospects.filter(p => (p.name + ' ' + p.city + ' ' + p.license + ' ' + p.county).toLowerCase().includes(q.toLowerCase())) : prospects)
+    : [];
+  let _lapList = bucket === 'all' ? lapsed : lapsed.filter(b => b.bucket === bucket);
+  if (q) _lapList = _lapList.filter(b => (buyerBusinessName(b.name) + ' ' + b.city + ' ' + b.rep).toLowerCase().includes(q.toLowerCase()));
+  const _groList = q ? growth.filter(b => (buyerBusinessName(b.name) + ' ' + b.city + ' ' + b.rep).toLowerCase().includes(q.toLowerCase())) : growth;
+  const _activeLen = section === 'new' ? _newFlt.length : section === 'lapsed' ? _lapList.length : _groList.length;
+  const pg = usePager(_activeLen, 50);
+
   // ── NEW BUYERS ──
   let body;
   if (section === 'new') {
@@ -1749,9 +1767,7 @@ function Prospecting({ data }) {
             'licensed dispensary you have not yet invoiced. Source it from the CCC open-data ',
             '“licenses that commenced operations” export.')));
     } else {
-      const flt = q ? prospects.filter(p => (p.name + ' ' + p.city + ' ' + p.license + ' ' + p.county)
-        .toLowerCase().includes(q.toLowerCase())) : prospects;
-      const pg = usePager(flt.length, 50);
+      const flt = _newFlt;
       const cities = new Set(prospects.map(p => p.city).filter(Boolean));
       body = e(React.Fragment, null,
         e('div', { className: 'kpi-grid', style: { gridTemplateColumns: 'repeat(3, 1fr)', marginBottom: 20 } },
@@ -1795,9 +1811,7 @@ function Prospecting({ data }) {
     ];
     const cnt = k => lapsed.filter(b => b.bucket === k).length;
     const sumRev = k => lapsed.filter(b => k === 'all' || b.bucket === k).reduce((s, b) => s + b.rev, 0);
-    let list = bucket === 'all' ? lapsed : lapsed.filter(b => b.bucket === bucket);
-    if (q) list = list.filter(b => (buyerBusinessName(b.name) + ' ' + b.city + ' ' + b.rep).toLowerCase().includes(q.toLowerCase()));
-    const pg = usePager(list.length, 50);
+    const list = _lapList;
     const bkColor = k => (BK.find(x => x.key === k) || {}).color || 'var(--text-dim)';
     const bkLabel = k => (BK.find(x => x.key === k) || {}).label || k;
     const chip = (id, label, color) => {
@@ -1852,9 +1866,7 @@ function Prospecting({ data }) {
   if (section === 'growth') {
     const declineN = growth.filter(b => b.declining).length;
     const narrowN = growth.filter(b => b.narrow).length;
-    let list = growth;
-    if (q) list = list.filter(b => (buyerBusinessName(b.name) + ' ' + b.city + ' ' + b.rep).toLowerCase().includes(q.toLowerCase()));
-    const pg = usePager(list.length, 50);
+    const list = _groList;
     const badge = (txt, color) => e('span', { style: { display: 'inline-block', fontSize: 10.5,
       fontFamily: 'JetBrains Mono, monospace', padding: '2px 7px', borderRadius: 20, marginRight: 5,
       border: '1px solid ' + color, color: color, fontWeight: 700 } }, txt);
