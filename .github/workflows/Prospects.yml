@@ -1,0 +1,59 @@
+name: Build Prospects (Massachusetts)
+on:
+  schedule:
+    - cron: '30 6 * * 1'    # weekly, Monday 06:30 UTC — the CCC list changes slowly
+  workflow_dispatch:          # manual "Run workflow" button
+permissions:
+  contents: write
+concurrency:
+  group: ma-prospects
+  cancel-in-progress: false
+jobs:
+  prospects:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Download CCC licensee export
+        run: |
+          curl -sSL -A "chill-prospects" \
+            "https://masscannabiscontrol.com/resource/l_licenses_commence_ops.csv" \
+            -o ccc_licenses.csv
+          echo "Downloaded $(wc -l < ccc_licenses.csv) lines."
+      - name: Build prospects.json
+        run: python make_prospects.py ccc_licenses.csv prospects.json
+      - name: Clean up download
+        run: rm -f ccc_licenses.csv
+      - name: Commit prospects.json
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          # Stage FIRST, then check the staged diff — plain `git diff` ignores
+          # untracked files, so a brand-new prospects.json would look like "no changes".
+          git add prospects.json
+          if git diff --cached --quiet -- prospects.json; then
+            echo "No changes to commit."
+            exit 0
+          fi
+          cp prospects.json /tmp/prospects.json
+          for i in 1 2 3 4 5; do
+            git add prospects.json
+            git commit -m "Auto-update prospects.json [skip ci]" || true
+            if git push origin HEAD:main; then
+              echo "Pushed on attempt $i."
+              exit 0
+            fi
+            echo "Push $i failed (remote moved); resyncing and reapplying..."
+            git fetch origin main
+            git reset --hard origin/main
+            cp /tmp/prospects.json prospects.json
+            sleep 3
+          done
+          echo "ERROR: push failed after 5 attempts."
+          exit 1
