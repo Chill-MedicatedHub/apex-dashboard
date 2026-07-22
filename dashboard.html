@@ -1656,6 +1656,17 @@ function Prospecting({ data }) {
 
   const asOf = buyers.asOf;
   const fmtD = d => d ? ((d.getMonth() + 1) + '/' + String(d.getDate()).padStart(2, '0') + '/' + d.getFullYear()) : '—';
+  const exportXls = (filename, title, headers, rows2d) => {
+    if (!rows2d.length) { window.alert('Nothing to download in this view.'); return; }
+    const esc = v => String(v == null ? '' : v).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    const thead = '<tr>' + headers.map(h => '<th>' + esc(h) + '</th>').join('') + '</tr>';
+    const body = rows2d.map(r => '<tr>' + r.map(c => '<td>' + esc(c) + '</td>').join('') + '</tr>').join('');
+    const html = '<html xmlns:x="urn:schemas-microsoft-com:office:excel"><head><meta charset="utf-8"></head><body>'
+      + '<table><tr><td><b>' + esc(title) + '</b></td></tr><tr><td>Generated ' + esc(new Date().toLocaleString()) + '</td></tr></table><br>'
+      + '<table border="1"><thead>' + thead + '</thead><tbody>' + body + '</tbody></table></body></html>';
+    __dl(filename, new Blob([html], { type: 'application/vnd.ms-excel' }));
+  };
+  const dlBtn = onClick => e('button', { className: 'date-preset', onClick: onClick, title: 'Download this view as Excel' }, '⬇ Excel');
   const ourLics = useMemo(() => {
     const s = new Set();
     (data.rows || []).forEach(r => { const l = normLic(r.buyer_license); if (l) s.add(l); });
@@ -1751,7 +1762,11 @@ function Prospecting({ data }) {
         e('section', { className: 'section' },
           e('div', { className: 'section-header' },
             e('h2', { className: 'section-title' }, 'New / potential ', e('em', null, 'buyers')),
-            e('span', { className: 'section-meta' }, fmtNum(flt.length) + ' prospects · A→Z by town')),
+            e('div', { style: { display: 'flex', gap: 8, alignItems: 'center', flexWrap: 'wrap' } },
+              e('span', { className: 'section-meta' }, fmtNum(flt.length) + ' prospects · A→Z by town'),
+              dlBtn(() => exportXls('Chill_MA_Prospects_New.xls', 'Chill Medicated MA \u2014 New / Potential Buyers',
+                ['Dispensary', 'Town', 'County', 'License #', 'Address'],
+                flt.map(p => [p.name, p.city, p.county, p.license, p.address]))))),
           e('div', { className: 'card', style: { padding: 0, overflow: 'hidden' } },
             e('div', { style: { overflowX: 'auto', maxHeight: 620 } },
               e('table', { className: 'data-table', style: { minWidth: 820 } },
@@ -1806,7 +1821,11 @@ function Prospecting({ data }) {
       e('section', { className: 'section' },
         e('div', { className: 'section-header' },
           e('h2', { className: 'section-title' }, 'Lapsed ', e('em', null, 'buyers')),
-          e('span', { className: 'section-meta' }, fmtNum(list.length) + ' buyers · highest value first · as of ' + fmtD(asOf))),
+          e('div', { style: { display: 'flex', gap: 8, alignItems: 'center', flexWrap: 'wrap' } },
+            e('span', { className: 'section-meta' }, fmtNum(list.length) + ' buyers · highest value first · as of ' + fmtD(asOf)),
+            dlBtn(() => exportXls('Chill_MA_Lapsed_Buyers.xls', 'Chill Medicated MA \u2014 Lapsed Buyers (as of ' + fmtD(asOf) + ')',
+              ['Buyer', 'Town', 'Last order', 'Days quiet', 'Lifetime value', 'Orders', 'Avg order', 'Rep'],
+              list.map(b => [buyerBusinessName(b.name), b.city, fmtD(b.last ? new Date(b.last) : null), b.gap, b.rev.toFixed(2), b.orderCount, (b.orderCount ? b.rev / b.orderCount : 0).toFixed(2), b.rep]))))),
         e('div', { className: 'card', style: { padding: 0, overflow: 'hidden' } },
           e('div', { style: { overflowX: 'auto', maxHeight: 620 } },
             e('table', { className: 'data-table', style: { minWidth: 940 } },
@@ -1852,7 +1871,11 @@ function Prospecting({ data }) {
       e('section', { className: 'section' },
         e('div', { className: 'section-header' },
           e('h2', { className: 'section-title' }, 'Growth ', e('em', null, 'opportunities')),
-          e('span', { className: 'section-meta' }, fmtNum(list.length) + ' buyers · highest value first · as of ' + fmtD(asOf))),
+          e('div', { style: { display: 'flex', gap: 8, alignItems: 'center', flexWrap: 'wrap' } },
+            e('span', { className: 'section-meta' }, fmtNum(list.length) + ' buyers · highest value first · as of ' + fmtD(asOf)),
+            dlBtn(() => exportXls('Chill_MA_Growth_Opportunities.xls', 'Chill Medicated MA \u2014 Growth Opportunities (as of ' + fmtD(asOf) + ')',
+              ['Buyer', 'Town', 'Signal', 'Last 30d', 'Prior 30d', 'Trend', 'Lines', 'Missing lines', 'Rep'],
+              list.map(b => [buyerBusinessName(b.name), b.city, [b.declining ? 'Declining' : '', b.narrow ? 'Narrow' : ''].filter(Boolean).join(' + '), b.rev30.toFixed(2), b.revPrev30.toFixed(2), (b.trend == null ? 'new' : Math.round(b.trend * 100) + '%'), b.catCount + '/' + catUniverse.length, b.missing.join(', '), b.rep]))))),
         e('div', { className: 'card', style: { padding: 0, overflow: 'hidden' } },
           e('div', { style: { overflowX: 'auto', maxHeight: 620 } },
             e('table', { className: 'data-table', style: { minWidth: 1040 } },
