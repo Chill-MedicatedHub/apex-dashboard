@@ -1674,10 +1674,18 @@ function Prospecting({ data }) {
     __dl(filename, new Blob([html], { type: 'application/vnd.ms-excel' }));
   };
   const dlBtn = onClick => e('button', { className: 'date-preset', onClick: onClick, title: 'Download this view as Excel' }, '⬇ Excel');
-  const ourLics = useMemo(() => {
-    const s = new Set();
-    (data.rows || []).forEach(r => { const l = normLic(r.buyer_license); if (l) s.add(l); });
-    return s;
+  const normName = s => String(s || '').trim().toLowerCase().replace(/\s+/g, ' ');
+  // Match new-vs-existing on license when present (Apex / MI LeafLink), otherwise
+  // on buyer name. NJ's LeafLink feed carries no license, but its buyer names come
+  // from the same LeafLink customer directory a prospect list does, so name
+  // matching is exact there.
+  const ourBook = useMemo(() => {
+    const lics = new Set(), names = new Set();
+    (data.rows || []).forEach(r => {
+      const l = normLic(r.buyer_license); if (l) lics.add(l);
+      const n = normName(r.buyer_name); if (n) names.add(n);
+    });
+    return { lics, names };
   }, [data]);
 
   const [section, setSection] = React.useState('new');
@@ -1695,15 +1703,19 @@ function Prospecting({ data }) {
       const status = String(p.status || '');
       if (status && !/active/i.test(status)) return false;
       if (type && !/retail|treatment/i.test(type)) return false;
-      if (!lic) return false;
-      if (ourLics.has(lic)) return false;           // already a customer
-      if (seen.has(lic)) return false;              // dedupe
-      seen.add(lic);
+      const nm = normName(p.name);
+      if (!lic && !nm) return false;                    // need some identifier
+      if (lic && ourBook.lics.has(lic)) return false;   // already a customer (by license)
+      if (nm && ourBook.names.has(nm)) return false;    // already a customer (by name)
+      const key = lic || nm;
+      if (seen.has(key)) return false;                  // dedupe
+      seen.add(key);
       return true;
     }).map(p => ({ name: p.name || '—', license: normLic(p.license), city: p.city || '',
-      county: p.county || '', address: p.address || '', zip: p.zip || '' }))
+      county: p.county || '', address: p.address || '', zip: p.zip || '',
+      phone: p.phone || '', email: p.email || '', website: p.website || '' }))
       .sort((a, b) => (a.city || '').localeCompare(b.city || '') || a.name.localeCompare(b.name));
-  }, [data, ourLics]);
+  }, [data, ourBook]);
 
   const lapsed = useMemo(() => buyers.list
     .filter(b => b.gap != null && b.gap > 30)
@@ -1746,7 +1758,7 @@ function Prospecting({ data }) {
   // Pagination hoisted to top level so hook order is stable across section
   // switches (Rules of Hooks): compute each section's filtered list, then ONE pager.
   const _newFlt = prospects
-    ? (q ? prospects.filter(p => (p.name + ' ' + p.city + ' ' + p.license + ' ' + p.county).toLowerCase().includes(q.toLowerCase())) : prospects)
+    ? (q ? prospects.filter(p => (p.name + ' ' + p.city + ' ' + p.license + ' ' + p.county + ' ' + (p.phone || '') + ' ' + (p.email || '')).toLowerCase().includes(q.toLowerCase())) : prospects)
     : [];
   let _lapList = bucket === 'all' ? lapsed : lapsed.filter(b => b.bucket === bucket);
   if (q) _lapList = _lapList.filter(b => (buyerBusinessName(b.name) + ' ' + b.city + ' ' + b.rep).toLowerCase().includes(q.toLowerCase()));
@@ -1773,7 +1785,7 @@ function Prospecting({ data }) {
         e('div', { className: 'kpi-grid', style: { gridTemplateColumns: 'repeat(3, 1fr)', marginBottom: 20 } },
           cell('Untapped retailers', fmtNum(prospects.length), 'licensed · never invoiced', 'var(--accent)'),
           cell('Towns covered', fmtNum(cities.size), 'distinct municipalities'),
-          cell('Already customers', fmtNum(ourLics.size), 'licenses in your book')),
+          cell('Already customers', fmtNum(Math.max(ourBook.lics.size, ourBook.names.size)), 'accounts in your book')),
         e('div', { className: 'filters', style: { marginBottom: 16 } }, searchBox('name / town / license…')),
         e('section', { className: 'section' },
           e('div', { className: 'section-header' },
@@ -1781,23 +1793,27 @@ function Prospecting({ data }) {
             e('div', { style: { display: 'flex', gap: 8, alignItems: 'center', flexWrap: 'wrap' } },
               e('span', { className: 'section-meta' }, fmtNum(flt.length) + ' prospects · A→Z by town'),
               dlBtn(() => exportXls('Chill_MA_Prospects_New.xls', 'Chill Medicated MA \u2014 New / Potential Buyers',
-                ['Dispensary', 'Town', 'County', 'License #', 'Address'],
-                flt.map(p => [p.name, p.city, p.county, p.license, p.address]))))),
+                ['Dispensary', 'Town', 'County', 'License #', 'Address', 'Phone', 'Email', 'Website'],
+                flt.map(p => [p.name, p.city, p.county, p.license, p.address, p.phone, p.email, p.website]))))),
           e('div', { className: 'card', style: { padding: 0, overflow: 'hidden' } },
             e('div', { style: { overflowX: 'auto', maxHeight: 620 } },
-              e('table', { className: 'data-table', style: { minWidth: 820 } },
+              e('table', { className: 'data-table', style: { minWidth: 1200 } },
                 e('thead', null, e('tr', null,
                   e('th', null, 'Dispensary'), e('th', null, 'Town'), e('th', null, 'County'),
-                  e('th', null, 'License #'), e('th', null, 'Address'))),
+                  e('th', null, 'License #'), e('th', null, 'Address'),
+                  e('th', null, 'Phone'), e('th', null, 'Email'), e('th', null, 'Website'))),
                 e('tbody', null,
                   flt.length === 0
-                    ? e('tr', null, e('td', { colSpan: 5, style: { padding: 20, textAlign: 'center', color: 'var(--text-faint)' } }, 'No prospects match your search.'))
+                    ? e('tr', null, e('td', { colSpan: 8, style: { padding: 20, textAlign: 'center', color: 'var(--text-faint)' } }, 'No prospects match your search.'))
                     : flt.slice(pg.start, pg.end).map((p, i) => e('tr', { key: i },
                         e('td', { style: { whiteSpace: 'normal', minWidth: 200, fontWeight: 600 } }, p.name),
                         e('td', null, p.city || '—'),
                         e('td', { className: 'dim' }, p.county || '—'),
                         e('td', { className: 'font-mono', style: { color: 'var(--accent)', fontSize: 11 } }, p.license),
-                        e('td', { className: 'dim', style: { whiteSpace: 'normal', minWidth: 200, fontSize: 12 } }, p.address || '—'))))))),
+                        e('td', { className: 'dim', style: { whiteSpace: 'normal', minWidth: 200, fontSize: 12 } }, p.address || '—'),
+                        e('td', { className: 'font-mono', style: { fontSize: 11, whiteSpace: 'nowrap' } }, p.phone ? e('a', { href: 'tel:' + p.phone, style: { color: 'var(--accent)' } }, p.phone) : '—'),
+                        e('td', { style: { fontSize: 11 } }, p.email ? e('a', { href: 'mailto:' + p.email, style: { color: 'var(--accent)' } }, p.email) : '—'),
+                        e('td', { style: { fontSize: 11 } }, p.website ? e('a', { href: (/^https?:\/\//.test(p.website) ? p.website : 'https://' + p.website), target: '_blank', rel: 'noopener', style: { color: 'var(--accent)' } }, 'Visit ↗') : '—'))))))),
           e(Pager, { pager: pg, total: flt.length, unit: 'prospects' })));
     }
   }
