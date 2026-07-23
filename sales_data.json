@@ -1,5 +1,5 @@
 {
-  "fetched_at": "2026-07-23T17:15:28.137138+00:00",
+  "fetched_at": "2026-07-23T17:30:38.608673+00:00",
   "from_date": "2025-05-01",
   "to_date": "2026-07-24",
   "row_count": 2259,
@@ -367,97 +367,6 @@
       "metrc_packages": null,
       "notes": null,
       "current_inventory": 45.0
-    },
-    {
-      "industry": "Recreational",
-      "buyer_license": "MR282587",
-      "seller_license": "MT281556",
-      "product_id": 208121,
-      "product_name": "EXTREME X | 2000mg THC : 2000mg CBD | Body Rub | 30ct Case",
-      "product_sku": "2000ExtremeX",
-      "product_category_id": 15,
-      "product_category": "Topicals & Wellness",
-      "product_category_name": "Topicals & Wellness",
-      "product_type_id": 75,
-      "product_type": "Salve",
-      "product_brand_id": 2500,
-      "product_brand": "Chill Medicated",
-      "product_brand_image": null,
-      "product_cultivar_id": null,
-      "product_cultivar": null,
-      "product_cultivar_type_id": null,
-      "product_cultivar_type": null,
-      "product_cbd_type": "THC",
-      "product_grow_environment": null,
-      "product_extraction_method": null,
-      "product_unit_size_and_measurement": "2.50 Ounce",
-      "product_listing_price": "$50.00",
-      "operation_id": 4547,
-      "operation": "Bodelle's - Chill Medicated",
-      "batch_name": "2000ExtremeX-1A40A030000B4DD000012397-051126",
-      "batch_cbd_potency": "1980.33Mg",
-      "batch_cost_of_goods": "$0.00",
-      "batch_location": null,
-      "batch_harvest_date": null,
-      "batch_harvest_date_raw": null,
-      "batch_best_by_date": "05/11/2027",
-      "batch_best_by_date_raw": "2027-05-11",
-      "batch_production_date": null,
-      "batch_production_date_raw": null,
-      "batch_test_date": null,
-      "batch_test_date_raw": null,
-      "batch_created_at": "05/14/2026",
-      "batch_created_at_raw": "2026-05-14 16:57:11",
-      "computed_sale_price": "$45.00",
-      "minimum_sales_price": "$0.00",
-      "total_cost_of_goods": "$0.00",
-      "true_cost": "$0.00",
-      "discounts": 0,
-      "surcharges": 0,
-      "additional_discounts": 0,
-      "tiered_surcharge": null,
-      "line_total": "$315.00",
-      "line_total_raw": 31500,
-      "inventory_quantity": 7,
-      "order_quantity": 7,
-      "quantity": 7,
-      "quantity_raw": 7,
-      "inventory_unit_of_measurement": "Unit",
-      "order_unit_of_measurement": "Unit",
-      "units_per_package": 1,
-      "packages_per_case": 30,
-      "package_case": null,
-      "is_sample": "No",
-      "order_number": "Legacy-5219",
-      "order_status": "Order approved",
-      "payment_status": "Unpaid",
-      "order_date_utc": "07/22/2026",
-      "order_date_utc_raw": "2026-07-22",
-      "order_date_localized": "07/22/2026",
-      "order_date_localized_raw": "2026-07-22T00:00:00.000000Z",
-      "delivery_date": null,
-      "delivery_date_raw": null,
-      "due_date": null,
-      "due_date_raw": null,
-      "manifest_number": null,
-      "buyer_id": 263676,
-      "buyer_name": "Lynn City Greens",
-      "buyer_group": null,
-      "buyer_shipping_name": "Lynn City Greens",
-      "buyer_address": "100 Ford St",
-      "buyer_address_html": "100 Ford St",
-      "buyer_city": "Lynn",
-      "buyer_state": "Massachusetts",
-      "buyer_zip": "01904",
-      "buyer_country": "US",
-      "sales_reps": "David Shaba",
-      "sales_reps_display": [
-        "David Shaba"
-      ],
-      "payment_dates": [],
-      "metrc_packages": null,
-      "notes": null,
-      "current_inventory": 9.0
     },
     {
       "industry": "Recreational",
@@ -1095,6 +1004,97 @@
       "metrc_packages": null,
       "notes": null,
       "current_inventory": 315.0
+    },
+    {
+      "industry": "Recreational",
+      "buyer_license": "MR282587",
+      "seller_license": "MT281556",
+      "product_id": 208121,
+      "product_name": "EXTREME X | 2000mg THC : 2000mg CBD | Body Rub | 30ct Case",
+      "product_sku": "2000ExtremeX",
+      "product_category_id": 15,
+      "product_category": "Topicals & Wellness",
+      "product_category_name": "Topicals & Wellness",
+      "product_type_id": 75,
+      "product_type": "Salve",
+      "product_brand_id": 2500,
+      "product_brand": "Chill Medicated",
+      "product_brand_image": null,
+      "product_cultivar_id": null,
+      "product_cultivar": null,
+      "product_cultivar_type_id": null,
+      "product_cultivar_type": null,
+      "product_cbd_type": "THC",
+      "product_grow_environment": null,
+      "product_extraction_method": null,
+      "product_unit_size_and_measurement": "2.50 Ounce",
+      "product_listing_price": "$50.00",
+      "operation_id": 4547,
+      "operation": "Bodelle's - Chill Medicated",
+      "batch_name": "ExtremeX2000-11042025",
+      "batch_cbd_potency": "2048.00Mg",
+      "batch_cost_of_goods": "$0.00",
+      "batch_location": null,
+      "batch_harvest_date": null,
+      "batch_harvest_date_raw": null,
+      "batch_best_by_date": "11/04/2026",
+      "batch_best_by_date_raw": "2026-11-04",
+      "batch_production_date": "10/24/2025",
+      "batch_production_date_raw": "2025-10-24",
+      "batch_test_date": null,
+      "batch_test_date_raw": null,
+      "batch_created_at": "11/12/2025",
+      "batch_created_at_raw": "2025-11-12 17:57:25",
+      "computed_sale_price": "$50.00",
+      "minimum_sales_price": "$0.00",
+      "total_cost_of_goods": "$0.00",
+      "true_cost": "$0.00",
+      "discounts": 0,
+      "surcharges": 0,
+      "additional_discounts": 0,
+      "tiered_surcharge": null,
+      "line_total": "$250.00",
+      "line_total_raw": 25000,
+      "inventory_quantity": 5,
+      "order_quantity": 5,
+      "quantity": 5,
+      "quantity_raw": 5,
+      "inventory_unit_of_measurement": "Unit",
+      "order_unit_of_measurement": "Unit",
+      "units_per_package": 1,
+      "packages_per_case": 30,
+      "package_case": null,
+      "is_sample": "No",
+      "order_number": "Legacy-5219",
+      "order_status": "Order approved",
+      "payment_status": "Unpaid",
+      "order_date_utc": "07/22/2026",
+      "order_date_utc_raw": "2026-07-22",
+      "order_date_localized": "07/22/2026",
+      "order_date_localized_raw": "2026-07-22T00:00:00.000000Z",
+      "delivery_date": null,
+      "delivery_date_raw": null,
+      "due_date": null,
+      "due_date_raw": null,
+      "manifest_number": null,
+      "buyer_id": 263676,
+      "buyer_name": "Lynn City Greens",
+      "buyer_group": null,
+      "buyer_shipping_name": "Lynn City Greens",
+      "buyer_address": "100 Ford St",
+      "buyer_address_html": "100 Ford St",
+      "buyer_city": "Lynn",
+      "buyer_state": "Massachusetts",
+      "buyer_zip": "01904",
+      "buyer_country": "US",
+      "sales_reps": "David Shaba",
+      "sales_reps_display": [
+        "David Shaba"
+      ],
+      "payment_dates": [],
+      "metrc_packages": null,
+      "notes": null,
+      "current_inventory": 14.0
     },
     {
       "industry": "Recreational",
@@ -2010,97 +2010,6 @@
       "industry": "Recreational",
       "buyer_license": "MR281597",
       "seller_license": "MT281556",
-      "product_id": 208121,
-      "product_name": "EXTREME X | 2000mg THC : 2000mg CBD | Body Rub | 30ct Case",
-      "product_sku": "2000ExtremeX",
-      "product_category_id": 15,
-      "product_category": "Topicals & Wellness",
-      "product_category_name": "Topicals & Wellness",
-      "product_type_id": 75,
-      "product_type": "Salve",
-      "product_brand_id": 2500,
-      "product_brand": "Chill Medicated",
-      "product_brand_image": null,
-      "product_cultivar_id": null,
-      "product_cultivar": null,
-      "product_cultivar_type_id": null,
-      "product_cultivar_type": null,
-      "product_cbd_type": "THC",
-      "product_grow_environment": null,
-      "product_extraction_method": null,
-      "product_unit_size_and_measurement": "2.50 Ounce",
-      "product_listing_price": "$50.00",
-      "operation_id": 4547,
-      "operation": "Bodelle's - Chill Medicated",
-      "batch_name": "2000ExtremeX-1A40A030000B4DD000012397-051126",
-      "batch_cbd_potency": "1980.33Mg",
-      "batch_cost_of_goods": "$0.00",
-      "batch_location": null,
-      "batch_harvest_date": null,
-      "batch_harvest_date_raw": null,
-      "batch_best_by_date": "05/11/2027",
-      "batch_best_by_date_raw": "2027-05-11",
-      "batch_production_date": null,
-      "batch_production_date_raw": null,
-      "batch_test_date": null,
-      "batch_test_date_raw": null,
-      "batch_created_at": "05/14/2026",
-      "batch_created_at_raw": "2026-05-14 16:57:11",
-      "computed_sale_price": "$45.00",
-      "minimum_sales_price": "$0.00",
-      "total_cost_of_goods": "$0.00",
-      "true_cost": "$0.00",
-      "discounts": 0,
-      "surcharges": 0,
-      "additional_discounts": 0,
-      "tiered_surcharge": null,
-      "line_total": "$315.00",
-      "line_total_raw": 31500,
-      "inventory_quantity": 7,
-      "order_quantity": 7,
-      "quantity": 7,
-      "quantity_raw": 7,
-      "inventory_unit_of_measurement": "Unit",
-      "order_unit_of_measurement": "Unit",
-      "units_per_package": 1,
-      "packages_per_case": 30,
-      "package_case": null,
-      "is_sample": "No",
-      "order_number": "Legacy-5218",
-      "order_status": "Order approved",
-      "payment_status": "Unpaid",
-      "order_date_utc": "07/22/2026",
-      "order_date_utc_raw": "2026-07-22",
-      "order_date_localized": "07/22/2026",
-      "order_date_localized_raw": "2026-07-22T00:00:00.000000Z",
-      "delivery_date": null,
-      "delivery_date_raw": null,
-      "due_date": null,
-      "due_date_raw": null,
-      "manifest_number": null,
-      "buyer_id": 263421,
-      "buyer_name": "Green Emerald",
-      "buyer_group": null,
-      "buyer_shipping_name": "Green Emerald",
-      "buyer_address": "9 Cape Rd",
-      "buyer_address_html": "9 Cape Rd",
-      "buyer_city": "Taunton",
-      "buyer_state": "Massachusetts",
-      "buyer_zip": "02780",
-      "buyer_country": "US",
-      "sales_reps": "David Shaba",
-      "sales_reps_display": [
-        "David Shaba"
-      ],
-      "payment_dates": [],
-      "metrc_packages": null,
-      "notes": null,
-      "current_inventory": 9.0
-    },
-    {
-      "industry": "Recreational",
-      "buyer_license": "MR281597",
-      "seller_license": "MT281556",
       "product_id": 328377,
       "product_name": "SNOOZE | 500mg THC 250mg CBD 250 CBN | Dreamberry Syrup | 30ct Case",
       "product_sku": "SNOOZE1000",
@@ -2278,6 +2187,97 @@
       "metrc_packages": null,
       "notes": "1A40A030000B4DD000009843",
       "current_inventory": 345.0
+    },
+    {
+      "industry": "Recreational",
+      "buyer_license": "MR281597",
+      "seller_license": "MT281556",
+      "product_id": 208121,
+      "product_name": "EXTREME X | 2000mg THC : 2000mg CBD | Body Rub | 30ct Case",
+      "product_sku": "2000ExtremeX",
+      "product_category_id": 15,
+      "product_category": "Topicals & Wellness",
+      "product_category_name": "Topicals & Wellness",
+      "product_type_id": 75,
+      "product_type": "Salve",
+      "product_brand_id": 2500,
+      "product_brand": "Chill Medicated",
+      "product_brand_image": null,
+      "product_cultivar_id": null,
+      "product_cultivar": null,
+      "product_cultivar_type_id": null,
+      "product_cultivar_type": null,
+      "product_cbd_type": "THC",
+      "product_grow_environment": null,
+      "product_extraction_method": null,
+      "product_unit_size_and_measurement": "2.50 Ounce",
+      "product_listing_price": "$50.00",
+      "operation_id": 4547,
+      "operation": "Bodelle's - Chill Medicated",
+      "batch_name": "ExtremeX2000-11042025",
+      "batch_cbd_potency": "2048.00Mg",
+      "batch_cost_of_goods": "$0.00",
+      "batch_location": null,
+      "batch_harvest_date": null,
+      "batch_harvest_date_raw": null,
+      "batch_best_by_date": "11/04/2026",
+      "batch_best_by_date_raw": "2026-11-04",
+      "batch_production_date": "10/24/2025",
+      "batch_production_date_raw": "2025-10-24",
+      "batch_test_date": null,
+      "batch_test_date_raw": null,
+      "batch_created_at": "11/12/2025",
+      "batch_created_at_raw": "2025-11-12 17:57:25",
+      "computed_sale_price": "$50.00",
+      "minimum_sales_price": "$0.00",
+      "total_cost_of_goods": "$0.00",
+      "true_cost": "$0.00",
+      "discounts": 0,
+      "surcharges": 0,
+      "additional_discounts": 0,
+      "tiered_surcharge": null,
+      "line_total": "$200.00",
+      "line_total_raw": 20000,
+      "inventory_quantity": 4,
+      "order_quantity": 4,
+      "quantity": 4,
+      "quantity_raw": 4,
+      "inventory_unit_of_measurement": "Unit",
+      "order_unit_of_measurement": "Unit",
+      "units_per_package": 1,
+      "packages_per_case": 30,
+      "package_case": null,
+      "is_sample": "No",
+      "order_number": "Legacy-5218",
+      "order_status": "Order approved",
+      "payment_status": "Unpaid",
+      "order_date_utc": "07/22/2026",
+      "order_date_utc_raw": "2026-07-22",
+      "order_date_localized": "07/22/2026",
+      "order_date_localized_raw": "2026-07-22T00:00:00.000000Z",
+      "delivery_date": null,
+      "delivery_date_raw": null,
+      "due_date": null,
+      "due_date_raw": null,
+      "manifest_number": null,
+      "buyer_id": 263421,
+      "buyer_name": "Green Emerald",
+      "buyer_group": null,
+      "buyer_shipping_name": "Green Emerald",
+      "buyer_address": "9 Cape Rd",
+      "buyer_address_html": "9 Cape Rd",
+      "buyer_city": "Taunton",
+      "buyer_state": "Massachusetts",
+      "buyer_zip": "02780",
+      "buyer_country": "US",
+      "sales_reps": "David Shaba",
+      "sales_reps_display": [
+        "David Shaba"
+      ],
+      "payment_dates": [],
+      "metrc_packages": null,
+      "notes": null,
+      "current_inventory": 14.0
     },
     {
       "industry": "Recreational",
@@ -3733,7 +3733,7 @@
       "payment_dates": [],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 9.0
+      "current_inventory": 14.0
     },
     {
       "industry": "Recreational",
@@ -8014,7 +8014,7 @@
       "payment_dates": [],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 9.0
+      "current_inventory": 14.0
     },
     {
       "industry": "Recreational",
@@ -11563,7 +11563,7 @@
       "payment_dates": [],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 9.0
+      "current_inventory": 14.0
     },
     {
       "industry": "Recreational",
@@ -12655,7 +12655,7 @@
       "payment_dates": [],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 9.0
+      "current_inventory": 14.0
     },
     {
       "industry": "Recreational",
@@ -13659,7 +13659,7 @@
       "payment_dates": [],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 9.0
+      "current_inventory": 14.0
     },
     {
       "industry": "Recreational",
@@ -14114,7 +14114,7 @@
       "payment_dates": [],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 9.0
+      "current_inventory": 14.0
     },
     {
       "industry": "Recreational",
@@ -15772,7 +15772,7 @@
       "payment_dates": [],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 9.0
+      "current_inventory": 14.0
     },
     {
       "industry": "Recreational",
@@ -19455,7 +19455,7 @@
       "payment_dates": [],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 9.0
+      "current_inventory": 14.0
     },
     {
       "industry": "Recreational",
@@ -20563,7 +20563,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 9.0
+      "current_inventory": 14.0
     },
     {
       "industry": "Recreational",
@@ -22349,7 +22349,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 9.0
+      "current_inventory": 14.0
     },
     {
       "industry": "Recreational",
@@ -23000,7 +23000,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 9.0
+      "current_inventory": 14.0
     },
     {
       "industry": "Recreational",
@@ -23837,7 +23837,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 9.0
+      "current_inventory": 14.0
     },
     {
       "industry": "Recreational",
@@ -23930,7 +23930,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 9.0
+      "current_inventory": 14.0
     },
     {
       "industry": "Recreational",
@@ -31334,7 +31334,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 9.0
+      "current_inventory": 14.0
     },
     {
       "industry": "Recreational",
@@ -33201,7 +33201,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 9.0
+      "current_inventory": 14.0
     },
     {
       "industry": "Recreational",
@@ -41927,7 +41927,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 9.0
+      "current_inventory": 14.0
     },
     {
       "industry": "Recreational",
@@ -42392,7 +42392,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 9.0
+      "current_inventory": 14.0
     },
     {
       "industry": "Recreational",
@@ -45841,7 +45841,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 9.0
+      "current_inventory": 14.0
     },
     {
       "industry": "Recreational",
@@ -52876,7 +52876,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 9.0
+      "current_inventory": 14.0
     },
     {
       "industry": "Recreational",
@@ -54271,7 +54271,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 9.0
+      "current_inventory": 14.0
     },
     {
       "industry": "Recreational",
@@ -65272,7 +65272,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 9.0
+      "current_inventory": 14.0
     },
     {
       "industry": "Recreational",
@@ -65640,7 +65640,7 @@
       "payment_dates": [],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 9.0
+      "current_inventory": 14.0
     },
     {
       "industry": "Recreational",
@@ -71686,7 +71686,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 9.0
+      "current_inventory": 14.0
     },
     {
       "industry": "Recreational",
@@ -72341,7 +72341,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 9.0
+      "current_inventory": 14.0
     },
     {
       "industry": "Recreational",
@@ -77799,7 +77799,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 9.0
+      "current_inventory": 14.0
     },
     {
       "industry": "Recreational",
@@ -79198,7 +79198,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 9.0
+      "current_inventory": 14.0
     },
     {
       "industry": "Recreational",
@@ -79291,7 +79291,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 9.0
+      "current_inventory": 14.0
     },
     {
       "industry": "Recreational",
@@ -80593,7 +80593,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 9.0
+      "current_inventory": 14.0
     },
     {
       "industry": "Recreational",
@@ -81802,7 +81802,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 9.0
+      "current_inventory": 14.0
     },
     {
       "industry": "Recreational",
@@ -82825,7 +82825,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 9.0
+      "current_inventory": 14.0
     },
     {
       "industry": "Recreational",
@@ -86389,7 +86389,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 9.0
+      "current_inventory": 14.0
     },
     {
       "industry": "Recreational",
@@ -88831,7 +88831,7 @@
       "payment_dates": [],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 9.0
+      "current_inventory": 14.0
     },
     {
       "industry": "Recreational",
@@ -89577,7 +89577,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 9.0
+      "current_inventory": 14.0
     },
     {
       "industry": "Recreational",
@@ -100514,7 +100514,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 9.0
+      "current_inventory": 14.0
     },
     {
       "industry": "Recreational",
@@ -100886,7 +100886,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 9.0
+      "current_inventory": 14.0
     },
     {
       "industry": "Recreational",
@@ -101356,7 +101356,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 9.0
+      "current_inventory": 14.0
     },
     {
       "industry": "Recreational",
@@ -105716,7 +105716,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 9.0
+      "current_inventory": 14.0
     },
     {
       "industry": "Recreational",
@@ -106553,7 +106553,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 9.0
+      "current_inventory": 14.0
     },
     {
       "industry": "Recreational",
@@ -108878,7 +108878,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 9.0
+      "current_inventory": 14.0
     },
     {
       "industry": "Recreational",
@@ -111765,7 +111765,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 9.0
+      "current_inventory": 14.0
     },
     {
       "industry": "Recreational",
@@ -113074,7 +113074,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 9.0
+      "current_inventory": 14.0
     },
     {
       "industry": "Recreational",
@@ -114097,7 +114097,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 9.0
+      "current_inventory": 14.0
     },
     {
       "industry": "Recreational",
@@ -115864,7 +115864,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 9.0
+      "current_inventory": 14.0
     },
     {
       "industry": "Recreational",
@@ -117176,7 +117176,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 9.0
+      "current_inventory": 14.0
     },
     {
       "industry": "Recreational",
@@ -118664,7 +118664,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 9.0
+      "current_inventory": 14.0
     },
     {
       "industry": "Recreational",
@@ -119222,7 +119222,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 9.0
+      "current_inventory": 14.0
     },
     {
       "industry": "Recreational",
@@ -122291,7 +122291,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 9.0
+      "current_inventory": 14.0
     },
     {
       "industry": "Recreational",
@@ -123035,7 +123035,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 9.0
+      "current_inventory": 14.0
     },
     {
       "industry": "Recreational",
@@ -130498,7 +130498,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 9.0
+      "current_inventory": 14.0
     },
     {
       "industry": "Recreational",
@@ -136803,7 +136803,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 9.0
+      "current_inventory": 14.0
     },
     {
       "industry": "Recreational",
@@ -141211,7 +141211,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 9.0
+      "current_inventory": 14.0
     },
     {
       "industry": "Recreational",
@@ -142051,7 +142051,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 9.0
+      "current_inventory": 14.0
     },
     {
       "industry": "Recreational",
@@ -143166,7 +143166,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 9.0
+      "current_inventory": 14.0
     },
     {
       "industry": "Recreational",
@@ -146407,7 +146407,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 9.0
+      "current_inventory": 14.0
     },
     {
       "industry": "Recreational",
@@ -147707,7 +147707,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 9.0
+      "current_inventory": 14.0
     },
     {
       "industry": "Recreational",
@@ -148451,7 +148451,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 9.0
+      "current_inventory": 14.0
     },
     {
       "industry": "Recreational",
@@ -149288,7 +149288,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 9.0
+      "current_inventory": 14.0
     },
     {
       "industry": "Recreational",
@@ -158635,7 +158635,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 9.0
+      "current_inventory": 14.0
     },
     {
       "industry": "Recreational",
@@ -159093,7 +159093,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 9.0
+      "current_inventory": 14.0
     },
     {
       "industry": "Recreational",
@@ -161231,7 +161231,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 9.0
+      "current_inventory": 14.0
     },
     {
       "industry": "Recreational",
@@ -167850,7 +167850,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 9.0
+      "current_inventory": 14.0
     },
     {
       "industry": "Recreational",
@@ -168222,7 +168222,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 9.0
+      "current_inventory": 14.0
     },
     {
       "industry": "Recreational",
@@ -169524,7 +169524,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 9.0
+      "current_inventory": 14.0
     },
     {
       "industry": "Recreational",
@@ -170361,7 +170361,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 9.0
+      "current_inventory": 14.0
     },
     {
       "industry": "Recreational",
@@ -171019,7 +171019,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 9.0
+      "current_inventory": 14.0
     },
     {
       "industry": "Recreational",
@@ -175764,7 +175764,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 9.0
+      "current_inventory": 14.0
     },
     {
       "industry": "Recreational",
@@ -179112,7 +179112,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 9.0
+      "current_inventory": 14.0
     },
     {
       "industry": "Recreational",
@@ -182944,7 +182944,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 9.0
+      "current_inventory": 14.0
     },
     {
       "industry": "Recreational",
@@ -183781,7 +183781,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 9.0
+      "current_inventory": 14.0
     },
     {
       "industry": "Recreational",
@@ -185543,7 +185543,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 9.0
+      "current_inventory": 14.0
     },
     {
       "industry": "Recreational",
@@ -187784,7 +187784,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 9.0
+      "current_inventory": 14.0
     },
     {
       "industry": "Recreational",
@@ -190018,7 +190018,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 9.0
+      "current_inventory": 14.0
     },
     {
       "industry": "Recreational",
@@ -191687,7 +191687,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 9.0
+      "current_inventory": 14.0
     },
     {
       "industry": "Recreational",
@@ -193264,7 +193264,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 9.0
+      "current_inventory": 14.0
     },
     {
       "industry": "Recreational",
@@ -195212,7 +195212,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 9.0
+      "current_inventory": 14.0
     },
     {
       "industry": "Recreational",
@@ -196605,7 +196605,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 9.0
+      "current_inventory": 14.0
     },
     {
       "industry": "Recreational",
@@ -197255,7 +197255,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 9.0
+      "current_inventory": 14.0
     },
     {
       "industry": "Recreational",
@@ -197627,7 +197627,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 9.0
+      "current_inventory": 14.0
     },
     {
       "industry": "Recreational",
@@ -199393,7 +199393,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 9.0
+      "current_inventory": 14.0
     },
     {
       "industry": "Recreational",
@@ -200785,7 +200785,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 9.0
+      "current_inventory": 14.0
     },
     {
       "industry": "Recreational",
@@ -202644,7 +202644,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 9.0
+      "current_inventory": 14.0
     },
     {
       "industry": "Recreational",
@@ -204595,7 +204595,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 9.0
+      "current_inventory": 14.0
     },
     {
       "industry": "Recreational",
@@ -209859,7 +209859,7 @@
       "name": "EXTREME X | 2000mg THC : 2000mg CBD | Body Rub | 30ct Case",
       "sku": "2000ExtremeX",
       "line": "Topicals & Wellness",
-      "qty": 9.0,
+      "qty": 14.0,
       "listed": true,
       "batches": 1
     },
