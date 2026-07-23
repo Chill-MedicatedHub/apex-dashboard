@@ -57,6 +57,9 @@ def main():
             "county":  pick(r, "county"),
             "address": pick(r, "BUSINESS_ADDRESS_1", "PHYSICAL_ADDRESS_1", "ADDRESS_1"),
             "zip":     pick(r, "BUSINESS_ZIP_CODE", "PHYSICAL_ZIP_CODE", "ZIP_CODE"),
+            "phone":   pick(r, "BUSINESS_PHONE", "PHONE", "PHONE_NUMBER"),
+            "email":   pick(r, "BUSINESS_EMAIL", "EMAIL"),
+            "website": pick(r, "WEBSITE", "BUSINESS_WEBSITE", "WEB_SITE", "URL"),
         })
 
     records.sort(key=lambda x: (x["city"], x["name"]))
