@@ -2849,7 +2849,7 @@ function Dashboard({
     label: "Credits Applied",
     value: fmtMoney(kpis.credits),
     sub: kpis.creditCount ? `${fmtNum(kpis.creditOrders)} invoice${kpis.creditOrders === 1 ? '' : 's'} · applied as payment` : 'none in current view'
-  })), /*#__PURE__*/React.createElement(RevenueOverTime, { rows: filtered }), /*#__PURE__*/React.createElement(MonthlyGrossBySku, { rows: filtered }), /*#__PURE__*/React.createElement(SalesByCategory, { rows: filtered }), /*#__PURE__*/React.createElement("section", {
+  })), /*#__PURE__*/React.createElement(RevenueOverTime, { rows: filtered }), React.createElement("section", {
     className: "section"
   }, /*#__PURE__*/React.createElement("div", {
     className: "section-header"
@@ -2879,7 +2879,7 @@ function Dashboard({
     title: "Clear the invoice search"
   }, "Reset"), /*#__PURE__*/React.createElement("span", {
     className: "section-meta"
-  }, fmtNum(invoices.length), " invoices"))), /*#__PURE__*/React.createElement(SalesInvoicesTable, { invoices: invoices, pager: invPg, setFilters: setFilters })), /*#__PURE__*/React.createElement("section", {
+  }, fmtNum(invoices.length), " invoices"))), /*#__PURE__*/React.createElement(SalesInvoicesTable, { invoices: invoices, pager: invPg, setFilters: setFilters })), React.createElement("section", {
     className: "section"
   }, /*#__PURE__*/React.createElement("div", {
     className: "section-header"
@@ -2943,68 +2943,113 @@ function Dashboard({
     pager: pbPg,
     total: productBreakdown.length,
     unit: "products"
-  }))), /*#__PURE__*/React.createElement("section", {
+  }))), React.createElement("section", {
     className: "section"
   }, /*#__PURE__*/React.createElement("div", {
     className: "section-header"
   }, /*#__PURE__*/React.createElement("h2", {
     className: "section-title"
-  }, "Current ", /*#__PURE__*/React.createElement("em", null, "inventory")), /*#__PURE__*/React.createElement("span", {
+  }, "Recent ", /*#__PURE__*/React.createElement("em", null, "line items")), /*#__PURE__*/React.createElement("span", {
     className: "section-meta"
-  }, inventory.skus > 0 ? `${fmtNum(inventory.skus)} products · live from Apex inventory` : 'awaiting scraper inventory pull')), inventory.skus > 0 ? /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", {
-    className: "kpi-grid",
-    style: {
-      marginBottom: 24
-    }
-  }, /*#__PURE__*/React.createElement(Kpi, {
-    label: "On Hand Value",
-    value: fmtMoney(inventory.onHandValue),
-    sub: "est. value of stock",
-    accent: true
-  }), /*#__PURE__*/React.createElement(Kpi, {
-    label: "On Hand",
-    value: fmtNum(Math.round(inventory.onHandTotal)),
-    sub: "total units in stock"
-  }), /*#__PURE__*/React.createElement(Kpi, {
-    label: "Listed",
-    value: fmtNum(inventory.listedN),
-    sub: "visible to buyers"
-  }), /*#__PURE__*/React.createElement(Kpi, {
-    label: "Products",
-    value: fmtNum(inventory.skus),
-    sub: "in catalog"
-  }), /*#__PURE__*/React.createElement(Kpi, {
-    label: "Out Of Stock",
-    value: fmtNum(inventory.out),
-    sub: `of ${fmtNum(inventory.skus)} products`
-  })), /*#__PURE__*/React.createElement(InventoryTable, { list: inventory.list })) : /*#__PURE__*/React.createElement("div", {
+  }, "latest 25")), /*#__PURE__*/React.createElement("div", {
     className: "card",
     style: {
-      padding: '24px',
-      color: 'var(--text-dim)',
-      fontFamily: 'JetBrains Mono',
-      fontSize: 12,
-      lineHeight: 1.7
+      padding: 0,
+      overflow: 'hidden'
     }
-  }, "No inventory in the data yet. Deploy the latest ", /*#__PURE__*/React.createElement("code", {
+  }, /*#__PURE__*/React.createElement("div", {
     style: {
-      color: 'var(--accent)'
+      overflowX: 'auto',
+      maxHeight: 560
     }
-  }, "scraper.py"), " with", ' ', /*#__PURE__*/React.createElement("code", {
-    style: {
-      color: 'var(--accent)'
-    }
-  }, "APEX_PULL_INVENTORY=1"), " and run it once \u2014 the inventory endpoint will populate this section automatically.")), /*#__PURE__*/React.createElement("section", {
+  }, /*#__PURE__*/React.createElement("table", {
+    className: "data-table"
+  }, /*#__PURE__*/React.createElement("thead", null, /*#__PURE__*/React.createElement("tr", null, /*#__PURE__*/React.createElement("th", null, "Date"), /*#__PURE__*/React.createElement("th", null, "Order"), /*#__PURE__*/React.createElement("th", null, "Buyer"), /*#__PURE__*/React.createElement("th", null, "Product"), /*#__PURE__*/React.createElement("th", null, "Rep"), /*#__PURE__*/React.createElement("th", {
+    className: "num"
+  }, "Qty"), /*#__PURE__*/React.createElement("th", {
+    className: "num"
+  }, "Revenue"), /*#__PURE__*/React.createElement("th", null, "Status"))), /*#__PURE__*/React.createElement("tbody", null, recentRows.slice(rliPg.start, rliPg.end).map((r, i) => /*#__PURE__*/React.createElement("tr", {
+    key: i
+  }, /*#__PURE__*/React.createElement("td", {
+    className: "dim font-mono"
+  }, r.order_date || '—'), /*#__PURE__*/React.createElement("td", {
+    className: "font-mono"
+  }, "#", r.order_number || r.order_id || '—'), /*#__PURE__*/React.createElement("td", null, r.buyer_name || '—'), /*#__PURE__*/React.createElement("td", {
+    className: "dim"
+  }, r.product_name || '—'), /*#__PURE__*/React.createElement("td", null, r.sales_rep || '—'), /*#__PURE__*/React.createElement("td", {
+    className: "num"
+  }, fmtNum(r._quantity)), /*#__PURE__*/React.createElement("td", {
+    className: "num"
+  }, fmtMoneyFull(r._revenue)), /*#__PURE__*/React.createElement("td", null, /*#__PURE__*/React.createElement(StatusPill, {
+    status: r.payment_status
+  })))))))), /*#__PURE__*/React.createElement(Pager, { pager: rliPg, total: recentRows.length, unit: "line items" })), React.createElement(SalesByCategory, { rows: filtered }), React.createElement(MonthlyGrossBySku, { rows: filtered }), React.createElement("section", {
     className: "section"
   }, /*#__PURE__*/React.createElement("div", {
-    className: "grid-half"
-  }, /*#__PURE__*/React.createElement(RankCard, {
-    title: "Top products",
-    data: topProducts
-  }), /*#__PURE__*/React.createElement(RankCard, {
-    title: "Top buyers",
-    data: topBuyers
-  }))), /*#__PURE__*/React.createElement("section", {
+    className: "section-header"
+  }, /*#__PURE__*/React.createElement("h2", {
+    className: "section-title"
+  }, "Monthly ", /*#__PURE__*/React.createElement("em", null, "breakdown")), /*#__PURE__*/React.createElement("span", {
+    className: "section-meta"
+  }, monthlyBreakdown.length, " months")), /*#__PURE__*/React.createElement("div", {
+    className: "card",
+    style: {
+      padding: 0,
+      overflow: 'hidden'
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      overflowX: 'auto',
+      maxHeight: 560
+    }
+  }, /*#__PURE__*/React.createElement("table", {
+    className: "data-table"
+  }, /*#__PURE__*/React.createElement("thead", null, /*#__PURE__*/React.createElement("tr", null, /*#__PURE__*/React.createElement("th", null, "Month"), /*#__PURE__*/React.createElement("th", {
+    className: "num"
+  }, "Units"), /*#__PURE__*/React.createElement("th", {
+    className: "num"
+  }, "Cases"), /*#__PURE__*/React.createElement("th", {
+    className: "num"
+  }, "Gross Sales"), /*#__PURE__*/React.createElement("th", {
+    className: "num"
+  }, "Discounts"), /*#__PURE__*/React.createElement("th", {
+    className: "num"
+  }, "Net Sales"), /*#__PURE__*/React.createElement("th", {
+    className: "num"
+  }, "MOM \xB1"))), /*#__PURE__*/React.createElement("tbody", null, monthlyBreakdown.map((m, i) => /*#__PURE__*/React.createElement("tr", {
+    key: i
+  }, /*#__PURE__*/React.createElement("td", null, m.monthName), /*#__PURE__*/React.createElement("td", {
+    className: "num"
+  }, fmtNum(Math.round(m.units))), /*#__PURE__*/React.createElement("td", {
+    className: "num dim"
+  }, m.cases.toFixed(1)), /*#__PURE__*/React.createElement("td", {
+    className: "num"
+  }, fmtMoneyFull(m.gross)), /*#__PURE__*/React.createElement("td", {
+    className: "num dim"
+  }, fmtMoneyFull(m.discounts)), /*#__PURE__*/React.createElement("td", {
+    className: "num"
+  }, /*#__PURE__*/React.createElement("strong", null, fmtMoneyFull(m.netSales))), /*#__PURE__*/React.createElement("td", {
+    className: "num",
+    style: {
+      color: m.mom == null ? 'var(--text-faint)' : m.mom >= 0 ? 'var(--accent)' : 'var(--rose)'
+    }
+  }, m.mom == null ? '—' : (m.mom >= 0 ? '+' : '') + m.mom.toFixed(1) + '%'))), monthlyBreakdown.length > 0 && /*#__PURE__*/React.createElement("tr", {
+    style: {
+      background: 'var(--bg-elev-2)',
+      fontWeight: 600
+    }
+  }, /*#__PURE__*/React.createElement("td", null, "TOTAL"), /*#__PURE__*/React.createElement("td", {
+    className: "num"
+  }, fmtNum(Math.round(monthlyBreakdown.reduce((s, m) => s + m.units, 0)))), /*#__PURE__*/React.createElement("td", {
+    className: "num dim"
+  }, monthlyBreakdown.reduce((s, m) => s + m.cases, 0).toFixed(1)), /*#__PURE__*/React.createElement("td", {
+    className: "num"
+  }, fmtMoneyFull(monthlyBreakdown.reduce((s, m) => s + m.gross, 0))), /*#__PURE__*/React.createElement("td", {
+    className: "num dim"
+  }, fmtMoneyFull(monthlyBreakdown.reduce((s, m) => s + m.discounts, 0))), /*#__PURE__*/React.createElement("td", {
+    className: "num"
+  }, /*#__PURE__*/React.createElement("strong", null, fmtMoneyFull(monthlyBreakdown.reduce((s, m) => s + m.netSales, 0)))), /*#__PURE__*/React.createElement("td", {
+    className: "num dim"
+  }, "\u2014"))))))), React.createElement("section", {
     className: "section"
   }, /*#__PURE__*/React.createElement("div", {
     className: "grid-2"
@@ -3117,125 +3162,17 @@ function Dashboard({
       fontFamily: 'JetBrains Mono',
       color: '#566274'
     }
-  }))))))), /*#__PURE__*/React.createElement("section", {
+  }))))))), React.createElement("section", {
     className: "section"
   }, /*#__PURE__*/React.createElement("div", {
-    className: "section-header"
-  }, /*#__PURE__*/React.createElement("h2", {
-    className: "section-title"
-  }, "By ", /*#__PURE__*/React.createElement("em", null, "state")), /*#__PURE__*/React.createElement("span", {
-    className: "section-meta"
-  }, "geography")), /*#__PURE__*/React.createElement("div", {
-    className: "card"
-  }, /*#__PURE__*/React.createElement(RankList, {
-    data: byState
-  }))), /*#__PURE__*/React.createElement("section", {
-    className: "section"
-  }, /*#__PURE__*/React.createElement("div", {
-    className: "section-header"
-  }, /*#__PURE__*/React.createElement("h2", {
-    className: "section-title"
-  }, "Monthly ", /*#__PURE__*/React.createElement("em", null, "breakdown")), /*#__PURE__*/React.createElement("span", {
-    className: "section-meta"
-  }, monthlyBreakdown.length, " months")), /*#__PURE__*/React.createElement("div", {
-    className: "card",
-    style: {
-      padding: 0,
-      overflow: 'hidden'
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      overflowX: 'auto',
-      maxHeight: 560
-    }
-  }, /*#__PURE__*/React.createElement("table", {
-    className: "data-table"
-  }, /*#__PURE__*/React.createElement("thead", null, /*#__PURE__*/React.createElement("tr", null, /*#__PURE__*/React.createElement("th", null, "Month"), /*#__PURE__*/React.createElement("th", {
-    className: "num"
-  }, "Units"), /*#__PURE__*/React.createElement("th", {
-    className: "num"
-  }, "Cases"), /*#__PURE__*/React.createElement("th", {
-    className: "num"
-  }, "Gross Sales"), /*#__PURE__*/React.createElement("th", {
-    className: "num"
-  }, "Discounts"), /*#__PURE__*/React.createElement("th", {
-    className: "num"
-  }, "Net Sales"), /*#__PURE__*/React.createElement("th", {
-    className: "num"
-  }, "MOM \xB1"))), /*#__PURE__*/React.createElement("tbody", null, monthlyBreakdown.map((m, i) => /*#__PURE__*/React.createElement("tr", {
-    key: i
-  }, /*#__PURE__*/React.createElement("td", null, m.monthName), /*#__PURE__*/React.createElement("td", {
-    className: "num"
-  }, fmtNum(Math.round(m.units))), /*#__PURE__*/React.createElement("td", {
-    className: "num dim"
-  }, m.cases.toFixed(1)), /*#__PURE__*/React.createElement("td", {
-    className: "num"
-  }, fmtMoneyFull(m.gross)), /*#__PURE__*/React.createElement("td", {
-    className: "num dim"
-  }, fmtMoneyFull(m.discounts)), /*#__PURE__*/React.createElement("td", {
-    className: "num"
-  }, /*#__PURE__*/React.createElement("strong", null, fmtMoneyFull(m.netSales))), /*#__PURE__*/React.createElement("td", {
-    className: "num",
-    style: {
-      color: m.mom == null ? 'var(--text-faint)' : m.mom >= 0 ? 'var(--accent)' : 'var(--rose)'
-    }
-  }, m.mom == null ? '—' : (m.mom >= 0 ? '+' : '') + m.mom.toFixed(1) + '%'))), monthlyBreakdown.length > 0 && /*#__PURE__*/React.createElement("tr", {
-    style: {
-      background: 'var(--bg-elev-2)',
-      fontWeight: 600
-    }
-  }, /*#__PURE__*/React.createElement("td", null, "TOTAL"), /*#__PURE__*/React.createElement("td", {
-    className: "num"
-  }, fmtNum(Math.round(monthlyBreakdown.reduce((s, m) => s + m.units, 0)))), /*#__PURE__*/React.createElement("td", {
-    className: "num dim"
-  }, monthlyBreakdown.reduce((s, m) => s + m.cases, 0).toFixed(1)), /*#__PURE__*/React.createElement("td", {
-    className: "num"
-  }, fmtMoneyFull(monthlyBreakdown.reduce((s, m) => s + m.gross, 0))), /*#__PURE__*/React.createElement("td", {
-    className: "num dim"
-  }, fmtMoneyFull(monthlyBreakdown.reduce((s, m) => s + m.discounts, 0))), /*#__PURE__*/React.createElement("td", {
-    className: "num"
-  }, /*#__PURE__*/React.createElement("strong", null, fmtMoneyFull(monthlyBreakdown.reduce((s, m) => s + m.netSales, 0)))), /*#__PURE__*/React.createElement("td", {
-    className: "num dim"
-  }, "\u2014"))))))), /*#__PURE__*/React.createElement("section", {
-    className: "section"
-  }, /*#__PURE__*/React.createElement("div", {
-    className: "section-header"
-  }, /*#__PURE__*/React.createElement("h2", {
-    className: "section-title"
-  }, "Recent ", /*#__PURE__*/React.createElement("em", null, "line items")), /*#__PURE__*/React.createElement("span", {
-    className: "section-meta"
-  }, "latest 25")), /*#__PURE__*/React.createElement("div", {
-    className: "card",
-    style: {
-      padding: 0,
-      overflow: 'hidden'
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      overflowX: 'auto',
-      maxHeight: 560
-    }
-  }, /*#__PURE__*/React.createElement("table", {
-    className: "data-table"
-  }, /*#__PURE__*/React.createElement("thead", null, /*#__PURE__*/React.createElement("tr", null, /*#__PURE__*/React.createElement("th", null, "Date"), /*#__PURE__*/React.createElement("th", null, "Order"), /*#__PURE__*/React.createElement("th", null, "Buyer"), /*#__PURE__*/React.createElement("th", null, "Product"), /*#__PURE__*/React.createElement("th", null, "Rep"), /*#__PURE__*/React.createElement("th", {
-    className: "num"
-  }, "Qty"), /*#__PURE__*/React.createElement("th", {
-    className: "num"
-  }, "Revenue"), /*#__PURE__*/React.createElement("th", null, "Status"))), /*#__PURE__*/React.createElement("tbody", null, recentRows.slice(rliPg.start, rliPg.end).map((r, i) => /*#__PURE__*/React.createElement("tr", {
-    key: i
-  }, /*#__PURE__*/React.createElement("td", {
-    className: "dim font-mono"
-  }, r.order_date || '—'), /*#__PURE__*/React.createElement("td", {
-    className: "font-mono"
-  }, "#", r.order_number || r.order_id || '—'), /*#__PURE__*/React.createElement("td", null, r.buyer_name || '—'), /*#__PURE__*/React.createElement("td", {
-    className: "dim"
-  }, r.product_name || '—'), /*#__PURE__*/React.createElement("td", null, r.sales_rep || '—'), /*#__PURE__*/React.createElement("td", {
-    className: "num"
-  }, fmtNum(r._quantity)), /*#__PURE__*/React.createElement("td", {
-    className: "num"
-  }, fmtMoneyFull(r._revenue)), /*#__PURE__*/React.createElement("td", null, /*#__PURE__*/React.createElement(StatusPill, {
-    status: r.payment_status
-  })))))))), /*#__PURE__*/React.createElement(Pager, { pager: rliPg, total: recentRows.length, unit: "line items" })), /*#__PURE__*/React.createElement("footer", {
+    className: "grid-half"
+  }, /*#__PURE__*/React.createElement(RankCard, {
+    title: "Top products",
+    data: topProducts
+  }), /*#__PURE__*/React.createElement(RankCard, {
+    title: "Top buyers",
+    data: topBuyers
+  }))), /*#__PURE__*/React.createElement("footer", {
     style: {
       marginTop: 60,
       padding: '20px 0',
