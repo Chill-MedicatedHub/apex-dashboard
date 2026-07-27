@@ -2849,7 +2849,7 @@ function Dashboard({
     label: "Credits Applied",
     value: fmtMoney(kpis.credits),
     sub: kpis.creditCount ? `${fmtNum(kpis.creditOrders)} invoice${kpis.creditOrders === 1 ? '' : 's'} · applied as payment` : 'none in current view'
-  })), /*#__PURE__*/React.createElement(RevenueOverTime, { rows: filtered }), React.createElement("section", {
+  })), /*#__PURE__*/React.createElement("section", {
     className: "section"
   }, /*#__PURE__*/React.createElement("div", {
     className: "section-header"
@@ -3049,7 +3049,7 @@ function Dashboard({
     className: "num"
   }, /*#__PURE__*/React.createElement("strong", null, fmtMoneyFull(monthlyBreakdown.reduce((s, m) => s + m.netSales, 0)))), /*#__PURE__*/React.createElement("td", {
     className: "num dim"
-  }, "\u2014"))))))), React.createElement("section", {
+  }, "\u2014"))))))), React.createElement(RevenueOverTime, { rows: filtered }), React.createElement("section", {
     className: "section"
   }, /*#__PURE__*/React.createElement("div", {
     className: "grid-2"
