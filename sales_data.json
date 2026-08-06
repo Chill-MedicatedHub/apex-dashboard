@@ -1,5 +1,5 @@
 {
-  "fetched_at": "2026-08-06T17:16:14.983353+00:00",
+  "fetched_at": "2026-08-06T21:48:53.523000+00:00",
   "from_date": "2025-05-01",
   "to_date": "2026-08-07",
   "row_count": 2290,
@@ -46723,7 +46723,7 @@
       "is_sample": "No",
       "order_number": "Legacy-5071",
       "order_status": "Delivered",
-      "payment_status": "Unpaid",
+      "payment_status": "Completed",
       "order_date_utc": "04/07/2026",
       "order_date_utc_raw": "2026-04-07",
       "order_date_localized": "04/07/2026",
@@ -46748,7 +46748,9 @@
         "Derek Dambrosio",
         "David Shaba"
       ],
-      "payment_dates": [],
+      "payment_dates": [
+        "Payment of $162.50 on 08/06/2026"
+      ],
       "metrc_packages": null,
       "notes": "1A40A030000B4DD000009853",
       "current_inventory": 0.0
@@ -46815,7 +46817,7 @@
       "is_sample": "No",
       "order_number": "Legacy-5071",
       "order_status": "Delivered",
-      "payment_status": "Unpaid",
+      "payment_status": "Completed",
       "order_date_utc": "04/07/2026",
       "order_date_utc_raw": "2026-04-07",
       "order_date_localized": "04/07/2026",
@@ -46840,7 +46842,9 @@
         "Derek Dambrosio",
         "David Shaba"
       ],
-      "payment_dates": [],
+      "payment_dates": [
+        "Payment of $162.50 on 08/06/2026"
+      ],
       "metrc_packages": null,
       "notes": "1A40A030000B4DD000004796",
       "current_inventory": 0.0
@@ -46907,7 +46911,7 @@
       "is_sample": "No",
       "order_number": "Legacy-5071",
       "order_status": "Delivered",
-      "payment_status": "Unpaid",
+      "payment_status": "Completed",
       "order_date_utc": "04/07/2026",
       "order_date_utc_raw": "2026-04-07",
       "order_date_localized": "04/07/2026",
@@ -46932,7 +46936,9 @@
         "Derek Dambrosio",
         "David Shaba"
       ],
-      "payment_dates": [],
+      "payment_dates": [
+        "Payment of $162.50 on 08/06/2026"
+      ],
       "metrc_packages": null,
       "notes": "1A40A030000B4DD000009851",
       "current_inventory": 615.0
@@ -46999,7 +47005,7 @@
       "is_sample": "No",
       "order_number": "Legacy-5071",
       "order_status": "Delivered",
-      "payment_status": "Unpaid",
+      "payment_status": "Completed",
       "order_date_utc": "04/07/2026",
       "order_date_utc_raw": "2026-04-07",
       "order_date_localized": "04/07/2026",
@@ -47024,7 +47030,9 @@
         "Derek Dambrosio",
         "David Shaba"
       ],
-      "payment_dates": [],
+      "payment_dates": [
+        "Payment of $162.50 on 08/06/2026"
+      ],
       "metrc_packages": null,
       "notes": null,
       "current_inventory": 9.0
@@ -59255,7 +59263,7 @@
       "is_sample": "No",
       "order_number": "Legacy-5034",
       "order_status": "Delivered",
-      "payment_status": "Partial",
+      "payment_status": "Completed",
       "order_date_utc": "03/17/2026",
       "order_date_utc_raw": "2026-03-17",
       "order_date_localized": "03/17/2026",
@@ -59281,7 +59289,8 @@
         "David Shaba"
       ],
       "payment_dates": [
-        "Credit of $1,045.22 on 03/17/2026"
+        "Credit of $1,045.22 on 03/17/2026",
+        "Payment of $1,954.78 on 05/04/2026"
       ],
       "metrc_packages": null,
       "notes": null,
@@ -59349,7 +59358,7 @@
       "is_sample": "No",
       "order_number": "Legacy-5034",
       "order_status": "Delivered",
-      "payment_status": "Partial",
+      "payment_status": "Completed",
       "order_date_utc": "03/17/2026",
       "order_date_utc_raw": "2026-03-17",
       "order_date_localized": "03/17/2026",
@@ -59375,7 +59384,8 @@
         "David Shaba"
       ],
       "payment_dates": [
-        "Credit of $1,045.22 on 03/17/2026"
+        "Credit of $1,045.22 on 03/17/2026",
+        "Payment of $1,954.78 on 05/04/2026"
       ],
       "metrc_packages": null,
       "notes": null,
@@ -59443,7 +59453,7 @@
       "is_sample": "No",
       "order_number": "Legacy-5034",
       "order_status": "Delivered",
-      "payment_status": "Partial",
+      "payment_status": "Completed",
       "order_date_utc": "03/17/2026",
       "order_date_utc_raw": "2026-03-17",
       "order_date_localized": "03/17/2026",
@@ -59469,7 +59479,8 @@
         "David Shaba"
       ],
       "payment_dates": [
-        "Credit of $1,045.22 on 03/17/2026"
+        "Credit of $1,045.22 on 03/17/2026",
+        "Payment of $1,954.78 on 05/04/2026"
       ],
       "metrc_packages": null,
       "notes": "1A40A030000B4DD000004796",
@@ -59537,7 +59548,7 @@
       "is_sample": "No",
       "order_number": "Legacy-5034",
       "order_status": "Delivered",
-      "payment_status": "Partial",
+      "payment_status": "Completed",
       "order_date_utc": "03/17/2026",
       "order_date_utc_raw": "2026-03-17",
       "order_date_localized": "03/17/2026",
@@ -59563,7 +59574,8 @@
         "David Shaba"
       ],
       "payment_dates": [
-        "Credit of $1,045.22 on 03/17/2026"
+        "Credit of $1,045.22 on 03/17/2026",
+        "Payment of $1,954.78 on 05/04/2026"
       ],
       "metrc_packages": null,
       "notes": null,
@@ -59631,7 +59643,7 @@
       "is_sample": "No",
       "order_number": "Legacy-5034",
       "order_status": "Delivered",
-      "payment_status": "Partial",
+      "payment_status": "Completed",
       "order_date_utc": "03/17/2026",
       "order_date_utc_raw": "2026-03-17",
       "order_date_localized": "03/17/2026",
@@ -59657,7 +59669,8 @@
         "David Shaba"
       ],
       "payment_dates": [
-        "Credit of $1,045.22 on 03/17/2026"
+        "Credit of $1,045.22 on 03/17/2026",
+        "Payment of $1,954.78 on 05/04/2026"
       ],
       "metrc_packages": null,
       "notes": null,
@@ -62707,7 +62720,7 @@
       "is_sample": "No",
       "order_number": "Legacy-5021",
       "order_status": "Delivered",
-      "payment_status": "Partial",
+      "payment_status": "Completed",
       "order_date_utc": "03/09/2026",
       "order_date_utc_raw": "2026-03-09",
       "order_date_localized": "03/09/2026",
@@ -62733,7 +62746,8 @@
         "Duch\u00e9 Romeus"
       ],
       "payment_dates": [
-        "Credit of $321.99 on 03/15/2026"
+        "Credit of $321.99 on 03/15/2026",
+        "Payment of $728.01 on 05/12/2026"
       ],
       "metrc_packages": null,
       "notes": null,
@@ -62801,7 +62815,7 @@
       "is_sample": "No",
       "order_number": "Legacy-5021",
       "order_status": "Delivered",
-      "payment_status": "Partial",
+      "payment_status": "Completed",
       "order_date_utc": "03/09/2026",
       "order_date_utc_raw": "2026-03-09",
       "order_date_localized": "03/09/2026",
@@ -62827,7 +62841,8 @@
         "Duch\u00e9 Romeus"
       ],
       "payment_dates": [
-        "Credit of $321.99 on 03/15/2026"
+        "Credit of $321.99 on 03/15/2026",
+        "Payment of $728.01 on 05/12/2026"
       ],
       "metrc_packages": null,
       "notes": null,
@@ -68205,7 +68220,7 @@
       "is_sample": "No",
       "order_number": "Legacy-5011",
       "order_status": "Delivered",
-      "payment_status": "Unpaid",
+      "payment_status": "Completed",
       "order_date_utc": "02/28/2026",
       "order_date_utc_raw": "2026-02-28",
       "order_date_localized": "02/28/2026",
@@ -68230,7 +68245,9 @@
         "Derek Dambrosio",
         "David Shaba"
       ],
-      "payment_dates": [],
+      "payment_dates": [
+        "Payment of $2,070.00 on 04/07/2026"
+      ],
       "metrc_packages": null,
       "notes": null,
       "current_inventory": 79.0
@@ -68297,7 +68314,7 @@
       "is_sample": "No",
       "order_number": "Legacy-5011",
       "order_status": "Delivered",
-      "payment_status": "Unpaid",
+      "payment_status": "Completed",
       "order_date_utc": "02/28/2026",
       "order_date_utc_raw": "2026-02-28",
       "order_date_localized": "02/28/2026",
@@ -68322,7 +68339,9 @@
         "Derek Dambrosio",
         "David Shaba"
       ],
-      "payment_dates": [],
+      "payment_dates": [
+        "Payment of $2,070.00 on 04/07/2026"
+      ],
       "metrc_packages": null,
       "notes": null,
       "current_inventory": 0.0
@@ -68389,7 +68408,7 @@
       "is_sample": "No",
       "order_number": "Legacy-5011",
       "order_status": "Delivered",
-      "payment_status": "Unpaid",
+      "payment_status": "Completed",
       "order_date_utc": "02/28/2026",
       "order_date_utc_raw": "2026-02-28",
       "order_date_localized": "02/28/2026",
@@ -68414,7 +68433,9 @@
         "Derek Dambrosio",
         "David Shaba"
       ],
-      "payment_dates": [],
+      "payment_dates": [
+        "Payment of $2,070.00 on 04/07/2026"
+      ],
       "metrc_packages": null,
       "notes": null,
       "current_inventory": 0.0
@@ -71169,7 +71190,7 @@
       "is_sample": "No",
       "order_number": "Erva-1053",
       "order_status": "Delivered",
-      "payment_status": "Unpaid",
+      "payment_status": "Completed",
       "order_date_utc": "02/17/2026",
       "order_date_utc_raw": "2026-02-17",
       "order_date_localized": "02/17/2026",
@@ -71194,7 +71215,9 @@
         "Derek Dambrosio",
         "David Shaba"
       ],
-      "payment_dates": [],
+      "payment_dates": [
+        "Payment of $900.00 on 08/06/2026"
+      ],
       "metrc_packages": null,
       "notes": null,
       "current_inventory": 210.0
@@ -71261,7 +71284,7 @@
       "is_sample": "No",
       "order_number": "Erva-1050",
       "order_status": "Delivered",
-      "payment_status": "Unpaid",
+      "payment_status": "Completed",
       "order_date_utc": "02/17/2026",
       "order_date_utc_raw": "2026-02-17",
       "order_date_localized": "02/17/2026",
@@ -71286,7 +71309,9 @@
         "Derek Dambrosio",
         "David Shaba"
       ],
-      "payment_dates": [],
+      "payment_dates": [
+        "Payment of $900.00 on 08/06/2026"
+      ],
       "metrc_packages": null,
       "notes": null,
       "current_inventory": 210.0
@@ -91672,7 +91697,7 @@
       "is_sample": "No",
       "order_number": "Erva-947",
       "order_status": "Delivered",
-      "payment_status": "Unpaid",
+      "payment_status": "Completed",
       "order_date_utc": "01/05/2026",
       "order_date_utc_raw": "2026-01-05",
       "order_date_localized": "01/05/2026",
@@ -91697,7 +91722,9 @@
         "Derek Dambrosio",
         "David Shaba"
       ],
-      "payment_dates": [],
+      "payment_dates": [
+        "Payment of $2,437.50 on 08/06/2026"
+      ],
       "metrc_packages": null,
       "notes": null,
       "current_inventory": 0.0
@@ -91764,7 +91791,7 @@
       "is_sample": "No",
       "order_number": "Erva-947",
       "order_status": "Delivered",
-      "payment_status": "Unpaid",
+      "payment_status": "Completed",
       "order_date_utc": "01/05/2026",
       "order_date_utc_raw": "2026-01-05",
       "order_date_localized": "01/05/2026",
@@ -91789,7 +91816,9 @@
         "Derek Dambrosio",
         "David Shaba"
       ],
-      "payment_dates": [],
+      "payment_dates": [
+        "Payment of $2,437.50 on 08/06/2026"
+      ],
       "metrc_packages": null,
       "notes": null,
       "current_inventory": 2.0
@@ -91856,7 +91885,7 @@
       "is_sample": "No",
       "order_number": "Erva-947",
       "order_status": "Delivered",
-      "payment_status": "Unpaid",
+      "payment_status": "Completed",
       "order_date_utc": "01/05/2026",
       "order_date_utc_raw": "2026-01-05",
       "order_date_localized": "01/05/2026",
@@ -91881,7 +91910,9 @@
         "Derek Dambrosio",
         "David Shaba"
       ],
-      "payment_dates": [],
+      "payment_dates": [
+        "Payment of $2,437.50 on 08/06/2026"
+      ],
       "metrc_packages": null,
       "notes": null,
       "current_inventory": 0.0
@@ -91948,7 +91979,7 @@
       "is_sample": "No",
       "order_number": "Erva-947",
       "order_status": "Delivered",
-      "payment_status": "Unpaid",
+      "payment_status": "Completed",
       "order_date_utc": "01/05/2026",
       "order_date_utc_raw": "2026-01-05",
       "order_date_localized": "01/05/2026",
@@ -91973,7 +92004,9 @@
         "Derek Dambrosio",
         "David Shaba"
       ],
-      "payment_dates": [],
+      "payment_dates": [
+        "Payment of $2,437.50 on 08/06/2026"
+      ],
       "metrc_packages": null,
       "notes": null,
       "current_inventory": 0.0
