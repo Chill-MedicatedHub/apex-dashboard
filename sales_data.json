@@ -1,9 +1,373 @@
 {
-  "fetched_at": "2026-08-07T16:45:30.265972+00:00",
+  "fetched_at": "2026-08-07T17:00:49.108843+00:00",
   "from_date": "2025-05-01",
   "to_date": "2026-08-08",
-  "row_count": 2296,
+  "row_count": 2300,
   "rows": [
+    {
+      "industry": "Recreational",
+      "buyer_license": "MR284710",
+      "seller_license": "MT281556",
+      "product_id": 328378,
+      "product_name": "SUNRISE | 500mg THC 400mg CBG 100 THCv | Orange Creme Syrup | 30ct Case",
+      "product_sku": "SUNRISE1000",
+      "product_category_id": 12,
+      "product_category": "Tinctures",
+      "product_category_name": "Tincture",
+      "product_type_id": 32,
+      "product_type": "Full Spectrum",
+      "product_brand_id": 2500,
+      "product_brand": "Chill Medicated",
+      "product_brand_image": null,
+      "product_cultivar_id": null,
+      "product_cultivar": null,
+      "product_cultivar_type_id": null,
+      "product_cultivar_type": null,
+      "product_cbd_type": "THC",
+      "product_grow_environment": null,
+      "product_extraction_method": null,
+      "product_unit_size_and_measurement": "4.00 US Fluid Ounce",
+      "product_listing_price": "$675.00",
+      "operation_id": 4547,
+      "operation": "Bodelle's - Chill Medicated",
+      "batch_name": "SUNRISE1000-1A40A030000B4DD000009843-30526",
+      "batch_cbd_potency": "486.20Mg",
+      "batch_cost_of_goods": "$0.00",
+      "batch_location": null,
+      "batch_harvest_date": null,
+      "batch_harvest_date_raw": null,
+      "batch_best_by_date": "03/05/2027",
+      "batch_best_by_date_raw": "2027-03-05",
+      "batch_production_date": null,
+      "batch_production_date_raw": null,
+      "batch_test_date": null,
+      "batch_test_date_raw": null,
+      "batch_created_at": "03/06/2026",
+      "batch_created_at_raw": "2026-03-06 19:52:01",
+      "computed_sale_price": "$675.00",
+      "minimum_sales_price": "$0.00",
+      "total_cost_of_goods": "$0.00",
+      "true_cost": "$0.00",
+      "discounts": 0,
+      "surcharges": 0,
+      "additional_discounts": 0,
+      "tiered_surcharge": null,
+      "line_total": "$675.00",
+      "line_total_raw": 67500,
+      "inventory_quantity": 30,
+      "order_quantity": 1,
+      "quantity": 1,
+      "quantity_raw": 1,
+      "inventory_unit_of_measurement": "Unit",
+      "order_unit_of_measurement": "Case",
+      "units_per_package": 0,
+      "packages_per_case": 30,
+      "package_case": null,
+      "is_sample": "No",
+      "order_number": "Legacy-5246",
+      "order_status": "Draft order",
+      "payment_status": "Unpaid",
+      "order_date_utc": "08/07/2026",
+      "order_date_utc_raw": "2026-08-07",
+      "order_date_localized": "08/07/2026",
+      "order_date_localized_raw": "2026-08-07T00:00:00.000000Z",
+      "delivery_date": null,
+      "delivery_date_raw": null,
+      "due_date": null,
+      "due_date_raw": null,
+      "manifest_number": null,
+      "buyer_id": 111025,
+      "buyer_name": "CANNA RETREAT--PALMER -GREEN ADVENTURE, LLC DBA",
+      "buyer_group": "CANNA RETREAT--PALMER -GREEN ADVENTURE, LLC DBA",
+      "buyer_shipping_name": "Canna Retreat",
+      "buyer_address": "1240 Park Street",
+      "buyer_address_html": "1240 Park Street",
+      "buyer_city": "Palmer",
+      "buyer_state": "MA",
+      "buyer_zip": "01069",
+      "buyer_country": "US",
+      "sales_reps": "Derek Dambrosio",
+      "sales_reps_display": [
+        "Derek Dambrosio"
+      ],
+      "payment_dates": [],
+      "metrc_packages": null,
+      "notes": "1A40A030000B4DD000009843",
+      "current_inventory": 195.0
+    },
+    {
+      "industry": "Recreational",
+      "buyer_license": "MR284710",
+      "seller_license": "MT281556",
+      "product_id": 208102,
+      "product_name": "500mg THC | Cranberry Syrup | 30ct Case",
+      "product_sku": "500cranberry",
+      "product_category_id": 12,
+      "product_category": "Tinctures",
+      "product_category_name": "Tincture",
+      "product_type_id": 32,
+      "product_type": "Full Spectrum",
+      "product_brand_id": 2500,
+      "product_brand": "Chill Medicated",
+      "product_brand_image": null,
+      "product_cultivar_id": null,
+      "product_cultivar": null,
+      "product_cultivar_type_id": null,
+      "product_cultivar_type": null,
+      "product_cbd_type": "THC",
+      "product_grow_environment": null,
+      "product_extraction_method": null,
+      "product_unit_size_and_measurement": "4.00 US Fluid Ounce",
+      "product_listing_price": "$525.00",
+      "operation_id": 4547,
+      "operation": "Bodelle's - Chill Medicated",
+      "batch_name": "500cranberry-1A40A030000B4DD000012364 - 060526",
+      "batch_cbd_potency": "506.70Mg",
+      "batch_cost_of_goods": "$0.00",
+      "batch_location": null,
+      "batch_harvest_date": null,
+      "batch_harvest_date_raw": null,
+      "batch_best_by_date": "06/05/2027",
+      "batch_best_by_date_raw": "2027-06-05",
+      "batch_production_date": null,
+      "batch_production_date_raw": null,
+      "batch_test_date": null,
+      "batch_test_date_raw": null,
+      "batch_created_at": "07/02/2026",
+      "batch_created_at_raw": "2026-07-02 19:41:40",
+      "computed_sale_price": "$525.00",
+      "minimum_sales_price": "$0.00",
+      "total_cost_of_goods": "$0.00",
+      "true_cost": "$0.00",
+      "discounts": 0,
+      "surcharges": 0,
+      "additional_discounts": 0,
+      "tiered_surcharge": null,
+      "line_total": "$525.00",
+      "line_total_raw": 52500,
+      "inventory_quantity": 30,
+      "order_quantity": 1,
+      "quantity": 1,
+      "quantity_raw": 1,
+      "inventory_unit_of_measurement": "Unit",
+      "order_unit_of_measurement": "Case",
+      "units_per_package": 0,
+      "packages_per_case": 30,
+      "package_case": null,
+      "is_sample": "No",
+      "order_number": "Legacy-5246",
+      "order_status": "Draft order",
+      "payment_status": "Unpaid",
+      "order_date_utc": "08/07/2026",
+      "order_date_utc_raw": "2026-08-07",
+      "order_date_localized": "08/07/2026",
+      "order_date_localized_raw": "2026-08-07T00:00:00.000000Z",
+      "delivery_date": null,
+      "delivery_date_raw": null,
+      "due_date": null,
+      "due_date_raw": null,
+      "manifest_number": null,
+      "buyer_id": 111025,
+      "buyer_name": "CANNA RETREAT--PALMER -GREEN ADVENTURE, LLC DBA",
+      "buyer_group": "CANNA RETREAT--PALMER -GREEN ADVENTURE, LLC DBA",
+      "buyer_shipping_name": "Canna Retreat",
+      "buyer_address": "1240 Park Street",
+      "buyer_address_html": "1240 Park Street",
+      "buyer_city": "Palmer",
+      "buyer_state": "MA",
+      "buyer_zip": "01069",
+      "buyer_country": "US",
+      "sales_reps": "Derek Dambrosio",
+      "sales_reps_display": [
+        "Derek Dambrosio"
+      ],
+      "payment_dates": [],
+      "metrc_packages": null,
+      "notes": null,
+      "current_inventory": 525.0
+    },
+    {
+      "industry": "Recreational",
+      "buyer_license": "MR284710",
+      "seller_license": "MT281556",
+      "product_id": 208098,
+      "product_name": "500mg THC | Strawberry Syrup | 30ct Case",
+      "product_sku": "500strawberry",
+      "product_category_id": 12,
+      "product_category": "Tinctures",
+      "product_category_name": "Tincture",
+      "product_type_id": 32,
+      "product_type": "Full Spectrum",
+      "product_brand_id": 2500,
+      "product_brand": "Chill Medicated",
+      "product_brand_image": null,
+      "product_cultivar_id": null,
+      "product_cultivar": null,
+      "product_cultivar_type_id": null,
+      "product_cultivar_type": null,
+      "product_cbd_type": "THC",
+      "product_grow_environment": null,
+      "product_extraction_method": null,
+      "product_unit_size_and_measurement": "4.00 US Fluid Ounce",
+      "product_listing_price": "$525.00",
+      "operation_id": 4547,
+      "operation": "Bodelle's - Chill Medicated",
+      "batch_name": "500strawberry-1A40A030000B4DD000012363 -  060526",
+      "batch_cbd_potency": "526.65Mg",
+      "batch_cost_of_goods": "$0.00",
+      "batch_location": null,
+      "batch_harvest_date": null,
+      "batch_harvest_date_raw": null,
+      "batch_best_by_date": "06/05/2027",
+      "batch_best_by_date_raw": "2027-06-05",
+      "batch_production_date": null,
+      "batch_production_date_raw": null,
+      "batch_test_date": null,
+      "batch_test_date_raw": null,
+      "batch_created_at": "07/02/2026",
+      "batch_created_at_raw": "2026-07-02 19:46:34",
+      "computed_sale_price": "$525.00",
+      "minimum_sales_price": "$0.00",
+      "total_cost_of_goods": "$0.00",
+      "true_cost": "$0.00",
+      "discounts": 0,
+      "surcharges": 0,
+      "additional_discounts": 0,
+      "tiered_surcharge": null,
+      "line_total": "$525.00",
+      "line_total_raw": 52500,
+      "inventory_quantity": 30,
+      "order_quantity": 1,
+      "quantity": 1,
+      "quantity_raw": 1,
+      "inventory_unit_of_measurement": "Unit",
+      "order_unit_of_measurement": "Case",
+      "units_per_package": 0,
+      "packages_per_case": 30,
+      "package_case": null,
+      "is_sample": "No",
+      "order_number": "Legacy-5246",
+      "order_status": "Draft order",
+      "payment_status": "Unpaid",
+      "order_date_utc": "08/07/2026",
+      "order_date_utc_raw": "2026-08-07",
+      "order_date_localized": "08/07/2026",
+      "order_date_localized_raw": "2026-08-07T00:00:00.000000Z",
+      "delivery_date": null,
+      "delivery_date_raw": null,
+      "due_date": null,
+      "due_date_raw": null,
+      "manifest_number": null,
+      "buyer_id": 111025,
+      "buyer_name": "CANNA RETREAT--PALMER -GREEN ADVENTURE, LLC DBA",
+      "buyer_group": "CANNA RETREAT--PALMER -GREEN ADVENTURE, LLC DBA",
+      "buyer_shipping_name": "Canna Retreat",
+      "buyer_address": "1240 Park Street",
+      "buyer_address_html": "1240 Park Street",
+      "buyer_city": "Palmer",
+      "buyer_state": "MA",
+      "buyer_zip": "01069",
+      "buyer_country": "US",
+      "sales_reps": "Derek Dambrosio",
+      "sales_reps_display": [
+        "Derek Dambrosio"
+      ],
+      "payment_dates": [],
+      "metrc_packages": null,
+      "notes": null,
+      "current_inventory": 392.0
+    },
+    {
+      "industry": "Recreational",
+      "buyer_license": "MR284710",
+      "seller_license": "MT281556",
+      "product_id": 208112,
+      "product_name": "500mg THC | ZERO SUGAR | Lemon-Lime Syrup |  30ct Case",
+      "product_sku": "ZS500lemonlime",
+      "product_category_id": 12,
+      "product_category": "Tinctures",
+      "product_category_name": "Tincture",
+      "product_type_id": 32,
+      "product_type": "Full Spectrum",
+      "product_brand_id": 2500,
+      "product_brand": "Chill Medicated",
+      "product_brand_image": null,
+      "product_cultivar_id": null,
+      "product_cultivar": null,
+      "product_cultivar_type_id": null,
+      "product_cultivar_type": null,
+      "product_cbd_type": "THC",
+      "product_grow_environment": null,
+      "product_extraction_method": null,
+      "product_unit_size_and_measurement": "4.00 US Fluid Ounce",
+      "product_listing_price": "$525.00",
+      "operation_id": 4547,
+      "operation": "Bodelle's - Chill Medicated",
+      "batch_name": "ZS500lemonlime-1A40A030000B4DD000012372 - 060526",
+      "batch_cbd_potency": "544.08Mg",
+      "batch_cost_of_goods": "$0.00",
+      "batch_location": null,
+      "batch_harvest_date": null,
+      "batch_harvest_date_raw": null,
+      "batch_best_by_date": "06/05/2027",
+      "batch_best_by_date_raw": "2027-06-05",
+      "batch_production_date": null,
+      "batch_production_date_raw": null,
+      "batch_test_date": null,
+      "batch_test_date_raw": null,
+      "batch_created_at": "07/02/2026",
+      "batch_created_at_raw": "2026-07-02 19:50:07",
+      "computed_sale_price": "$525.00",
+      "minimum_sales_price": "$0.00",
+      "total_cost_of_goods": "$0.00",
+      "true_cost": "$0.00",
+      "discounts": 0,
+      "surcharges": 0,
+      "additional_discounts": 0,
+      "tiered_surcharge": null,
+      "line_total": "$525.00",
+      "line_total_raw": 52500,
+      "inventory_quantity": 30,
+      "order_quantity": 1,
+      "quantity": 1,
+      "quantity_raw": 1,
+      "inventory_unit_of_measurement": "Unit",
+      "order_unit_of_measurement": "Case",
+      "units_per_package": 0,
+      "packages_per_case": 30,
+      "package_case": null,
+      "is_sample": "No",
+      "order_number": "Legacy-5246",
+      "order_status": "Draft order",
+      "payment_status": "Unpaid",
+      "order_date_utc": "08/07/2026",
+      "order_date_utc_raw": "2026-08-07",
+      "order_date_localized": "08/07/2026",
+      "order_date_localized_raw": "2026-08-07T00:00:00.000000Z",
+      "delivery_date": null,
+      "delivery_date_raw": null,
+      "due_date": null,
+      "due_date_raw": null,
+      "manifest_number": null,
+      "buyer_id": 111025,
+      "buyer_name": "CANNA RETREAT--PALMER -GREEN ADVENTURE, LLC DBA",
+      "buyer_group": "CANNA RETREAT--PALMER -GREEN ADVENTURE, LLC DBA",
+      "buyer_shipping_name": "Canna Retreat",
+      "buyer_address": "1240 Park Street",
+      "buyer_address_html": "1240 Park Street",
+      "buyer_city": "Palmer",
+      "buyer_state": "MA",
+      "buyer_zip": "01069",
+      "buyer_country": "US",
+      "sales_reps": "Derek Dambrosio",
+      "sales_reps_display": [
+        "Derek Dambrosio"
+      ],
+      "payment_dates": [],
+      "metrc_packages": null,
+      "notes": null,
+      "current_inventory": 110.0
+    },
     {
       "industry": "Recreational",
       "buyer_license": "MR284441",
@@ -457,7 +821,7 @@
       "payment_dates": [],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 422.0
+      "current_inventory": 392.0
     },
     {
       "industry": "Recreational",
@@ -912,7 +1276,7 @@
       "payment_dates": [],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 422.0
+      "current_inventory": 392.0
     },
     {
       "industry": "Recreational",
@@ -1003,7 +1367,7 @@
       "payment_dates": [],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 555.0
+      "current_inventory": 525.0
     },
     {
       "industry": "Recreational",
@@ -1094,7 +1458,7 @@
       "payment_dates": [],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 140.0
+      "current_inventory": 110.0
     },
     {
       "industry": "Recreational",
@@ -1185,7 +1549,7 @@
       "payment_dates": [],
       "metrc_packages": null,
       "notes": "1A40A030000B4DD000009843",
-      "current_inventory": 225.0
+      "current_inventory": 195.0
     },
     {
       "industry": "Recreational",
@@ -1458,7 +1822,7 @@
       "payment_dates": [],
       "metrc_packages": null,
       "notes": "1A40A030000B4DD000009843",
-      "current_inventory": 225.0
+      "current_inventory": 195.0
     },
     {
       "industry": "Recreational",
@@ -1640,7 +2004,7 @@
       "payment_dates": [],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 422.0
+      "current_inventory": 392.0
     },
     {
       "industry": "Recreational",
@@ -1731,7 +2095,7 @@
       "payment_dates": [],
       "metrc_packages": null,
       "notes": "1A40A030000B4DD000009843",
-      "current_inventory": 225.0
+      "current_inventory": 195.0
     },
     {
       "industry": "Recreational",
@@ -2189,7 +2553,7 @@
       "payment_dates": [],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 555.0
+      "current_inventory": 525.0
     },
     {
       "industry": "Recreational",
@@ -2281,7 +2645,7 @@
       "payment_dates": [],
       "metrc_packages": null,
       "notes": "1A40A030000B4DD000009843",
-      "current_inventory": 225.0
+      "current_inventory": 195.0
     },
     {
       "industry": "Recreational",
@@ -2741,7 +3105,7 @@
       "payment_dates": [],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 555.0
+      "current_inventory": 525.0
     },
     {
       "industry": "Recreational",
@@ -2833,7 +3197,7 @@
       "payment_dates": [],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 422.0
+      "current_inventory": 392.0
     },
     {
       "industry": "Recreational",
@@ -3109,7 +3473,7 @@
       "payment_dates": [],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 555.0
+      "current_inventory": 525.0
     },
     {
       "industry": "Recreational",
@@ -3201,7 +3565,7 @@
       "payment_dates": [],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 422.0
+      "current_inventory": 392.0
     },
     {
       "industry": "Recreational",
@@ -3470,7 +3834,7 @@
       "payment_dates": [],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 422.0
+      "current_inventory": 392.0
     },
     {
       "industry": "Recreational",
@@ -3561,7 +3925,7 @@
       "payment_dates": [],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 140.0
+      "current_inventory": 110.0
     },
     {
       "industry": "Recreational",
@@ -3925,7 +4289,7 @@
       "payment_dates": [],
       "metrc_packages": null,
       "notes": "1A40A030000B4DD000009843",
-      "current_inventory": 225.0
+      "current_inventory": 195.0
     },
     {
       "industry": "Recreational",
@@ -4562,7 +4926,7 @@
       "payment_dates": [],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 422.0
+      "current_inventory": 392.0
     },
     {
       "industry": "Recreational",
@@ -5017,7 +5381,7 @@
       "payment_dates": [],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 140.0
+      "current_inventory": 110.0
     },
     {
       "industry": "Recreational",
@@ -5563,7 +5927,7 @@
       "payment_dates": [],
       "metrc_packages": null,
       "notes": "1A40A030000B4DD000009843",
-      "current_inventory": 225.0
+      "current_inventory": 195.0
     },
     {
       "industry": "Recreational",
@@ -5927,7 +6291,7 @@
       "payment_dates": [],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 140.0
+      "current_inventory": 110.0
     },
     {
       "industry": "Recreational",
@@ -6291,7 +6655,7 @@
       "payment_dates": [],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 422.0
+      "current_inventory": 392.0
     },
     {
       "industry": "Recreational",
@@ -6382,7 +6746,7 @@
       "payment_dates": [],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 422.0
+      "current_inventory": 392.0
     },
     {
       "industry": "Recreational",
@@ -6746,7 +7110,7 @@
       "payment_dates": [],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 140.0
+      "current_inventory": 110.0
     },
     {
       "industry": "Recreational",
@@ -7474,7 +7838,7 @@
       "payment_dates": [],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 555.0
+      "current_inventory": 525.0
     },
     {
       "industry": "Recreational",
@@ -7656,7 +8020,7 @@
       "payment_dates": [],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 422.0
+      "current_inventory": 392.0
     },
     {
       "industry": "Recreational",
@@ -7929,7 +8293,7 @@
       "payment_dates": [],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 140.0
+      "current_inventory": 110.0
     },
     {
       "industry": "Recreational",
@@ -8384,7 +8748,7 @@
       "payment_dates": [],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 555.0
+      "current_inventory": 525.0
     },
     {
       "industry": "Recreational",
@@ -8566,7 +8930,7 @@
       "payment_dates": [],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 422.0
+      "current_inventory": 392.0
     },
     {
       "industry": "Recreational",
@@ -9021,7 +9385,7 @@
       "payment_dates": [],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 140.0
+      "current_inventory": 110.0
     },
     {
       "industry": "Recreational",
@@ -9476,7 +9840,7 @@
       "payment_dates": [],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 555.0
+      "current_inventory": 525.0
     },
     {
       "industry": "Recreational",
@@ -9658,7 +10022,7 @@
       "payment_dates": [],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 422.0
+      "current_inventory": 392.0
     },
     {
       "industry": "Recreational",
@@ -9932,7 +10296,7 @@
       "payment_dates": [],
       "metrc_packages": null,
       "notes": "1A40A030000B4DD000009843",
-      "current_inventory": 225.0
+      "current_inventory": 195.0
     },
     {
       "industry": "Recreational",
@@ -10024,7 +10388,7 @@
       "payment_dates": [],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 555.0
+      "current_inventory": 525.0
     },
     {
       "industry": "Recreational",
@@ -10299,7 +10663,7 @@
       "payment_dates": [],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 422.0
+      "current_inventory": 392.0
     },
     {
       "industry": "Recreational",
@@ -10390,7 +10754,7 @@
       "payment_dates": [],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 140.0
+      "current_inventory": 110.0
     },
     {
       "industry": "Recreational",
@@ -11027,7 +11391,7 @@
       "payment_dates": [],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 555.0
+      "current_inventory": 525.0
     },
     {
       "industry": "Recreational",
@@ -11664,7 +12028,7 @@
       "payment_dates": [],
       "metrc_packages": null,
       "notes": "1A40A030000B4DD000009843",
-      "current_inventory": 225.0
+      "current_inventory": 195.0
     },
     {
       "industry": "Recreational",
@@ -11846,7 +12210,7 @@
       "payment_dates": [],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 140.0
+      "current_inventory": 110.0
     },
     {
       "industry": "Recreational",
@@ -12665,7 +13029,7 @@
       "payment_dates": [],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 140.0
+      "current_inventory": 110.0
     },
     {
       "industry": "Recreational",
@@ -13029,7 +13393,7 @@
       "payment_dates": [],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 422.0
+      "current_inventory": 392.0
     },
     {
       "industry": "Recreational",
@@ -13120,7 +13484,7 @@
       "payment_dates": [],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 422.0
+      "current_inventory": 392.0
     },
     {
       "industry": "Recreational",
@@ -13484,7 +13848,7 @@
       "payment_dates": [],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 555.0
+      "current_inventory": 525.0
     },
     {
       "industry": "Recreational",
@@ -13757,7 +14121,7 @@
       "payment_dates": [],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 422.0
+      "current_inventory": 392.0
     },
     {
       "industry": "Recreational",
@@ -14121,7 +14485,7 @@
       "payment_dates": [],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 555.0
+      "current_inventory": 525.0
     },
     {
       "industry": "Recreational",
@@ -14576,7 +14940,7 @@
       "payment_dates": [],
       "metrc_packages": null,
       "notes": "1A40A030000B4DD000009843",
-      "current_inventory": 225.0
+      "current_inventory": 195.0
     },
     {
       "industry": "Recreational",
@@ -15213,7 +15577,7 @@
       "payment_dates": [],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 422.0
+      "current_inventory": 392.0
     },
     {
       "industry": "Recreational",
@@ -15759,7 +16123,7 @@
       "payment_dates": [],
       "metrc_packages": null,
       "notes": "1A40A030000B4DD000009843",
-      "current_inventory": 225.0
+      "current_inventory": 195.0
     },
     {
       "industry": "Recreational",
@@ -18041,7 +18405,7 @@
       ],
       "metrc_packages": null,
       "notes": "1A40A030000B4DD000009843",
-      "current_inventory": 225.0
+      "current_inventory": 195.0
     },
     {
       "industry": "Recreational",
@@ -18227,7 +18591,7 @@
       ],
       "metrc_packages": null,
       "notes": "1A40A030000B4DD000009847",
-      "current_inventory": 140.0
+      "current_inventory": 110.0
     },
     {
       "industry": "Recreational",
@@ -19424,7 +19788,7 @@
       ],
       "metrc_packages": null,
       "notes": "1A40A030000B4DD000006085",
-      "current_inventory": 225.0
+      "current_inventory": 195.0
     },
     {
       "industry": "Recreational",
@@ -19610,7 +19974,7 @@
       ],
       "metrc_packages": null,
       "notes": "1A40A030000B4DD000009847",
-      "current_inventory": 140.0
+      "current_inventory": 110.0
     },
     {
       "industry": "Recreational",
@@ -21098,7 +21462,7 @@
       ],
       "metrc_packages": null,
       "notes": "1A40A030000B4DD000009847",
-      "current_inventory": 140.0
+      "current_inventory": 110.0
     },
     {
       "industry": "Recreational",
@@ -21563,7 +21927,7 @@
       ],
       "metrc_packages": null,
       "notes": "1A40A030000B4DD000009847",
-      "current_inventory": 140.0
+      "current_inventory": 110.0
     },
     {
       "industry": "Recreational",
@@ -22309,7 +22673,7 @@
       ],
       "metrc_packages": null,
       "notes": "1A40A030000B4DD000009843",
-      "current_inventory": 225.0
+      "current_inventory": 195.0
     },
     {
       "industry": "Recreational",
@@ -22961,7 +23325,7 @@
       "payment_dates": [],
       "metrc_packages": null,
       "notes": "1A40A030000B4DD000009847",
-      "current_inventory": 140.0
+      "current_inventory": 110.0
     },
     {
       "industry": "Recreational",
@@ -24260,7 +24624,7 @@
       ],
       "metrc_packages": null,
       "notes": "1A40A030000B4DD000009847",
-      "current_inventory": 140.0
+      "current_inventory": 110.0
     },
     {
       "industry": "Recreational",
@@ -25106,7 +25470,7 @@
       ],
       "metrc_packages": null,
       "notes": "1A40A030000B4DD000009847",
-      "current_inventory": 140.0
+      "current_inventory": 110.0
     },
     {
       "industry": "Recreational",
@@ -25857,7 +26221,7 @@
       ],
       "metrc_packages": null,
       "notes": "1A40A030000B4DD000009843",
-      "current_inventory": 225.0
+      "current_inventory": 195.0
     },
     {
       "industry": "Recreational",
@@ -26694,7 +27058,7 @@
       ],
       "metrc_packages": null,
       "notes": "1A40A030000B4DD000009843",
-      "current_inventory": 225.0
+      "current_inventory": 195.0
     },
     {
       "industry": "Recreational",
@@ -27986,7 +28350,7 @@
       "payment_dates": [],
       "metrc_packages": null,
       "notes": "1A40A030000B4DD000009847",
-      "current_inventory": 140.0
+      "current_inventory": 110.0
     },
     {
       "industry": "Recreational",
@@ -29754,7 +30118,7 @@
       ],
       "metrc_packages": null,
       "notes": "1A40A030000B4DD000009847",
-      "current_inventory": 140.0
+      "current_inventory": 110.0
     },
     {
       "industry": "Recreational",
@@ -31044,7 +31408,7 @@
       ],
       "metrc_packages": null,
       "notes": "1A40A030000B4DD000006085",
-      "current_inventory": 225.0
+      "current_inventory": 195.0
     },
     {
       "industry": "Recreational",
@@ -31320,7 +31684,7 @@
       "payment_dates": [],
       "metrc_packages": null,
       "notes": "1A40A030000B4DD000006085",
-      "current_inventory": 225.0
+      "current_inventory": 195.0
     },
     {
       "industry": "Recreational",
@@ -31599,7 +31963,7 @@
       ],
       "metrc_packages": null,
       "notes": "1A40A030000B4DD000009847",
-      "current_inventory": 140.0
+      "current_inventory": 110.0
     },
     {
       "industry": "Recreational",
@@ -31971,7 +32335,7 @@
       ],
       "metrc_packages": null,
       "notes": "1A40A030000B4DD000006085",
-      "current_inventory": 225.0
+      "current_inventory": 195.0
     },
     {
       "industry": "Recreational",
@@ -33347,7 +33711,7 @@
       ],
       "metrc_packages": null,
       "notes": "1A40A030000B4DD000009850",
-      "current_inventory": 555.0
+      "current_inventory": 525.0
     },
     {
       "industry": "Recreational",
@@ -33723,7 +34087,7 @@
       ],
       "metrc_packages": null,
       "notes": "1A40A030000B4DD000009847",
-      "current_inventory": 140.0
+      "current_inventory": 110.0
     },
     {
       "industry": "Recreational",
@@ -33911,7 +34275,7 @@
       ],
       "metrc_packages": null,
       "notes": "1A40A030000B4DD000006085",
-      "current_inventory": 225.0
+      "current_inventory": 195.0
     },
     {
       "industry": "Recreational",
@@ -34470,7 +34834,7 @@
       ],
       "metrc_packages": null,
       "notes": "1A40A030000B4DD000009847",
-      "current_inventory": 140.0
+      "current_inventory": 110.0
     },
     {
       "industry": "Recreational",
@@ -35307,7 +35671,7 @@
       ],
       "metrc_packages": null,
       "notes": "1A40A030000B4DD000006085",
-      "current_inventory": 225.0
+      "current_inventory": 195.0
     },
     {
       "industry": "Recreational",
@@ -35682,7 +36046,7 @@
       ],
       "metrc_packages": null,
       "notes": "1A40A030000B4DD000009847",
-      "current_inventory": 140.0
+      "current_inventory": 110.0
     },
     {
       "industry": "Recreational",
@@ -36055,7 +36419,7 @@
       ],
       "metrc_packages": null,
       "notes": "1A40A030000B4DD000009847",
-      "current_inventory": 140.0
+      "current_inventory": 110.0
     },
     {
       "industry": "Recreational",
@@ -36241,7 +36605,7 @@
       ],
       "metrc_packages": null,
       "notes": "1A40A030000B4DD000006085",
-      "current_inventory": 225.0
+      "current_inventory": 195.0
     },
     {
       "industry": "Recreational",
@@ -37639,7 +38003,7 @@
       ],
       "metrc_packages": null,
       "notes": "1A40A030000B4DD000009847",
-      "current_inventory": 140.0
+      "current_inventory": 110.0
     },
     {
       "industry": "Recreational",
@@ -38290,7 +38654,7 @@
       ],
       "metrc_packages": null,
       "notes": "1A40A030000B4DD000009850",
-      "current_inventory": 555.0
+      "current_inventory": 525.0
     },
     {
       "industry": "Recreational",
@@ -38476,7 +38840,7 @@
       ],
       "metrc_packages": null,
       "notes": "1A40A030000B4DD000009847",
-      "current_inventory": 140.0
+      "current_inventory": 110.0
     },
     {
       "industry": "Recreational",
@@ -40430,7 +40794,7 @@
       "payment_dates": [],
       "metrc_packages": null,
       "notes": "1A40A030000B4DD000009847",
-      "current_inventory": 140.0
+      "current_inventory": 110.0
     },
     {
       "industry": "Recreational",
@@ -41340,7 +41704,7 @@
       "payment_dates": [],
       "metrc_packages": null,
       "notes": "1A40A030000B4DD000006085",
-      "current_inventory": 225.0
+      "current_inventory": 195.0
     },
     {
       "industry": "Recreational",
@@ -41708,7 +42072,7 @@
       ],
       "metrc_packages": null,
       "notes": "1A40A030000B4DD000009850",
-      "current_inventory": 555.0
+      "current_inventory": 525.0
     },
     {
       "industry": "Recreational",
@@ -41987,7 +42351,7 @@
       ],
       "metrc_packages": null,
       "notes": "1A40A030000B4DD000009847",
-      "current_inventory": 140.0
+      "current_inventory": 110.0
     },
     {
       "industry": "Recreational",
@@ -42638,7 +43002,7 @@
       ],
       "metrc_packages": null,
       "notes": "1A40A030000B4DD000009847",
-      "current_inventory": 140.0
+      "current_inventory": 110.0
     },
     {
       "industry": "Recreational",
@@ -42731,7 +43095,7 @@
       ],
       "metrc_packages": null,
       "notes": "1A40A030000B4DD000009847",
-      "current_inventory": 140.0
+      "current_inventory": 110.0
     },
     {
       "industry": "Recreational",
@@ -43198,7 +43562,7 @@
       ],
       "metrc_packages": null,
       "notes": "1A40A030000B4DD000009850",
-      "current_inventory": 555.0
+      "current_inventory": 525.0
     },
     {
       "industry": "Recreational",
@@ -43574,7 +43938,7 @@
       ],
       "metrc_packages": null,
       "notes": "1A40A030000B4DD000009847",
-      "current_inventory": 140.0
+      "current_inventory": 110.0
     },
     {
       "industry": "Recreational",
@@ -43761,7 +44125,7 @@
       ],
       "metrc_packages": null,
       "notes": "1A40A030000B4DD000006085",
-      "current_inventory": 225.0
+      "current_inventory": 195.0
     },
     {
       "industry": "Recreational",
@@ -44598,7 +44962,7 @@
       ],
       "metrc_packages": null,
       "notes": "1A40A030000B4DD000009847",
-      "current_inventory": 140.0
+      "current_inventory": 110.0
     },
     {
       "industry": "Recreational",
@@ -44691,7 +45055,7 @@
       ],
       "metrc_packages": null,
       "notes": "1A40A030000B4DD000009850",
-      "current_inventory": 555.0
+      "current_inventory": 525.0
     },
     {
       "industry": "Recreational",
@@ -44877,7 +45241,7 @@
       ],
       "metrc_packages": null,
       "notes": "1A40A030000B4DD000010038",
-      "current_inventory": 422.0
+      "current_inventory": 392.0
     },
     {
       "industry": "Recreational",
@@ -45156,7 +45520,7 @@
       ],
       "metrc_packages": null,
       "notes": "1A40A030000B4DD000006085",
-      "current_inventory": 225.0
+      "current_inventory": 195.0
     },
     {
       "industry": "Recreational",
@@ -45714,7 +46078,7 @@
       ],
       "metrc_packages": null,
       "notes": "1A40A030000B4DD000009847",
-      "current_inventory": 140.0
+      "current_inventory": 110.0
     },
     {
       "industry": "Recreational",
@@ -46829,7 +47193,7 @@
       ],
       "metrc_packages": null,
       "notes": "1A40A030000B4DD000006085",
-      "current_inventory": 225.0
+      "current_inventory": 195.0
     },
     {
       "industry": "Recreational",
@@ -48606,7 +48970,7 @@
       ],
       "metrc_packages": null,
       "notes": "1A40A030000B4DD000006085",
-      "current_inventory": 225.0
+      "current_inventory": 195.0
     },
     {
       "industry": "Recreational",
@@ -50006,7 +50370,7 @@
       "payment_dates": [],
       "metrc_packages": null,
       "notes": "1A40A030000B4DD000009847",
-      "current_inventory": 140.0
+      "current_inventory": 110.0
     },
     {
       "industry": "Recreational",
@@ -50654,7 +51018,7 @@
       ],
       "metrc_packages": null,
       "notes": "1A40A030000B4DD000009850",
-      "current_inventory": 555.0
+      "current_inventory": 525.0
     },
     {
       "industry": "Recreational",
@@ -51398,7 +51762,7 @@
       ],
       "metrc_packages": null,
       "notes": "1A40A030000B4DD000010038",
-      "current_inventory": 422.0
+      "current_inventory": 392.0
     },
     {
       "industry": "Recreational",
@@ -51863,7 +52227,7 @@
       ],
       "metrc_packages": null,
       "notes": "1A40A030000B4DD000010038",
-      "current_inventory": 422.0
+      "current_inventory": 392.0
     },
     {
       "industry": "Recreational",
@@ -52332,7 +52696,7 @@
       ],
       "metrc_packages": null,
       "notes": "1A40A030000B4DD000010038",
-      "current_inventory": 422.0
+      "current_inventory": 392.0
     },
     {
       "industry": "Recreational",
@@ -53072,7 +53436,7 @@
       "payment_dates": [],
       "metrc_packages": null,
       "notes": "1A40A030000B4DD000010038",
-      "current_inventory": 422.0
+      "current_inventory": 392.0
     },
     {
       "industry": "Recreational",
@@ -53436,7 +53800,7 @@
       "payment_dates": [],
       "metrc_packages": null,
       "notes": "1A40A030000B4DD000010038",
-      "current_inventory": 422.0
+      "current_inventory": 392.0
     },
     {
       "industry": "Recreational",
@@ -53891,7 +54255,7 @@
       "payment_dates": [],
       "metrc_packages": null,
       "notes": "1A40A030000B4DD000010038",
-      "current_inventory": 422.0
+      "current_inventory": 392.0
     },
     {
       "industry": "Recreational",
@@ -54439,7 +54803,7 @@
       ],
       "metrc_packages": null,
       "notes": "1A40A030000B4DD000010038",
-      "current_inventory": 422.0
+      "current_inventory": 392.0
     },
     {
       "industry": "Recreational",
@@ -54532,7 +54896,7 @@
       ],
       "metrc_packages": null,
       "notes": "1A40A030000B4DD000009850",
-      "current_inventory": 555.0
+      "current_inventory": 525.0
     },
     {
       "industry": "Recreational",
@@ -54718,7 +55082,7 @@
       ],
       "metrc_packages": null,
       "notes": "1A40A030000B4DD000009847",
-      "current_inventory": 140.0
+      "current_inventory": 110.0
     },
     {
       "industry": "Recreational",
@@ -54997,7 +55361,7 @@
       ],
       "metrc_packages": null,
       "notes": "1A40A030000B4DD000010038",
-      "current_inventory": 422.0
+      "current_inventory": 392.0
     },
     {
       "industry": "Recreational",
@@ -55090,7 +55454,7 @@
       ],
       "metrc_packages": null,
       "notes": "1A40A030000B4DD000009850",
-      "current_inventory": 555.0
+      "current_inventory": 525.0
     },
     {
       "industry": "Recreational",
@@ -55648,7 +56012,7 @@
       ],
       "metrc_packages": null,
       "notes": "1A40A030000B4DD000009850",
-      "current_inventory": 555.0
+      "current_inventory": 525.0
     },
     {
       "industry": "Recreational",
@@ -55741,7 +56105,7 @@
       ],
       "metrc_packages": null,
       "notes": "1A40A030000B4DD000010038",
-      "current_inventory": 422.0
+      "current_inventory": 392.0
     },
     {
       "industry": "Recreational",
@@ -56485,7 +56849,7 @@
       ],
       "metrc_packages": null,
       "notes": "1A40A030000B4DD000009850",
-      "current_inventory": 555.0
+      "current_inventory": 525.0
     },
     {
       "industry": "Recreational",
@@ -56764,7 +57128,7 @@
       ],
       "metrc_packages": null,
       "notes": "1A40A030000B4DD000010038",
-      "current_inventory": 422.0
+      "current_inventory": 392.0
     },
     {
       "industry": "Recreational",
@@ -57136,7 +57500,7 @@
       ],
       "metrc_packages": null,
       "notes": "1A40A030000B4DD000009850",
-      "current_inventory": 555.0
+      "current_inventory": 525.0
     },
     {
       "industry": "Recreational",
@@ -57322,7 +57686,7 @@
       ],
       "metrc_packages": null,
       "notes": "1A40A030000B4DD000010038",
-      "current_inventory": 422.0
+      "current_inventory": 392.0
     },
     {
       "industry": "Recreational",
@@ -58066,7 +58430,7 @@
       ],
       "metrc_packages": null,
       "notes": "1A40A030000B4DD000009850",
-      "current_inventory": 555.0
+      "current_inventory": 525.0
     },
     {
       "industry": "Recreational",
@@ -58624,7 +58988,7 @@
       ],
       "metrc_packages": null,
       "notes": "1A40A030000B4DD000009850",
-      "current_inventory": 555.0
+      "current_inventory": 525.0
     },
     {
       "industry": "Recreational",
@@ -59280,7 +59644,7 @@
       ],
       "metrc_packages": null,
       "notes": "1A40A030000B4DD000010038",
-      "current_inventory": 422.0
+      "current_inventory": 392.0
     },
     {
       "industry": "Recreational",
@@ -59652,7 +60016,7 @@
       ],
       "metrc_packages": null,
       "notes": "1A40A030000B4DD000010038",
-      "current_inventory": 422.0
+      "current_inventory": 392.0
     },
     {
       "industry": "Recreational",
@@ -61066,7 +61430,7 @@
       ],
       "metrc_packages": null,
       "notes": "1A40A030000B4DD000009847",
-      "current_inventory": 140.0
+      "current_inventory": 110.0
     },
     {
       "industry": "Recreational",
@@ -61160,7 +61524,7 @@
       ],
       "metrc_packages": null,
       "notes": "1A40A030000B4DD000006085",
-      "current_inventory": 225.0
+      "current_inventory": 195.0
     },
     {
       "industry": "Recreational",
@@ -61346,7 +61710,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 225.0
+      "current_inventory": 195.0
     },
     {
       "industry": "Recreational",
@@ -61439,7 +61803,7 @@
       ],
       "metrc_packages": null,
       "notes": "1A40A030000B4DD000009847",
-      "current_inventory": 140.0
+      "current_inventory": 110.0
     },
     {
       "industry": "Recreational",
@@ -62183,7 +62547,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 140.0
+      "current_inventory": 110.0
     },
     {
       "industry": "Recreational",
@@ -62462,7 +62826,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 225.0
+      "current_inventory": 195.0
     },
     {
       "industry": "Recreational",
@@ -62923,7 +63287,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 140.0
+      "current_inventory": 110.0
     },
     {
       "industry": "Recreational",
@@ -63392,7 +63756,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 140.0
+      "current_inventory": 110.0
     },
     {
       "industry": "Recreational",
@@ -63671,7 +64035,7 @@
       ],
       "metrc_packages": null,
       "notes": "1A40A030000B4DD000010038",
-      "current_inventory": 422.0
+      "current_inventory": 392.0
     },
     {
       "industry": "Recreational",
@@ -64229,7 +64593,7 @@
       ],
       "metrc_packages": null,
       "notes": "1A40A030000B4DD000009850",
-      "current_inventory": 555.0
+      "current_inventory": 525.0
     },
     {
       "industry": "Recreational",
@@ -64601,7 +64965,7 @@
       ],
       "metrc_packages": null,
       "notes": "1A40A030000B4DD000009850",
-      "current_inventory": 555.0
+      "current_inventory": 525.0
     },
     {
       "industry": "Recreational",
@@ -64880,7 +65244,7 @@
       ],
       "metrc_packages": null,
       "notes": "1A40A030000B4DD000010038",
-      "current_inventory": 422.0
+      "current_inventory": 392.0
     },
     {
       "industry": "Recreational",
@@ -65252,7 +65616,7 @@
       ],
       "metrc_packages": null,
       "notes": "1A40A030000B4DD000010038",
-      "current_inventory": 422.0
+      "current_inventory": 392.0
     },
     {
       "industry": "Recreational",
@@ -65810,7 +66174,7 @@
       ],
       "metrc_packages": null,
       "notes": "1A40A030000B4DD000009850",
-      "current_inventory": 555.0
+      "current_inventory": 525.0
     },
     {
       "industry": "Recreational",
@@ -66089,7 +66453,7 @@
       ],
       "metrc_packages": null,
       "notes": "1A40A030000B4DD000010038",
-      "current_inventory": 422.0
+      "current_inventory": 392.0
     },
     {
       "industry": "Recreational",
@@ -66461,7 +66825,7 @@
       ],
       "metrc_packages": null,
       "notes": "1A40A030000B4DD000009847",
-      "current_inventory": 140.0
+      "current_inventory": 110.0
     },
     {
       "industry": "Recreational",
@@ -67205,7 +67569,7 @@
       ],
       "metrc_packages": null,
       "notes": "1A40A030000B4DD000009850",
-      "current_inventory": 555.0
+      "current_inventory": 525.0
     },
     {
       "industry": "Recreational",
@@ -67581,7 +67945,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 140.0
+      "current_inventory": 110.0
     },
     {
       "industry": "Recreational",
@@ -67769,7 +68133,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 225.0
+      "current_inventory": 195.0
     },
     {
       "industry": "Recreational",
@@ -68237,7 +68601,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 140.0
+      "current_inventory": 110.0
     },
     {
       "industry": "Recreational",
@@ -69168,7 +69532,7 @@
       "payment_dates": [],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 225.0
+      "current_inventory": 195.0
     },
     {
       "industry": "Recreational",
@@ -69812,7 +70176,7 @@
       "payment_dates": [],
       "metrc_packages": null,
       "notes": "1A40A030000B4DD000009847",
-      "current_inventory": 140.0
+      "current_inventory": 110.0
     },
     {
       "industry": "Recreational",
@@ -70463,7 +70827,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 225.0
+      "current_inventory": 195.0
     },
     {
       "industry": "Recreational",
@@ -70556,7 +70920,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 225.0
+      "current_inventory": 195.0
     },
     {
       "industry": "Recreational",
@@ -70742,7 +71106,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 225.0
+      "current_inventory": 195.0
     },
     {
       "industry": "Recreational",
@@ -71300,7 +71664,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 140.0
+      "current_inventory": 110.0
     },
     {
       "industry": "Recreational",
@@ -71486,7 +71850,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 225.0
+      "current_inventory": 195.0
     },
     {
       "industry": "Recreational",
@@ -72420,7 +72784,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 140.0
+      "current_inventory": 110.0
     },
     {
       "industry": "Recreational",
@@ -72514,7 +72878,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 140.0
+      "current_inventory": 110.0
     },
     {
       "industry": "Recreational",
@@ -75502,7 +75866,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 225.0
+      "current_inventory": 195.0
     },
     {
       "industry": "Recreational",
@@ -76432,7 +76796,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 422.0
+      "current_inventory": 392.0
     },
     {
       "industry": "Recreational",
@@ -76705,7 +77069,7 @@
       "payment_dates": [],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 140.0
+      "current_inventory": 110.0
     },
     {
       "industry": "Recreational",
@@ -77524,7 +77888,7 @@
       "payment_dates": [],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 140.0
+      "current_inventory": 110.0
     },
     {
       "industry": "Recreational",
@@ -77888,7 +78252,7 @@
       "payment_dates": [],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 140.0
+      "current_inventory": 110.0
     },
     {
       "industry": "Recreational",
@@ -78631,7 +78995,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 225.0
+      "current_inventory": 195.0
     },
     {
       "industry": "Recreational",
@@ -79745,7 +80109,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 225.0
+      "current_inventory": 195.0
     },
     {
       "industry": "Recreational",
@@ -80024,7 +80388,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 140.0
+      "current_inventory": 110.0
     },
     {
       "industry": "Recreational",
@@ -80675,7 +81039,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 422.0
+      "current_inventory": 392.0
     },
     {
       "industry": "Recreational",
@@ -81427,7 +81791,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 422.0
+      "current_inventory": 392.0
     },
     {
       "industry": "Recreational",
@@ -81615,7 +81979,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 140.0
+      "current_inventory": 110.0
     },
     {
       "industry": "Recreational",
@@ -81801,7 +82165,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 422.0
+      "current_inventory": 392.0
     },
     {
       "industry": "Recreational",
@@ -82080,7 +82444,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 140.0
+      "current_inventory": 110.0
     },
     {
       "industry": "Recreational",
@@ -82359,7 +82723,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 225.0
+      "current_inventory": 195.0
     },
     {
       "industry": "Recreational",
@@ -82545,7 +82909,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 140.0
+      "current_inventory": 110.0
     },
     {
       "industry": "Recreational",
@@ -82824,7 +83188,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 422.0
+      "current_inventory": 392.0
     },
     {
       "industry": "Recreational",
@@ -83010,7 +83374,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 555.0
+      "current_inventory": 525.0
     },
     {
       "industry": "Recreational",
@@ -83289,7 +83653,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 422.0
+      "current_inventory": 392.0
     },
     {
       "industry": "Recreational",
@@ -83568,7 +83932,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 140.0
+      "current_inventory": 110.0
     },
     {
       "industry": "Recreational",
@@ -83940,7 +84304,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 225.0
+      "current_inventory": 195.0
     },
     {
       "industry": "Recreational",
@@ -84126,7 +84490,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 140.0
+      "current_inventory": 110.0
     },
     {
       "industry": "Recreational",
@@ -84684,7 +85048,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 422.0
+      "current_inventory": 392.0
     },
     {
       "industry": "Recreational",
@@ -84870,7 +85234,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 140.0
+      "current_inventory": 110.0
     },
     {
       "industry": "Recreational",
@@ -85149,7 +85513,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 225.0
+      "current_inventory": 195.0
     },
     {
       "industry": "Recreational",
@@ -85521,7 +85885,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 422.0
+      "current_inventory": 392.0
     },
     {
       "industry": "Recreational",
@@ -85893,7 +86257,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 140.0
+      "current_inventory": 110.0
     },
     {
       "industry": "Recreational",
@@ -86172,7 +86536,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 225.0
+      "current_inventory": 195.0
     },
     {
       "industry": "Recreational",
@@ -86451,7 +86815,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 140.0
+      "current_inventory": 110.0
     },
     {
       "industry": "Recreational",
@@ -86544,7 +86908,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 555.0
+      "current_inventory": 525.0
     },
     {
       "industry": "Recreational",
@@ -86823,7 +87187,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 225.0
+      "current_inventory": 195.0
     },
     {
       "industry": "Recreational",
@@ -87195,7 +87559,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 225.0
+      "current_inventory": 195.0
     },
     {
       "industry": "Recreational",
@@ -87660,7 +88024,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 225.0
+      "current_inventory": 195.0
     },
     {
       "industry": "Recreational",
@@ -88224,7 +88588,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 140.0
+      "current_inventory": 110.0
     },
     {
       "industry": "Recreational",
@@ -88509,7 +88873,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 422.0
+      "current_inventory": 392.0
     },
     {
       "industry": "Recreational",
@@ -88889,7 +89253,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 225.0
+      "current_inventory": 195.0
     },
     {
       "industry": "Recreational",
@@ -89735,7 +90099,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 140.0
+      "current_inventory": 110.0
     },
     {
       "industry": "Recreational",
@@ -90393,7 +90757,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 140.0
+      "current_inventory": 110.0
     },
     {
       "industry": "Recreational",
@@ -90581,7 +90945,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 422.0
+      "current_inventory": 392.0
     },
     {
       "industry": "Recreational",
@@ -90769,7 +91133,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 422.0
+      "current_inventory": 392.0
     },
     {
       "industry": "Recreational",
@@ -91333,7 +91697,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 140.0
+      "current_inventory": 110.0
     },
     {
       "industry": "Recreational",
@@ -91615,7 +91979,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 422.0
+      "current_inventory": 392.0
     },
     {
       "industry": "Recreational",
@@ -92649,7 +93013,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 225.0
+      "current_inventory": 195.0
     },
     {
       "industry": "Recreational",
@@ -93306,7 +93670,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 140.0
+      "current_inventory": 110.0
     },
     {
       "industry": "Recreational",
@@ -93492,7 +93856,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 422.0
+      "current_inventory": 392.0
     },
     {
       "industry": "Recreational",
@@ -93864,7 +94228,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 225.0
+      "current_inventory": 195.0
     },
     {
       "industry": "Recreational",
@@ -94423,7 +94787,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 225.0
+      "current_inventory": 195.0
     },
     {
       "industry": "Recreational",
@@ -94987,7 +95351,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 140.0
+      "current_inventory": 110.0
     },
     {
       "industry": "Recreational",
@@ -95548,7 +95912,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 422.0
+      "current_inventory": 392.0
     },
     {
       "industry": "Recreational",
@@ -95734,7 +96098,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 140.0
+      "current_inventory": 110.0
     },
     {
       "industry": "Recreational",
@@ -96294,7 +96658,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 225.0
+      "current_inventory": 195.0
     },
     {
       "industry": "Recreational",
@@ -96952,7 +97316,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 422.0
+      "current_inventory": 392.0
     },
     {
       "industry": "Recreational",
@@ -97140,7 +97504,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 140.0
+      "current_inventory": 110.0
     },
     {
       "industry": "Recreational",
@@ -97328,7 +97692,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 140.0
+      "current_inventory": 110.0
     },
     {
       "industry": "Recreational",
@@ -98072,7 +98436,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 555.0
+      "current_inventory": 525.0
     },
     {
       "industry": "Recreational",
@@ -98822,7 +99186,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 140.0
+      "current_inventory": 110.0
     },
     {
       "industry": "Recreational",
@@ -99194,7 +99558,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 225.0
+      "current_inventory": 195.0
     },
     {
       "industry": "Recreational",
@@ -99566,7 +99930,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 225.0
+      "current_inventory": 195.0
     },
     {
       "industry": "Recreational",
@@ -100413,7 +100777,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 225.0
+      "current_inventory": 195.0
     },
     {
       "industry": "Recreational",
@@ -101068,7 +101432,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 422.0
+      "current_inventory": 392.0
     },
     {
       "industry": "Recreational",
@@ -101350,7 +101714,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 225.0
+      "current_inventory": 195.0
     },
     {
       "industry": "Recreational",
@@ -101444,7 +101808,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 555.0
+      "current_inventory": 525.0
     },
     {
       "industry": "Recreational",
@@ -101632,7 +101996,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 140.0
+      "current_inventory": 110.0
     },
     {
       "industry": "Recreational",
@@ -101726,7 +102090,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 225.0
+      "current_inventory": 195.0
     },
     {
       "industry": "Recreational",
@@ -101819,7 +102183,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 555.0
+      "current_inventory": 525.0
     },
     {
       "industry": "Recreational",
@@ -102284,7 +102648,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 422.0
+      "current_inventory": 392.0
     },
     {
       "industry": "Recreational",
@@ -102377,7 +102741,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 555.0
+      "current_inventory": 525.0
     },
     {
       "industry": "Recreational",
@@ -102842,7 +103206,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 422.0
+      "current_inventory": 392.0
     },
     {
       "industry": "Recreational",
@@ -102935,7 +103299,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 555.0
+      "current_inventory": 525.0
     },
     {
       "industry": "Recreational",
@@ -103400,7 +103764,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 422.0
+      "current_inventory": 392.0
     },
     {
       "industry": "Recreational",
@@ -105177,7 +105541,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 225.0
+      "current_inventory": 195.0
     },
     {
       "industry": "Recreational",
@@ -106002,7 +106366,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 140.0
+      "current_inventory": 110.0
     },
     {
       "industry": "Recreational",
@@ -106095,7 +106459,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 422.0
+      "current_inventory": 392.0
     },
     {
       "industry": "Recreational",
@@ -106188,7 +106552,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 555.0
+      "current_inventory": 525.0
     },
     {
       "industry": "Recreational",
@@ -106560,7 +106924,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 225.0
+      "current_inventory": 195.0
     },
     {
       "industry": "Recreational",
@@ -108234,7 +108598,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 422.0
+      "current_inventory": 392.0
     },
     {
       "industry": "Recreational",
@@ -108978,7 +109342,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 225.0
+      "current_inventory": 195.0
     },
     {
       "industry": "Recreational",
@@ -109443,7 +109807,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 140.0
+      "current_inventory": 110.0
     },
     {
       "industry": "Recreational",
@@ -109536,7 +109900,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 555.0
+      "current_inventory": 525.0
     },
     {
       "industry": "Recreational",
@@ -109722,7 +110086,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 225.0
+      "current_inventory": 195.0
     },
     {
       "industry": "Recreational",
@@ -110745,7 +111109,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 140.0
+      "current_inventory": 110.0
     },
     {
       "industry": "Recreational",
@@ -110838,7 +111202,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 422.0
+      "current_inventory": 392.0
     },
     {
       "industry": "Recreational",
@@ -110931,7 +111295,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 555.0
+      "current_inventory": 525.0
     },
     {
       "industry": "Recreational",
@@ -111303,7 +111667,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 225.0
+      "current_inventory": 195.0
     },
     {
       "industry": "Recreational",
@@ -112512,7 +112876,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 225.0
+      "current_inventory": 195.0
     },
     {
       "industry": "Recreational",
@@ -112698,7 +113062,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 225.0
+      "current_inventory": 195.0
     },
     {
       "industry": "Recreational",
@@ -113070,7 +113434,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 225.0
+      "current_inventory": 195.0
     },
     {
       "industry": "Recreational",
@@ -113538,7 +113902,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 140.0
+      "current_inventory": 110.0
     },
     {
       "industry": "Recreational",
@@ -114008,7 +114372,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 225.0
+      "current_inventory": 195.0
     },
     {
       "industry": "Recreational",
@@ -114562,7 +114926,7 @@
       "payment_dates": [],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 225.0
+      "current_inventory": 195.0
     },
     {
       "industry": "Recreational",
@@ -114748,7 +115112,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 422.0
+      "current_inventory": 392.0
     },
     {
       "industry": "Recreational",
@@ -114841,7 +115205,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 225.0
+      "current_inventory": 195.0
     },
     {
       "industry": "Recreational",
@@ -115307,7 +115671,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 225.0
+      "current_inventory": 195.0
     },
     {
       "industry": "Recreational",
@@ -116708,7 +117072,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 140.0
+      "current_inventory": 110.0
     },
     {
       "industry": "Recreational",
@@ -116801,7 +117165,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 555.0
+      "current_inventory": 525.0
     },
     {
       "industry": "Recreational",
@@ -117080,7 +117444,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 225.0
+      "current_inventory": 195.0
     },
     {
       "industry": "Recreational",
@@ -117824,7 +118188,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 225.0
+      "current_inventory": 195.0
     },
     {
       "industry": "Recreational",
@@ -118475,7 +118839,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 140.0
+      "current_inventory": 110.0
     },
     {
       "industry": "Recreational",
@@ -118847,7 +119211,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 225.0
+      "current_inventory": 195.0
     },
     {
       "industry": "Recreational",
@@ -119969,7 +120333,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 555.0
+      "current_inventory": 525.0
     },
     {
       "industry": "Recreational",
@@ -120717,7 +121081,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 225.0
+      "current_inventory": 195.0
     },
     {
       "industry": "Recreational",
@@ -120903,7 +121267,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 555.0
+      "current_inventory": 525.0
     },
     {
       "industry": "Recreational",
@@ -121275,7 +121639,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 225.0
+      "current_inventory": 195.0
     },
     {
       "industry": "Recreational",
@@ -121740,7 +122104,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 140.0
+      "current_inventory": 110.0
     },
     {
       "industry": "Recreational",
@@ -122205,7 +122569,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 555.0
+      "current_inventory": 525.0
     },
     {
       "industry": "Recreational",
@@ -123135,7 +123499,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 225.0
+      "current_inventory": 195.0
     },
     {
       "industry": "Recreational",
@@ -123321,7 +123685,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 225.0
+      "current_inventory": 195.0
     },
     {
       "industry": "Recreational",
@@ -123879,7 +124243,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 140.0
+      "current_inventory": 110.0
     },
     {
       "industry": "Recreational",
@@ -124251,7 +124615,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 555.0
+      "current_inventory": 525.0
     },
     {
       "industry": "Recreational",
@@ -124530,7 +124894,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 555.0
+      "current_inventory": 525.0
     },
     {
       "industry": "Recreational",
@@ -124902,7 +125266,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 140.0
+      "current_inventory": 110.0
     },
     {
       "industry": "Recreational",
@@ -125088,7 +125452,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 140.0
+      "current_inventory": 110.0
     },
     {
       "industry": "Recreational",
@@ -125181,7 +125545,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 555.0
+      "current_inventory": 525.0
     },
     {
       "industry": "Recreational",
@@ -125460,7 +125824,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 225.0
+      "current_inventory": 195.0
     },
     {
       "industry": "Recreational",
@@ -127320,7 +127684,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 225.0
+      "current_inventory": 195.0
     },
     {
       "industry": "Recreational",
@@ -127506,7 +127870,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 422.0
+      "current_inventory": 392.0
     },
     {
       "industry": "Recreational",
@@ -127599,7 +127963,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 555.0
+      "current_inventory": 525.0
     },
     {
       "industry": "Recreational",
@@ -128444,7 +128808,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 422.0
+      "current_inventory": 392.0
     },
     {
       "industry": "Recreational",
@@ -128633,7 +128997,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 422.0
+      "current_inventory": 392.0
     },
     {
       "industry": "Recreational",
@@ -129011,7 +129375,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 140.0
+      "current_inventory": 110.0
     },
     {
       "industry": "Recreational",
@@ -129105,7 +129469,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 422.0
+      "current_inventory": 392.0
     },
     {
       "industry": "Recreational",
@@ -129572,7 +129936,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 140.0
+      "current_inventory": 110.0
     },
     {
       "industry": "Recreational",
@@ -129758,7 +130122,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 555.0
+      "current_inventory": 525.0
     },
     {
       "industry": "Recreational",
@@ -130130,7 +130494,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 140.0
+      "current_inventory": 110.0
     },
     {
       "industry": "Recreational",
@@ -130223,7 +130587,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 140.0
+      "current_inventory": 110.0
     },
     {
       "industry": "Recreational",
@@ -130316,7 +130680,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 422.0
+      "current_inventory": 392.0
     },
     {
       "industry": "Recreational",
@@ -130595,7 +130959,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 422.0
+      "current_inventory": 392.0
     },
     {
       "industry": "Recreational",
@@ -131060,7 +131424,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 555.0
+      "current_inventory": 525.0
     },
     {
       "industry": "Recreational",
@@ -131153,7 +131517,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 422.0
+      "current_inventory": 392.0
     },
     {
       "industry": "Recreational",
@@ -131526,7 +131890,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 422.0
+      "current_inventory": 392.0
     },
     {
       "industry": "Recreational",
@@ -132084,7 +132448,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 140.0
+      "current_inventory": 110.0
     },
     {
       "industry": "Recreational",
@@ -132177,7 +132541,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 140.0
+      "current_inventory": 110.0
     },
     {
       "industry": "Recreational",
@@ -132270,7 +132634,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 422.0
+      "current_inventory": 392.0
     },
     {
       "industry": "Recreational",
@@ -132363,7 +132727,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 555.0
+      "current_inventory": 525.0
     },
     {
       "industry": "Recreational",
@@ -133200,7 +133564,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 555.0
+      "current_inventory": 525.0
     },
     {
       "industry": "Recreational",
@@ -134226,7 +134590,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 422.0
+      "current_inventory": 392.0
     },
     {
       "industry": "Recreational",
@@ -134414,7 +134778,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 555.0
+      "current_inventory": 525.0
     },
     {
       "industry": "Recreational",
@@ -135344,7 +135708,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 422.0
+      "current_inventory": 392.0
     },
     {
       "industry": "Recreational",
@@ -135437,7 +135801,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 555.0
+      "current_inventory": 525.0
     },
     {
       "industry": "Recreational",
@@ -136274,7 +136638,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 422.0
+      "current_inventory": 392.0
     },
     {
       "industry": "Recreational",
@@ -136367,7 +136731,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 555.0
+      "current_inventory": 525.0
     },
     {
       "industry": "Recreational",
@@ -137110,7 +137474,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 422.0
+      "current_inventory": 392.0
     },
     {
       "industry": "Recreational",
@@ -137203,7 +137567,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 555.0
+      "current_inventory": 525.0
     },
     {
       "industry": "Recreational",
@@ -139058,7 +139422,7 @@
       "payment_dates": [],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 555.0
+      "current_inventory": 525.0
     },
     {
       "industry": "Recreational",
@@ -139240,7 +139604,7 @@
       "payment_dates": [],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 140.0
+      "current_inventory": 110.0
     },
     {
       "industry": "Recreational",
@@ -139513,7 +139877,7 @@
       "payment_dates": [],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 422.0
+      "current_inventory": 392.0
     },
     {
       "industry": "Recreational",
@@ -140158,7 +140522,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 422.0
+      "current_inventory": 392.0
     },
     {
       "industry": "Recreational",
@@ -140345,7 +140709,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 140.0
+      "current_inventory": 110.0
     },
     {
       "industry": "Recreational",
@@ -140439,7 +140803,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 555.0
+      "current_inventory": 525.0
     },
     {
       "industry": "Recreational",
@@ -141379,7 +141743,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 422.0
+      "current_inventory": 392.0
     },
     {
       "industry": "Recreational",
@@ -142413,7 +142777,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 422.0
+      "current_inventory": 392.0
     },
     {
       "industry": "Recreational",
@@ -142975,7 +143339,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 422.0
+      "current_inventory": 392.0
     },
     {
       "industry": "Recreational",
@@ -143161,7 +143525,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 555.0
+      "current_inventory": 525.0
     },
     {
       "industry": "Recreational",
@@ -143816,7 +144180,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 140.0
+      "current_inventory": 110.0
     },
     {
       "industry": "Recreational",
@@ -144471,7 +144835,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 555.0
+      "current_inventory": 525.0
     },
     {
       "industry": "Recreational",
@@ -145127,7 +145491,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 422.0
+      "current_inventory": 392.0
     },
     {
       "industry": "Recreational",
@@ -145685,7 +146049,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 422.0
+      "current_inventory": 392.0
     },
     {
       "industry": "Recreational",
@@ -145964,7 +146328,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 555.0
+      "current_inventory": 525.0
     },
     {
       "industry": "Recreational",
@@ -146893,7 +147257,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 555.0
+      "current_inventory": 525.0
     },
     {
       "industry": "Recreational",
@@ -146986,7 +147350,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 140.0
+      "current_inventory": 110.0
     },
     {
       "industry": "Recreational",
@@ -147447,7 +147811,7 @@
       "payment_dates": [],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 555.0
+      "current_inventory": 525.0
     },
     {
       "industry": "Recreational",
@@ -147538,7 +147902,7 @@
       "payment_dates": [],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 140.0
+      "current_inventory": 110.0
     },
     {
       "industry": "Recreational",
@@ -148370,7 +148734,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 140.0
+      "current_inventory": 110.0
     },
     {
       "industry": "Recreational",
@@ -148742,7 +149106,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 555.0
+      "current_inventory": 525.0
     },
     {
       "industry": "Recreational",
@@ -149390,7 +149754,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 422.0
+      "current_inventory": 392.0
     },
     {
       "industry": "Recreational",
@@ -149762,7 +150126,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 140.0
+      "current_inventory": 110.0
     },
     {
       "industry": "Recreational",
@@ -151620,7 +151984,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 422.0
+      "current_inventory": 392.0
     },
     {
       "industry": "Recreational",
@@ -151806,7 +152170,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 140.0
+      "current_inventory": 110.0
     },
     {
       "industry": "Recreational",
@@ -152364,7 +152728,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 422.0
+      "current_inventory": 392.0
     },
     {
       "industry": "Recreational",
@@ -153015,7 +153379,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 422.0
+      "current_inventory": 392.0
     },
     {
       "industry": "Recreational",
@@ -153666,7 +154030,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 422.0
+      "current_inventory": 392.0
     },
     {
       "industry": "Recreational",
@@ -153852,7 +154216,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 140.0
+      "current_inventory": 110.0
     },
     {
       "industry": "Recreational",
@@ -154224,7 +154588,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 140.0
+      "current_inventory": 110.0
     },
     {
       "industry": "Recreational",
@@ -154596,7 +154960,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 555.0
+      "current_inventory": 525.0
     },
     {
       "industry": "Recreational",
@@ -155055,7 +155419,7 @@
       "payment_dates": [],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 140.0
+      "current_inventory": 110.0
     },
     {
       "industry": "Recreational",
@@ -155609,7 +155973,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 555.0
+      "current_inventory": 525.0
     },
     {
       "industry": "Recreational",
@@ -155888,7 +156252,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 422.0
+      "current_inventory": 392.0
     },
     {
       "industry": "Recreational",
@@ -156632,7 +156996,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 140.0
+      "current_inventory": 110.0
     },
     {
       "industry": "Recreational",
@@ -157275,7 +157639,7 @@
       "payment_dates": [],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 140.0
+      "current_inventory": 110.0
     },
     {
       "industry": "Recreational",
@@ -157826,7 +158190,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 140.0
+      "current_inventory": 110.0
     },
     {
       "industry": "Recreational",
@@ -158383,7 +158747,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 140.0
+      "current_inventory": 110.0
     },
     {
       "industry": "Recreational",
@@ -159126,7 +159490,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 140.0
+      "current_inventory": 110.0
     },
     {
       "industry": "Recreational",
@@ -159777,7 +160141,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 140.0
+      "current_inventory": 110.0
     },
     {
       "industry": "Recreational",
@@ -160426,7 +160790,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 422.0
+      "current_inventory": 392.0
     },
     {
       "industry": "Recreational",
@@ -160612,7 +160976,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 140.0
+      "current_inventory": 110.0
     },
     {
       "industry": "Recreational",
@@ -162448,7 +162812,7 @@
       "payment_dates": [],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 555.0
+      "current_inventory": 525.0
     },
     {
       "industry": "Recreational",
@@ -162912,7 +163276,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 422.0
+      "current_inventory": 392.0
     },
     {
       "industry": "Recreational",
@@ -163005,7 +163369,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 555.0
+      "current_inventory": 525.0
     },
     {
       "industry": "Recreational",
@@ -165237,7 +165601,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 422.0
+      "current_inventory": 392.0
     },
     {
       "industry": "Recreational",
@@ -165978,7 +166342,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 422.0
+      "current_inventory": 392.0
     },
     {
       "industry": "Recreational",
@@ -166350,7 +166714,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 422.0
+      "current_inventory": 392.0
     },
     {
       "industry": "Recreational",
@@ -166536,7 +166900,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 422.0
+      "current_inventory": 392.0
     },
     {
       "industry": "Recreational",
@@ -167559,7 +167923,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 555.0
+      "current_inventory": 525.0
     },
     {
       "industry": "Recreational",
@@ -167935,7 +168299,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 555.0
+      "current_inventory": 525.0
     },
     {
       "industry": "Recreational",
@@ -168220,7 +168584,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 422.0
+      "current_inventory": 392.0
     },
     {
       "industry": "Recreational",
@@ -168410,7 +168774,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 140.0
+      "current_inventory": 110.0
     },
     {
       "industry": "Recreational",
@@ -169348,7 +169712,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 140.0
+      "current_inventory": 110.0
     },
     {
       "industry": "Recreational",
@@ -169906,7 +170270,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 140.0
+      "current_inventory": 110.0
     },
     {
       "industry": "Recreational",
@@ -170557,7 +170921,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 140.0
+      "current_inventory": 110.0
     },
     {
       "industry": "Recreational",
@@ -170926,7 +171290,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 140.0
+      "current_inventory": 110.0
     },
     {
       "industry": "Recreational",
@@ -172042,7 +172406,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 140.0
+      "current_inventory": 110.0
     },
     {
       "industry": "Recreational",
@@ -172135,7 +172499,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 140.0
+      "current_inventory": 110.0
     },
     {
       "industry": "Recreational",
@@ -172879,7 +173243,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 555.0
+      "current_inventory": 525.0
     },
     {
       "industry": "Recreational",
@@ -173623,7 +173987,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 140.0
+      "current_inventory": 110.0
     },
     {
       "industry": "Recreational",
@@ -174373,7 +174737,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 140.0
+      "current_inventory": 110.0
     },
     {
       "industry": "Recreational",
@@ -174841,7 +175205,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 422.0
+      "current_inventory": 392.0
     },
     {
       "industry": "Recreational",
@@ -176424,7 +176788,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 555.0
+      "current_inventory": 525.0
     },
     {
       "industry": "Recreational",
@@ -176796,7 +177160,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 140.0
+      "current_inventory": 110.0
     },
     {
       "industry": "Recreational",
@@ -177353,7 +177717,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 555.0
+      "current_inventory": 525.0
     },
     {
       "industry": "Recreational",
@@ -178096,7 +178460,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 422.0
+      "current_inventory": 392.0
     },
     {
       "industry": "Recreational",
@@ -179026,7 +179390,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 422.0
+      "current_inventory": 392.0
     },
     {
       "industry": "Recreational",
@@ -179677,7 +180041,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 140.0
+      "current_inventory": 110.0
     },
     {
       "industry": "Recreational",
@@ -180049,7 +180413,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 555.0
+      "current_inventory": 525.0
     },
     {
       "industry": "Recreational",
@@ -181072,7 +181436,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 140.0
+      "current_inventory": 110.0
     },
     {
       "industry": "Recreational",
@@ -181165,7 +181529,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 555.0
+      "current_inventory": 525.0
     },
     {
       "industry": "Recreational",
@@ -181537,7 +181901,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 555.0
+      "current_inventory": 525.0
     },
     {
       "industry": "Recreational",
@@ -181816,7 +182180,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 422.0
+      "current_inventory": 392.0
     },
     {
       "industry": "Recreational",
@@ -182095,7 +182459,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 140.0
+      "current_inventory": 110.0
     },
     {
       "industry": "Recreational",
@@ -182745,7 +183109,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 555.0
+      "current_inventory": 525.0
     },
     {
       "industry": "Recreational",
@@ -183209,7 +183573,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 140.0
+      "current_inventory": 110.0
     },
     {
       "industry": "Recreational",
@@ -183395,7 +183759,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 422.0
+      "current_inventory": 392.0
     },
     {
       "industry": "Recreational",
@@ -183580,7 +183944,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 140.0
+      "current_inventory": 110.0
     },
     {
       "industry": "Recreational",
@@ -183859,7 +184223,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 422.0
+      "current_inventory": 392.0
     },
     {
       "industry": "Recreational",
@@ -185452,7 +185816,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 422.0
+      "current_inventory": 392.0
     },
     {
       "industry": "Recreational",
@@ -186950,7 +187314,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 140.0
+      "current_inventory": 110.0
     },
     {
       "industry": "Recreational",
@@ -187973,7 +188337,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 555.0
+      "current_inventory": 525.0
     },
     {
       "industry": "Recreational",
@@ -188619,7 +188983,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 140.0
+      "current_inventory": 110.0
     },
     {
       "industry": "Recreational",
@@ -189084,7 +189448,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 422.0
+      "current_inventory": 392.0
     },
     {
       "industry": "Recreational",
@@ -189828,7 +190192,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 555.0
+      "current_inventory": 525.0
     },
     {
       "industry": "Recreational",
@@ -190203,7 +190567,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 555.0
+      "current_inventory": 525.0
     },
     {
       "industry": "Recreational",
@@ -190856,7 +191220,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 140.0
+      "current_inventory": 110.0
     },
     {
       "industry": "Recreational",
@@ -191326,7 +191690,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 422.0
+      "current_inventory": 392.0
     },
     {
       "industry": "Recreational",
@@ -192076,7 +192440,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 555.0
+      "current_inventory": 525.0
     },
     {
       "industry": "Recreational",
@@ -192722,7 +193086,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 140.0
+      "current_inventory": 110.0
     },
     {
       "industry": "Recreational",
@@ -192815,7 +193179,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 422.0
+      "current_inventory": 392.0
     },
     {
       "industry": "Recreational",
@@ -194205,7 +194569,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 555.0
+      "current_inventory": 525.0
     },
     {
       "industry": "Recreational",
@@ -194391,7 +194755,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 140.0
+      "current_inventory": 110.0
     },
     {
       "industry": "Recreational",
@@ -194577,7 +194941,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 422.0
+      "current_inventory": 392.0
     },
     {
       "industry": "Recreational",
@@ -195414,7 +195778,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 555.0
+      "current_inventory": 525.0
     },
     {
       "industry": "Recreational",
@@ -195693,7 +196057,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 140.0
+      "current_inventory": 110.0
     },
     {
       "industry": "Recreational",
@@ -195879,7 +196243,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 422.0
+      "current_inventory": 392.0
     },
     {
       "industry": "Recreational",
@@ -197730,7 +198094,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 555.0
+      "current_inventory": 525.0
     },
     {
       "industry": "Recreational",
@@ -198009,7 +198373,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 422.0
+      "current_inventory": 392.0
     },
     {
       "industry": "Recreational",
@@ -198288,7 +198652,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 140.0
+      "current_inventory": 110.0
     },
     {
       "industry": "Recreational",
@@ -199495,7 +199859,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 422.0
+      "current_inventory": 392.0
     },
     {
       "industry": "Recreational",
@@ -199774,7 +200138,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 140.0
+      "current_inventory": 110.0
     },
     {
       "industry": "Recreational",
@@ -199960,7 +200324,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 555.0
+      "current_inventory": 525.0
     },
     {
       "industry": "Recreational",
@@ -201451,7 +201815,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 140.0
+      "current_inventory": 110.0
     },
     {
       "industry": "Recreational",
@@ -202190,7 +202554,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 140.0
+      "current_inventory": 110.0
     },
     {
       "industry": "Recreational",
@@ -203305,7 +203669,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 140.0
+      "current_inventory": 110.0
     },
     {
       "industry": "Recreational",
@@ -204326,7 +204690,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 422.0
+      "current_inventory": 392.0
     },
     {
       "industry": "Recreational",
@@ -204419,7 +204783,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 422.0
+      "current_inventory": 392.0
     },
     {
       "industry": "Recreational",
@@ -205813,7 +206177,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 555.0
+      "current_inventory": 525.0
     },
     {
       "industry": "Recreational",
@@ -207207,7 +207571,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 140.0
+      "current_inventory": 110.0
     },
     {
       "industry": "Recreational",
@@ -207671,7 +208035,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 140.0
+      "current_inventory": 110.0
     },
     {
       "industry": "Recreational",
@@ -209439,7 +209803,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 140.0
+      "current_inventory": 110.0
     },
     {
       "industry": "Recreational",
@@ -210555,7 +210919,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 140.0
+      "current_inventory": 110.0
     },
     {
       "industry": "Recreational",
@@ -211206,7 +211570,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 140.0
+      "current_inventory": 110.0
     },
     {
       "industry": "Recreational",
@@ -212043,7 +212407,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 140.0
+      "current_inventory": 110.0
     },
     {
       "industry": "Recreational",
@@ -213259,7 +213623,7 @@
       "name": "SUNRISE | 500mg THC 400mg CBG 100 THCv | Orange Creme Syrup | 30ct Case",
       "sku": "SUNRISE1000",
       "line": "Tinctures",
-      "qty": 225.0,
+      "qty": 195.0,
       "listed": true,
       "batches": 1
     },
@@ -213339,7 +213703,7 @@
       "name": "500mg THC | ZERO SUGAR | Lemon-Lime Syrup |  30ct Case",
       "sku": "ZS500lemonlime",
       "line": "Tinctures",
-      "qty": 140.0,
+      "qty": 110.0,
       "listed": true,
       "batches": 2
     },
@@ -213363,7 +213727,7 @@
       "name": "500mg THC | Strawberry Syrup | 30ct Case",
       "sku": "500strawberry",
       "line": "Tinctures",
-      "qty": 422.0,
+      "qty": 392.0,
       "listed": true,
       "batches": 2
     },
@@ -213387,7 +213751,7 @@
       "name": "500mg THC | Cranberry Syrup | 30ct Case",
       "sku": "500cranberry",
       "line": "Tinctures",
-      "qty": 555.0,
+      "qty": 525.0,
       "listed": true,
       "batches": 1
     },
