@@ -1,5 +1,5 @@
 {
-  "fetched_at": "2026-08-12T21:05:10.074460+00:00",
+  "fetched_at": "2026-08-12T21:15:28.281671+00:00",
   "from_date": "2025-05-01",
   "to_date": "2026-08-13",
   "row_count": 2322,
@@ -81903,7 +81903,7 @@
       "is_sample": "No",
       "order_number": "Erva-992",
       "order_status": "Delivered",
-      "payment_status": "Unpaid",
+      "payment_status": "Completed",
       "order_date_utc": "01/19/2026",
       "order_date_utc_raw": "2026-01-19",
       "order_date_localized": "01/19/2026",
@@ -81928,7 +81928,9 @@
         "Derek Dambrosio",
         "David Shaba"
       ],
-      "payment_dates": [],
+      "payment_dates": [
+        "Payment of $900.00 on 08/11/2026"
+      ],
       "metrc_packages": null,
       "notes": null,
       "current_inventory": 300.0
@@ -81995,7 +81997,7 @@
       "is_sample": "No",
       "order_number": "Erva-992",
       "order_status": "Delivered",
-      "payment_status": "Unpaid",
+      "payment_status": "Completed",
       "order_date_utc": "01/19/2026",
       "order_date_utc_raw": "2026-01-19",
       "order_date_localized": "01/19/2026",
@@ -82020,7 +82022,9 @@
         "Derek Dambrosio",
         "David Shaba"
       ],
-      "payment_dates": [],
+      "payment_dates": [
+        "Payment of $900.00 on 08/11/2026"
+      ],
       "metrc_packages": null,
       "notes": null,
       "current_inventory": 0.0
@@ -167604,7 +167608,8 @@
         "David Shaba"
       ],
       "payment_dates": [
-        "Payment of $2,872.00 on 10/31/2025"
+        "Payment of $2,872.00 on 10/31/2025",
+        "Payment of $875.00 on 08/11/2026"
       ],
       "metrc_packages": null,
       "notes": null,
@@ -167697,7 +167702,8 @@
         "David Shaba"
       ],
       "payment_dates": [
-        "Payment of $2,872.00 on 10/31/2025"
+        "Payment of $2,872.00 on 10/31/2025",
+        "Payment of $875.00 on 08/11/2026"
       ],
       "metrc_packages": null,
       "notes": null
@@ -167789,7 +167795,8 @@
         "David Shaba"
       ],
       "payment_dates": [
-        "Payment of $2,872.00 on 10/31/2025"
+        "Payment of $2,872.00 on 10/31/2025",
+        "Payment of $875.00 on 08/11/2026"
       ],
       "metrc_packages": null,
       "notes": null
@@ -167881,7 +167888,8 @@
         "David Shaba"
       ],
       "payment_dates": [
-        "Payment of $2,872.00 on 10/31/2025"
+        "Payment of $2,872.00 on 10/31/2025",
+        "Payment of $875.00 on 08/11/2026"
       ],
       "metrc_packages": null,
       "notes": null,
@@ -167974,7 +167982,8 @@
         "David Shaba"
       ],
       "payment_dates": [
-        "Payment of $2,872.00 on 10/31/2025"
+        "Payment of $2,872.00 on 10/31/2025",
+        "Payment of $875.00 on 08/11/2026"
       ],
       "metrc_packages": null,
       "notes": null,
@@ -168067,7 +168076,8 @@
         "David Shaba"
       ],
       "payment_dates": [
-        "Payment of $2,872.00 on 10/31/2025"
+        "Payment of $2,872.00 on 10/31/2025",
+        "Payment of $875.00 on 08/11/2026"
       ],
       "metrc_packages": null,
       "notes": null
