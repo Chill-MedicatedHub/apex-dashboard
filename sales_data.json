@@ -1,5 +1,5 @@
 {
-  "fetched_at": "2026-08-19T13:15:31.824898+00:00",
+  "fetched_at": "2026-08-19T13:26:03.815733+00:00",
   "from_date": "2025-05-01",
   "to_date": "2026-08-20",
   "row_count": 2356,
@@ -21630,7 +21630,7 @@
       "is_sample": "No",
       "order_number": "Legacy-5194",
       "order_status": "Delivered",
-      "payment_status": "Unpaid",
+      "payment_status": "Completed",
       "order_date_utc": "07/08/2026",
       "order_date_utc_raw": "2026-07-08",
       "order_date_localized": "07/08/2026",
@@ -21655,7 +21655,9 @@
         "Shauna Fitzgerald",
         "David Shaba"
       ],
-      "payment_dates": [],
+      "payment_dates": [
+        "Payment of $5,760.00 on 08/18/2026"
+      ],
       "metrc_packages": null,
       "notes": "1A40A030000B4DD000010040",
       "current_inventory": 0.0
@@ -21722,7 +21724,7 @@
       "is_sample": "No",
       "order_number": "Legacy-5194",
       "order_status": "Delivered",
-      "payment_status": "Unpaid",
+      "payment_status": "Completed",
       "order_date_utc": "07/08/2026",
       "order_date_utc_raw": "2026-07-08",
       "order_date_localized": "07/08/2026",
@@ -21747,7 +21749,9 @@
         "Shauna Fitzgerald",
         "David Shaba"
       ],
-      "payment_dates": [],
+      "payment_dates": [
+        "Payment of $5,760.00 on 08/18/2026"
+      ],
       "metrc_packages": null,
       "notes": null,
       "current_inventory": 0.0
@@ -21814,7 +21818,7 @@
       "is_sample": "No",
       "order_number": "Legacy-5194",
       "order_status": "Delivered",
-      "payment_status": "Unpaid",
+      "payment_status": "Completed",
       "order_date_utc": "07/08/2026",
       "order_date_utc_raw": "2026-07-08",
       "order_date_localized": "07/08/2026",
@@ -21839,7 +21843,9 @@
         "Shauna Fitzgerald",
         "David Shaba"
       ],
-      "payment_dates": [],
+      "payment_dates": [
+        "Payment of $5,760.00 on 08/18/2026"
+      ],
       "metrc_packages": null,
       "notes": null,
       "current_inventory": 0.0
