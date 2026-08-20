@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Chill Medicated · Missouri · Sales Intelligence</title>
+<title>Chill Medicated · Massachusetts · Sales Intelligence</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -17,61 +17,113 @@
 
 <style>
   :root {
-    --bg:            #eef3f0;
+    --bg:            #eef2f7;
     --bg-elev:       #ffffff;
-    --bg-elev-2:     #f2f8f4;
-    --border:        #e0e8e2;
-    --border-soft:   #eef3ef;
+    --bg-elev-2:     #f4f8fc;
+    --border:        #e3e9f1;
+    --border-soft:   #eef2f6;
     --text:          #182234;
     --text-dim:      #5a6678;
     --text-faint:    #97a2b3;
-    --brand-cyan:    #5FA83D;
-    --brand-blue:    #4C8C2E;
-    --brand-peri:    #4E8A2C;
-    --brand-purple:  #2F5A1C;
-    --accent:        #3F7A1F;
-    --accent-dim:    #6FA84A;
-    --accent-deep:   #2C5417;
+    --brand-cyan:    #0EB1E8;
+    --brand-blue:    #4696D5;
+    --brand-peri:    #588BCD;
+    --brand-purple:  #8462AF;
+    --accent:        #0E86C4;
+    --accent-dim:    #4aa3d6;
+    --accent-deep:   #1857a6;
     --warm:          #c07d18;
     --cool:          #5b8fb0;
     --rose:          #d6455f;
   }
+
   * { box-sizing: border-box; margin: 0; padding: 0; }
+
   html, body {
-    background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif;
-    font-size: 14px; line-height: 1.5; min-height: 100vh; -webkit-font-smoothing: antialiased;
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    line-height: 1.5;
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
   }
   body {
     background-image:
-      radial-gradient(1200px 620px at 88% -12%, rgba(95,168,61,0.10), transparent 58%),
-      radial-gradient(1000px 560px at -6% 108%, rgba(47,90,28,0.07), transparent 58%);
+      radial-gradient(1200px 620px at 88% -12%, rgba(14,177,232,0.07), transparent 58%),
+      radial-gradient(1000px 560px at -6% 108%, rgba(132,98,175,0.07), transparent 58%);
     background-attachment: fixed;
   }
+
   a { color: var(--accent); text-decoration: none; }
   a:hover { color: var(--brand-cyan); }
+
   .font-display { font-family: 'Fraunces', serif; font-variation-settings: "opsz" 144; letter-spacing: -0.02em; }
   .font-mono { font-family: 'JetBrains Mono', monospace; }
   .tabular { font-variant-numeric: tabular-nums; }
+
   .app { max-width: 1600px; margin: 0 auto; padding: 36px 44px 96px; }
-  .topbar { display: flex; align-items: flex-end; justify-content: space-between; padding-bottom: 26px; border-bottom: 1px solid var(--border); margin-bottom: 32px; gap: 20px; flex-wrap: wrap; }
+
+  .topbar {
+    display: flex; align-items: flex-end; justify-content: space-between;
+    padding-bottom: 26px; border-bottom: 1px solid var(--border);
+    margin-bottom: 32px; gap: 20px; flex-wrap: wrap;
+  }
   .brand-mark { display: flex; align-items: center; gap: 14px; }
-  .brand-tag { font-family: 'JetBrains Mono', monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 0.2em; color: var(--text-faint); }
-  .brand-name { font-family: 'Fraunces', serif; font-weight: 500; font-size: 28px; letter-spacing: -0.02em; color: var(--text); }
+  .brand-tag {
+    font-family: 'JetBrains Mono', monospace; font-size: 10px;
+    text-transform: uppercase; letter-spacing: 0.2em; color: var(--text-faint);
+  }
+  .brand-name {
+    font-family: 'Fraunces', serif; font-weight: 500; font-size: 28px;
+    letter-spacing: -0.02em; color: var(--text);
+  }
   .brand-name em { color: var(--accent); font-style: italic; font-weight: 400; }
   .topbar img { border-radius: 12px; box-shadow: 0 4px 16px rgba(20,35,60,0.14); }
-  .topbar-meta { display: flex; gap: 18px; align-items: center; font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-dim); }
+  .topbar-meta {
+    display: flex; gap: 18px; align-items: center;
+    font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-dim);
+  }
   .topbar-meta strong { color: var(--text); font-weight: 600; }
-  .pulse { width: 7px; height: 7px; border-radius: 50%; background: var(--brand-cyan); box-shadow: 0 0 12px var(--brand-cyan); animation: pulse 2s infinite; }
+  .pulse {
+    width: 7px; height: 7px; border-radius: 50%;
+    background: var(--brand-cyan); box-shadow: 0 0 12px var(--brand-cyan);
+    animation: pulse 2s infinite;
+  }
   @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.3; } }
-  .filters { display: flex; gap: 16px; flex-wrap: wrap; padding: 18px 20px; background: var(--bg-elev); border: 1px solid var(--border); border-radius: 16px; box-shadow: 0 1px 2px rgba(20,35,60,0.04), 0 10px 30px rgba(20,35,60,0.06); margin-bottom: 32px; }
+
+  .filters {
+    display: flex; gap: 16px; flex-wrap: wrap; padding: 18px 20px;
+    background: var(--bg-elev); border: 1px solid var(--border); border-radius: 16px;
+    box-shadow: 0 1px 2px rgba(20,35,60,0.04), 0 10px 30px rgba(20,35,60,0.06);
+    margin-bottom: 32px;
+  }
   .filter-group { display: flex; flex-direction: column; gap: 6px; min-width: 140px; }
-  .filter-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 0.12em; color: var(--text-dim); }
-  .filter-input, .filter-select { background: #ffffff; border: 1px solid var(--border); color: var(--text); padding: 9px 11px; font-family: 'Inter', sans-serif; font-size: 13px; border-radius: 9px; outline: none; transition: border-color 0.15s, box-shadow 0.15s; }
-  .filter-input:focus, .filter-select:focus { border-color: var(--brand-cyan); box-shadow: 0 0 0 3px rgba(95,168,61,0.16); }
+  .filter-label {
+    font-family: 'JetBrains Mono', monospace; font-size: 10px;
+    text-transform: uppercase; letter-spacing: 0.12em; color: var(--text-dim);
+  }
+  .filter-input, .filter-select {
+    background: #ffffff; border: 1px solid var(--border); color: var(--text);
+    padding: 9px 11px; font-family: 'Inter', sans-serif; font-size: 13px;
+    border-radius: 9px; outline: none; transition: border-color 0.15s, box-shadow 0.15s;
+  }
+  .filter-input:focus, .filter-select:focus {
+    border-color: var(--brand-cyan); box-shadow: 0 0 0 3px rgba(14,177,232,0.12);
+  }
   .filter-input::placeholder { color: var(--text-faint); }
-  .filter-reset { background: transparent; border: 1px solid var(--border); color: var(--text-dim); padding: 8px 14px; font-family: 'JetBrains Mono', monospace; font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; border-radius: 9px; cursor: pointer; align-self: flex-end; transition: all 0.15s; }
+  .filter-reset {
+    background: transparent; border: 1px solid var(--border); color: var(--text-dim);
+    padding: 8px 14px; font-family: 'JetBrains Mono', monospace; font-size: 11px;
+    text-transform: uppercase; letter-spacing: 0.1em; border-radius: 9px; cursor: pointer;
+    align-self: flex-end; transition: all 0.15s;
+  }
   .filter-reset:hover { color: var(--text); border-color: var(--text-dim); }
-  .date-preset { background: #ffffff; border: 1px solid var(--border); color: var(--text-dim); padding: 8px 11px; font-family: 'JetBrains Mono', monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 0.08em; border-radius: 8px; cursor: pointer; transition: all .15s; }
+  .date-preset {
+    background: #ffffff; border: 1px solid var(--border); color: var(--text-dim);
+    padding: 8px 11px; font-family: 'JetBrains Mono', monospace; font-size: 10px;
+    text-transform: uppercase; letter-spacing: 0.08em; border-radius: 8px; cursor: pointer; transition: all .15s;
+  }
   .date-preset:hover { color: var(--accent); border-color: var(--brand-cyan); background: var(--bg-elev-2); }
   .date-preset.active { color: #ffffff; background: var(--accent); border-color: var(--accent); font-weight: 700; }
   .date-preset.active:hover { color: #ffffff; background: var(--brand-cyan); }
@@ -127,10 +179,22 @@
   .ms-actions { display: flex; justify-content: space-between; align-items: center; padding: 6px 4px 2px; border-top: 1px solid var(--border-soft); margin-top: 6px; }
   .ms-clear { background: transparent; border: none; color: var(--text-dim); font-family: 'JetBrains Mono', monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 0.08em; cursor: pointer; }
   .ms-clear:hover { color: var(--accent); }
-  .kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; margin-bottom: 20px; box-shadow: 0 1px 2px rgba(20,35,60,0.04), 0 10px 30px rgba(20,35,60,0.06); }
-  .kpi { background: var(--bg-elev); padding: 20px 18px; display: flex; flex-direction: column; gap: 6px; position: relative; transition: background 0.18s; }
+
+  .kpi-grid {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px;
+    background: var(--border); border: 1px solid var(--border); border-radius: 16px;
+    overflow: hidden; margin-bottom: 20px;
+    box-shadow: 0 1px 2px rgba(20,35,60,0.04), 0 10px 30px rgba(20,35,60,0.06);
+  }
+  .kpi {
+    background: var(--bg-elev); padding: 22px 22px;
+    display: flex; flex-direction: column; gap: 6px; position: relative; transition: background 0.18s;
+  }
   .kpi:hover { background: var(--bg-elev-2); }
-  .kpi-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 0.14em; color: var(--text-faint); }
+  .kpi-label {
+    font-family: 'JetBrains Mono', monospace; font-size: 10px;
+    text-transform: uppercase; letter-spacing: 0.14em; color: var(--text-faint);
+  }
   /* Full, unrounded figures are far longer than the abbreviated "$1.2M" form.
      The figure is sized off the CARD's own width (container query units), not
      the viewport, so it fills the card whatever the grid does - 4-across,
@@ -162,43 +226,88 @@
     }
   }
   .kpi-sub { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-dim); margin-top: 2px; }
-  .kpi-accent .kpi-value { background-image: linear-gradient(120deg, var(--brand-cyan) 0%, var(--brand-peri) 55%, var(--brand-purple) 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
-  .kpi::before { content: ''; position: absolute; top: 0; left: 0; width: 32px; height: 2px; background: linear-gradient(90deg, var(--brand-cyan), var(--brand-purple)); opacity: 0; transition: opacity 0.2s; }
+  .kpi-accent .kpi-value {
+    background-image: linear-gradient(120deg, var(--brand-cyan) 0%, var(--brand-peri) 55%, var(--brand-purple) 100%);
+    -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+  }
+  .kpi::before {
+    content: ''; position: absolute; top: 0; left: 0; width: 32px; height: 2px;
+    background: linear-gradient(90deg, var(--brand-cyan), var(--brand-purple));
+    opacity: 0; transition: opacity 0.2s;
+  }
   .kpi:hover::before { opacity: 1; }
+
   .section { margin-bottom: 40px; }
   .section-header { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 16px; gap: 16px; flex-wrap: wrap; }
   .section-title { font-family: 'Fraunces', serif; font-weight: 500; font-size: 21px; letter-spacing: -0.01em; }
   .section-title em { color: var(--accent); font-style: italic; font-weight: 400; }
-  .section-meta { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-faint); text-transform: uppercase; letter-spacing: 0.12em; }
-  .card { background: var(--bg-elev); border: 1px solid var(--border); border-radius: 16px; padding: 24px; box-shadow: 0 1px 2px rgba(20,35,60,0.04), 0 8px 28px rgba(20,35,60,0.06); }
+  .section-meta {
+    font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-faint);
+    text-transform: uppercase; letter-spacing: 0.12em;
+  }
+
+  .card {
+    background: var(--bg-elev); border: 1px solid var(--border); border-radius: 16px; padding: 24px;
+    box-shadow: 0 1px 2px rgba(20,35,60,0.04), 0 8px 28px rgba(20,35,60,0.06);
+  }
+
   .grid-2 { display: grid; grid-template-columns: 2fr 1fr; gap: 24px; }
   .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
   .grid-half { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+
   .rank-list { display: flex; flex-direction: column; }
-  .rank-row { display: grid; grid-template-columns: 24px 1fr auto; align-items: center; gap: 14px; padding: 12px 0; border-bottom: 1px solid var(--border-soft); position: relative; }
+  .rank-row {
+    display: grid; grid-template-columns: 24px 1fr auto; align-items: center; gap: 14px;
+    padding: 12px 0; border-bottom: 1px solid var(--border-soft); position: relative;
+  }
   .rank-row:last-child { border-bottom: none; }
   .rank-num { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-faint); font-variant-numeric: tabular-nums; }
   .rank-name { font-size: 13px; color: var(--text); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   .rank-value { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--text); font-variant-numeric: tabular-nums; font-weight: 600; }
-  .rank-bar { position: absolute; bottom: 0; left: 38px; right: 0; height: 2px; background: linear-gradient(90deg, var(--brand-cyan), var(--brand-peri)); opacity: 0.5; border-radius: 2px; }
+  .rank-bar {
+    position: absolute; bottom: 0; left: 38px; right: 0; height: 2px;
+    background: linear-gradient(90deg, var(--brand-cyan), var(--brand-peri)); opacity: 0.5; border-radius: 2px;
+  }
+
   .data-table { width: 100%; border-collapse: collapse; font-size: 12px; }
-  .data-table th { text-align: left; padding: 12px 16px; border-bottom: 1px solid var(--border); font-family: 'JetBrains Mono', monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 0.12em; color: var(--text-dim); font-weight: 600; background: var(--bg-elev-2); }
+  .data-table th {
+    text-align: left; padding: 12px 16px; border-bottom: 1px solid var(--border);
+    font-family: 'JetBrains Mono', monospace; font-size: 10px; text-transform: uppercase;
+    letter-spacing: 0.12em; color: var(--text-dim); font-weight: 600; background: var(--bg-elev-2);
+    position: sticky; top: 0; z-index: 3;
+  }
   .data-table td { padding: 12px 16px; border-bottom: 1px solid var(--border-soft); color: var(--text); }
   .data-table tbody tr:last-child td { border-bottom: none; }
-  .data-table tr:hover td { background: rgba(95,168,61,0.09); }
+  .data-table tr:hover td { background: rgba(14,177,232,0.05); }
   .data-table .num { font-family: 'JetBrains Mono', monospace; font-variant-numeric: tabular-nums; text-align: right; }
   .data-table .dim { color: var(--text-dim); }
+
   .empty { text-align: center; padding: 80px 20px; color: var(--text-dim); }
   .empty h2 { font-family: 'Fraunces', serif; font-weight: 400; font-style: italic; font-size: 28px; margin-bottom: 12px; color: var(--text); }
-  .empty code { display: inline-block; background: var(--bg-elev); border: 1px solid var(--border); padding: 4px 10px; font-family: 'JetBrains Mono', monospace; font-size: 12px; border-radius: 6px; color: var(--accent); margin: 0 2px; }
-  .pill { display: inline-block; font-family: 'JetBrains Mono', monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em; padding: 3px 9px; border-radius: 999px; border: 1px solid; }
+  .empty code {
+    display: inline-block; background: var(--bg-elev); border: 1px solid var(--border);
+    padding: 4px 10px; font-family: 'JetBrains Mono', monospace; font-size: 12px;
+    border-radius: 6px; color: var(--accent); margin: 0 2px;
+  }
+
+  .pill {
+    display: inline-block; font-family: 'JetBrains Mono', monospace; font-size: 10px;
+    text-transform: uppercase; letter-spacing: 0.1em; padding: 3px 9px; border-radius: 999px; border: 1px solid;
+  }
   .pill-completed { color: #0e8f6e; border-color: rgba(14,143,110,0.35); background: rgba(14,143,110,0.08); }
   .pill-pending   { color: var(--warm); border-color: rgba(192,125,24,0.35); background: rgba(192,125,24,0.08); }
   .pill-overdue   { color: var(--rose); border-color: rgba(214,69,95,0.35); background: rgba(214,69,95,0.08); }
-  @media (max-width: 1100px) { .kpi-grid { grid-template-columns: repeat(2, 1fr); } .grid-2, .grid-3, .grid-half { grid-template-columns: 1fr; } .app { padding: 28px 22px 80px; } }
+
+  @media (max-width: 1100px) {
+    .kpi-grid { grid-template-columns: repeat(2, 1fr); }
+    .grid-2, .grid-3, .grid-half { grid-template-columns: 1fr; }
+    .app { padding: 28px 22px 80px; }
+  }
+
   .spinner { width: 44px; height: 44px; border: 3px solid var(--border); border-top-color: var(--brand-cyan); border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto 14px; }
   @keyframes spin { to { transform: rotate(360deg); } }
   .loading-label { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--text-faint); }
+
   ::-webkit-scrollbar { width: 10px; height: 10px; }
   ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 8px; }
   ::-webkit-scrollbar-thumb:hover { background: #b6c2d1; }
@@ -227,7 +336,7 @@ if (typeof Recharts === 'undefined') {
         <li>An ad blocker / privacy extension is blocking jsdelivr.net or unpkg.com</li>
         <li>Slow network — try refreshing</li>
       </ul>
-      <p style="color:#3F7A1F;margin-top:16px;font-family:monospace;font-size:13px">Try: disable extensions for localhost, or refresh the page.</p>
+      <p style="color:#4dd4ff;margin-top:16px;font-family:monospace;font-size:13px">Try: disable extensions for localhost, or refresh the page.</p>
     </div>
   `;
   throw new Error('Recharts failed to load');
@@ -300,6 +409,39 @@ const parsePaymentsForCredits = paymentsField => {
     entries
   };
 };
+// Total money already applied to an order — Apex records these on the `payment_dates`
+// field as "Payment of $X", "Credit of $X", or "Trade of $X". Used for the AR
+// "Partial Payment" column (Payments = Total − Outstanding).
+const parsePaymentsPaid = paymentsField => {
+  if (!paymentsField) return 0;
+  const text = Array.isArray(paymentsField) ? paymentsField.filter(Boolean).join(', ') : String(paymentsField);
+  if (!text) return 0;
+  const re = /(?:Payment|Credit|Trade)\s+of\s+\$([\d,]+(?:\.\d+)?)/gi;
+  let total = 0, m;
+  while ((m = re.exec(text)) !== null) {
+    const amt = parseFloat(m[1].replace(/,/g, ''));
+    if (!isNaN(amt)) total += amt;
+  }
+  return total;
+};
+// Money actually APPLIED to an invoice (i.e. the partial payment). Real payments
+// ("Payment of" / "Trade of") always count. A "Credit of" only counts when Apex has
+// actually applied it — which it flags by marking the invoice "Partial". On an Unpaid
+// (or Overdue) invoice the shown credit is NOT applied (Due = full total), so it is skipped.
+const parsePaymentsApplied = (paymentsField, status) => {
+  if (!paymentsField) return 0;
+  const text = Array.isArray(paymentsField) ? paymentsField.filter(Boolean).join(', ') : String(paymentsField);
+  if (!text) return 0;
+  const isPartial = /partial/i.test(String(status || ''));
+  const re = /(Payment|Credit|Trade)\s+of\s+\$([\d,]+(?:\.\d+)?)/gi;
+  let total = 0, m;
+  while ((m = re.exec(text)) !== null) {
+    if (m[1].toLowerCase() === 'credit' && !isPartial) continue;
+    const amt = parseFloat(m[2].replace(/,/g, ''));
+    if (!isNaN(amt)) total += amt;
+  }
+  return total;
+};
 const fmtMoney = n => {
   if (!n && n !== 0) return '—';
   if (Math.abs(n) >= 1e6) return '$' + (n / 1e6).toFixed(2) + 'M';
@@ -313,6 +455,11 @@ const fmtMoneyFull = n => '$' + (n || 0).toLocaleString(undefined, {
   maximumFractionDigits: 2
 });
 const fmtNum = n => (n || 0).toLocaleString();
+// The `buyer_name` field is Apex's business/storefront name (the regular bottom
+// line in Apex's buyer list, e.g. "Northeast Alternatives - New Bedford" or
+// "JOINT OPERATIONS--GARDNER"). The corporate/legal entity is a separate field
+// (`buyer_group`, the bold top line), which the dashboard intentionally does not
+// display. So the business name is simply the full buyer_name, shown as stored.
 const buyerBusinessName = raw => {
   const s = String(raw == null ? '' : raw).trim();
   return s || '—';
@@ -342,7 +489,7 @@ const __activeFilters = f => {
 const __summaryTable = rows => {
   let net = 0, disc = 0, units = 0; const orders = {}, prods = {};
   rows.forEach(r => { net += r._revenue || 0; disc += r._lineDiscount || 0; units += r._quantity || 0; if (r.order_id) orders[r.order_id] = 1; if (r.product_name) prods[r.product_name] = 1; });
-  const body = [['Gross sales', __m2(net + disc)], ['Discounts', __m2(disc)], ['Net sales', __m2(net)], ['Cases sold', __i0(units)], ['Orders', __i0(Object.keys(orders).length)], ['Products', __i0(Object.keys(prods).length)]]
+  const body = [['Gross sales', __m2(net + disc)], ['Discounts', __m2(disc)], ['Net sales', __m2(net)], ['Units sold', __i0(units)], ['Orders', __i0(Object.keys(orders).length)], ['Products', __i0(Object.keys(prods).length)]]
     .map(r => '<tr><td>' + __esc(r[0]) + '</td><td>' + __esc(r[1]) + '</td></tr>').join('');
   return '<table border="1"><thead><tr><th>Summary</th><th>Value</th></tr></thead><tbody>' + body + '</tbody></table>';
 };
@@ -354,7 +501,7 @@ const __breakdownTable = rows => {
     map[k].units += r._quantity || 0; map[k].net += r._revenue || 0; map[k].disc += r._lineDiscount || 0;
   });
   const arr = Object.keys(map).map(k => map[k]).sort((a, b) => (b.net + b.disc) - (a.net + a.disc));
-  const head = '<tr><th>Product</th><th>Line</th><th>Cases</th><th>Gross</th><th>Discounts</th><th>Net</th><th>Avg Case $</th></tr>';
+  const head = '<tr><th>Product</th><th>Line</th><th>Units</th><th>Gross</th><th>Discounts</th><th>Net</th><th>Avg Unit $</th></tr>';
   const body = arr.map(p => '<tr><td>' + __esc(p.name) + '</td><td>' + __esc(p.line) + '</td><td>' + __i0(p.units) + '</td><td>' + __m2(p.net + p.disc) + '</td><td>' + __m2(p.disc) + '</td><td>' + __m2(p.net) + '</td><td>' + __m2(p.units ? p.net / p.units : 0) + '</td></tr>').join('');
   return '<table border="1"><thead>' + head + '</thead><tbody>' + body + '</tbody></table>';
 };
@@ -379,7 +526,7 @@ const __pivotTable = rows => {
   const tot = '<tr><td>All products</td>' + months.map(m => '<td>' + __m2(colT[m]) + '</td>').join('') + '<td>' + __m2(grand) + '</td></tr>';
   return '<table border="1"><thead>' + head + '</thead><tbody>' + body + tot + '</tbody></table>';
 };
-const __RTITLE = 'Chill Medicated MO \u2014 Sales Report';
+const __RTITLE = 'Chill Medicated MA \u2014 Sales Report';
 const __rMeta = f => 'Filters: ' + __activeFilters(f) + '  \u00b7  Gross = before discounts  \u00b7  Generated ' + new Date().toLocaleString();
 const __dl = (filename, blob) => {
   const url = URL.createObjectURL(blob);
@@ -411,6 +558,52 @@ const downloadReportPDF = (rows, filters) => {
     + '</body></html>');
   w.document.close();
 };
+// ---- Accounts Receivable (open invoices) download: Excel + PDF ----
+const __fmtDcell = d => d ? ((d.getMonth() + 1) + '/' + String(d.getDate()).padStart(2, '0') + '/' + d.getFullYear()) : '';
+const __arTable = rows => {
+  const head = ['Days Past Due', 'Delivery Date', 'Net Terms', 'Due Date', 'Destination', 'License #', 'Invoice #', 'Invoice Total', 'Partial Payment', 'Outstanding Value', 'Rep', 'Notes'];
+  const thead = '<tr>' + head.map(h => '<th>' + __esc(h) + '</th>').join('') + '</tr>';
+  let tTotal = 0, tPaid = 0, tOut = 0;
+  const body = rows.map(o => {
+    tTotal += o.total || 0; tPaid += o.credit || 0; tOut += o.net || 0;
+    return '<tr>'
+      + '<td>' + __esc(o.daysPastDue > 0 ? o.daysPastDue : 'Not due') + '</td>'
+      + '<td>' + __esc(__fmtDcell(o.deliveryDate)) + '</td>'
+      + '<td>' + __esc(o.terms) + '</td>'
+      + '<td>' + __esc(__fmtDcell(o.due)) + '</td>'
+      + '<td>' + __esc(o.destination) + '</td>'
+      + '<td>' + __esc(o.license) + '</td>'
+      + '<td>' + __esc(o.invoice) + '</td>'
+      + '<td>' + __esc(__m2(o.total)) + '</td>'
+      + '<td>' + __esc((o.credit > 0 && o.net > 0) ? __m2(o.credit) : '') + '</td>'
+      + '<td>' + __esc(__m2(o.net)) + '</td>'
+      + '<td>' + __esc(o.rep) + '</td>'
+      + '<td>' + __esc(o.notes || '') + '</td>'
+      + '</tr>';
+  }).join('');
+  const totals = '<tr><td colspan="7"><b>TOTALS (' + rows.length + ' invoices)</b></td>'
+    + '<td><b>' + __esc(__m2(tTotal)) + '</b></td><td><b>' + __esc(__m2(tPaid)) + '</b></td><td><b>' + __esc(__m2(tOut)) + '</b></td><td></td><td></td></tr>';
+  return '<table border="1"><thead>' + thead + '</thead><tbody>' + body + totals + '</tbody></table>';
+};
+const __ARTITLE = 'Chill Medicated MA — Accounts Receivable (Open Invoices)';
+const downloadArExcel = rows => {
+  if (!rows || !rows.length) { alert('No open receivables to download.'); return; }
+  const html = '<html xmlns:x="urn:schemas-microsoft-com:office:excel"><head><meta charset="utf-8"></head><body>'
+    + '<table><tr><td><b>' + __esc(__ARTITLE) + '</b></td></tr><tr><td>Generated ' + __esc(new Date().toLocaleString()) + '</td></tr></table><br>'
+    + __arTable(rows) + '</body></html>';
+  __dl('Chill_MA_AR_Open_Invoices.xls', new Blob([html], { type: 'application/vnd.ms-excel' }));
+};
+const downloadArPdf = rows => {
+  if (!rows || !rows.length) { alert('No open receivables to download.'); return; }
+  const css = '@page{size:landscape;margin:12mm}body{font-family:Arial,Helvetica,sans-serif;color:#111;padding:16px}h1{font-size:15px;margin:0 0 4px}.m{font-size:10px;color:#555;margin-bottom:8px}table{border-collapse:collapse;width:100%;font-size:8.5px}th,td{border:1px solid #ccc;padding:3px 5px;text-align:left;vertical-align:top}thead th{background:#eee}@media print{body{padding:0}}';
+  const w = window.open('', '_blank');
+  if (!w) { alert('Please allow pop-ups so the PDF can open, then use Save as PDF.'); return; }
+  w.document.write('<html><head><meta charset="utf-8"><title>' + __esc(__ARTITLE) + '</title><style>' + css + '</style></head><body>'
+    + '<h1>' + __esc(__ARTITLE) + '</h1><div class="m">Generated ' + __esc(new Date().toLocaleString()) + ' · ' + rows.length + ' open invoices</div>'
+    + __arTable(rows)
+    + '<scr' + 'ipt>window.onload=function(){setTimeout(function(){window.print();},300);};</scr' + 'ipt></body></html>');
+  w.document.close();
+};
 const parseDate = str => {
   if (!str) return null;
   const s = String(str).trim();
@@ -435,7 +628,7 @@ const ymd = d => {
   return `${y}-${m}-${day}`;
 };
 
-// US state normalization — handles "MA" / "Missouri" / "Mass." / "massachusetts" → "MA"
+// US state normalization — handles "MA" / "Massachusetts" / "Mass." / "massachusetts" → "MA"
 const STATE_TO_ABBR = {
   'alabama': 'AL',
   'alaska': 'AK',
@@ -550,9 +743,9 @@ function RevenueOverTime({ rows }) {
     key: id, onClick: () => setView(id),
     style: {
       padding: '4px 12px', fontSize: 11, fontFamily: 'JetBrains Mono', cursor: 'pointer', borderRadius: 4,
-      border: '1px solid ' + (view === id ? '#4C8C2E' : '#e3e9f1'),
-      background: view === id ? 'rgba(95,168,61,0.14)' : '#ffffff',
-      color: view === id ? '#3F7A1F' : '#566274'
+      border: '1px solid ' + (view === id ? '#0EB1E8' : '#e3e9f1'),
+      background: view === id ? 'rgba(14,177,232,0.12)' : '#ffffff',
+      color: view === id ? '#0E86C4' : '#566274'
     }
   }, label);
 
@@ -573,7 +766,7 @@ function RevenueOverTime({ rows }) {
         e(XAxis, { dataKey: 'year', stroke: '#a7b2c0', tick: axisTick, tickLine: false, axisLine: { stroke: '#e7ecf2' } }),
         e(YAxis, { stroke: '#a7b2c0', tick: axisTick, tickLine: false, axisLine: false, tickFormatter: fmtMoney }),
         tooltip(v => [fmtMoneyFull(v), 'Revenue']),
-        e(Line, { type: 'monotone', dataKey: 'revenue', name: 'Revenue', stroke: '#4E8A2C', strokeWidth: 2.5, dot: { r: 3 }, activeDot: { r: 5 } })
+        e(Line, { type: 'monotone', dataKey: 'revenue', name: 'Revenue', stroke: '#0EB1E8', strokeWidth: 2.5, dot: { r: 3 }, activeDot: { r: 5 } })
       );
 
   const meta = view === 'month'
@@ -592,6 +785,67 @@ function RevenueOverTime({ rows }) {
       e(ResponsiveContainer, { width: '100%', height: '100%' }, chart)
     )
   );
+}
+
+// ── Reusable pagination: hook + pager control ─────────────────────────
+function usePager(total, pageSize) {
+  const size = pageSize || 50;
+  const [page, setPage] = React.useState(0);
+  const pages = Math.max(1, Math.ceil((total || 0) / size));
+  const cur = Math.min(page, pages - 1);
+  return { page: cur, pages: pages, size: size, start: cur * size, end: cur * size + size, setPage: setPage };
+}
+function Pager({ pager, total, unit }) {
+  const e = React.createElement;
+  if (!pager || pager.pages <= 1) return null;
+  const nav = (label, disabled, onClick) => e("button", { className: "date-preset", disabled: disabled, onClick: onClick, style: { opacity: disabled ? 0.35 : 1, cursor: disabled ? "default" : "pointer" } }, label);
+  return e("div", { style: { display: "flex", alignItems: "center", justifyContent: "space-between", padding: "12px 16px", borderTop: "1px solid var(--border)", fontFamily: "JetBrains Mono", fontSize: 11, color: "var(--text-dim)" } },
+    e("span", null, fmtNum(total) + " " + (unit || "items") + " · page " + (pager.page + 1) + " of " + pager.pages),
+    e("div", { style: { display: "flex", gap: 8 } },
+      nav("‹ Prev", pager.page <= 0, function () { pager.setPage(pager.page - 1); }),
+      nav("Next ›", pager.page >= pager.pages - 1, function () { pager.setPage(pager.page + 1); })));
+}
+
+// ── Sales-tab Invoices table (AR-style columns) ───────────────────────
+function SalesInvoicesTable({ invoices, pager, setFilters }) {
+  const e = React.createElement;
+  const daysColor = d => d > 90 ? 'var(--rose)' : d > 30 ? 'var(--warm)' : 'var(--text-dim)';
+  const rows = invoices.slice(pager.start, pager.end).map((inv, i) => e('tr', {
+    key: i, style: { cursor: 'pointer' },
+    onClick: () => setFilters(f => ({ ...f, invoice: inv.invoice })),
+    title: 'Click to filter the whole dashboard by this invoice'
+  },
+    e('td', { className: 'num', style: { color: inv.paidStatus ? 'var(--text-faint)' : daysColor(inv.daysPastDue), fontWeight: (!inv.paidStatus && inv.daysPastDue > 30) ? 700 : 400 } }, inv.paidStatus ? 'Paid' : (inv.daysPastDue > 0 ? inv.daysPastDue : 'Not due')),
+    e('td', { className: 'dim font-mono' }, inv.shipStr),
+    e('td', { className: 'num dim' }, inv.terms),
+    e('td', { className: 'dim font-mono' }, inv.dueStr),
+    e('td', { title: inv.destination, style: { whiteSpace: 'normal', minWidth: 150 } }, inv.destination),
+    e('td', { className: 'font-mono dim', style: { fontSize: 11 } }, inv.license),
+    e('td', { className: 'font-mono', style: { color: 'var(--accent)' } }, inv.invoice),
+    e('td', { className: 'num dim' }, fmtMoneyFull(inv.invoiceTotal)),
+    e('td', { className: 'num', style: { color: (inv.partialPayment > 0 && inv.outstanding > 0) ? 'var(--accent)' : 'var(--text-faint)' } }, (inv.partialPayment > 0 && inv.outstanding > 0) ? fmtMoneyFull(inv.partialPayment) : '—'),
+    e('td', { className: 'num' }, e('strong', null, fmtMoneyFull(inv.outstanding))),
+    e('td', { className: 'dim' }, inv.rep),
+    e('td', { style: { minWidth: 200, maxWidth: 340, fontSize: 11, color: inv.notes ? 'var(--text-dim)' : 'var(--text-faint)', whiteSpace: 'normal', lineHeight: 1.35 } }, inv.notes || '—')
+  ));
+  return e('div', { className: 'card', style: { padding: 0, overflow: 'hidden' } },
+    e('div', { style: { overflowX: 'auto', maxHeight: 560 } },
+      e('table', { className: 'data-table', style: { minWidth: 1720 } },
+        e('thead', null, e('tr', null,
+          e('th', { className: 'num' }, 'Days Past Due'),
+          e('th', null, 'Delivery Date'),
+          e('th', { className: 'num' }, 'Net Terms'),
+          e('th', null, 'Due Date'),
+          e('th', null, 'Destination'),
+          e('th', null, 'License #'),
+          e('th', null, 'Invoice #'),
+          e('th', { className: 'num' }, 'Invoice Total'),
+          e('th', { className: 'num' }, 'Partial Payment'),
+          e('th', { className: 'num' }, 'Outstanding Value'),
+          e('th', null, 'Rep'),
+          e('th', null, 'Notes'))),
+        e('tbody', null, rows))),
+    e(Pager, { pager: pager, total: invoices.length, unit: 'invoices' }));
 }
 
 // ── Paginated inventory table with per-product value ──────────────────
@@ -629,27 +883,85 @@ function InventoryTable({ list }) {
       e("table", { className: "data-table" },
         e("thead", null, e("tr", null,
           e("th", null, "Product"), e("th", null, "Line"), e("th", null, "SKU"),
-          e("th", { className: "num" }, "Cases Sold"),
+          e("th", { className: "num" }, "Units Sold"),
           e("th", { className: "num" }, "On Hand"),
           e("th", { className: "num", title: "Estimated days until this SKU runs out, based on units sold in the last 30 days" }, "Days Left"),
           e("th", { className: "num" }, "Value"),
           e("th", { className: "num" }, "Batches"),
-          e("th", null, "Batch Names"),
+          e("th", null, "Active Batches"),
           e("th", null, "Status"))),
         e("tbody", null, rows))),
     pager);
 }
 
 // ── Sales by category ─────────────────────────────────────────────────
-// Missouri sells a small, distinct product set, so each product name is its own
-// category. We group the filtered rows by product name, tidy the label (drop the
-// "Chill Medicated" brand prefix, dashes to spaces), sort by net sales, and total
-// it. The raw name is kept in a hover tooltip so nothing is lost.
-const catLabel = s => {
-  s = String(s || '').replace(/^\s*chill medicated\s*-?\s*/i, '');
-  s = s.replace(/\|/g, ' / ').replace(/-/g, ' ').replace(/\s+/g, ' ').trim();
-  return s || '(unnamed)';
+// Fixed Chill catalog. Matching is order-independent: we reduce each product
+// name to a sorted set of meaningful tokens (dropping packaging words like
+// "30ct Case"), so "250mg THC | Grape Syrup | 30ct Case" from the feed lands in
+// the "250mg THC Grape Syrup" row. Samples share the base name in the data and
+// are separated by the is_sample flag. Anything that doesn't match shows in an
+// "Uncategorized" row so nothing is silently dropped.
+const CHILL_CATS = [
+  '250mg THC Grape Syrup',
+  '250mg THC Bue Razz Syrup',
+  '250mg THC Strawberry Syrup',
+  '250mg THC Sour Apple Syrup',
+  '250mg THC Watermelon Syrup',
+  '250mg THC Cranberry Syrup',
+  '250mg THC Grape Syrup SAMPLE',
+  '250mg THC Bue Razz Syrup SAMPLE',
+  '250mg THC Strawberry Syrup SAMPLE',
+  '250mg THC Sour Apple Syrup SAMPLE',
+  '250mg THC Watermelon Syrup SAMPLE',
+  '250mg THC Cranberry Syrup SAMPLE',
+  '500mg THC Grape Syrup',
+  '500mg THC Bue Razz Syrup',
+  '500mg THC Strawberry Syrup',
+  '500mg THC Sour Apple Syrup',
+  '500mg THC Watermelon Syrup',
+  '500mg THC Cranberry Syrup',
+  '500mg THC Grape Syrup SAMPLE',
+  '500mg THC Bue Razz Syrup SAMPLE',
+  '500mg THC Strawberry Syrup SAMPLE',
+  '500mg THC Sour Apple Syrup SAMPLE',
+  '500mg THC Watermelon Syrup SAMPLE',
+  '500mg THC Cranberry Syrup SAMPLE',
+  'ZERO SUGAR 500mg THC Blue Razz Syrup',
+  'ZERO SUGAR 500mg THC Lemon-Lime Syrup',
+  'ZERO SUGAR 500mg THC Root Beer Syrup',
+  'ZERO SUGAR 500mg THC Strawberry Syrup',
+  'ZERO SUGAR 500mg THC Watermelon Syrup',
+  '1000mg THC Blue Razz Syrup',
+  '1000mg THC Strawberry Syrup',
+  '1000mg THC Watermelon Syrup',
+  '100mg THC Chill To-Go Blue Razz Syrup',
+  '100mg THC Chill To-Go Grape Syrup',
+  '100mg THC Chill To-Go Strawberry Syrup',
+  '100mg THC Chill To-Go Watermelon Syrup',
+  'RELAX 500mg THC : 500mg CBD Body Rub',
+  'MAXX 1000mg THC : 1000mg CBD Body Rub',
+  'Extreme X 2000mg THC : 2000mg CBD Body Rub',
+  'Chill To Go - Extreme X 150mg THC : 150mg CBD',
+  'SNOOZE 500mg THC 250mg CBD 250 CBN Dreamberry Syrup',
+  'SUNRISE 500mg THC 400mg CBG 100 THCv Orange Creme Syrup',
+  'SUBZERO 1000mg THC : 1000mg CBD Roll-On',
+  'Chill Medicated - 100MG Live Rosin Blue Razz',
+  'Chill Medicated - 100MG Live Rosin Grape',
+  'Chill Medicated - 100MG Live Rosin Strawberry',
+  'Chill Medicated - 100MG Live Rosin Watermelon'
+];
+const catCanon = s => {
+  s = String(s || '').toLowerCase();
+  s = s.replace(/bue razz/g, 'blue razz');            // unify the "Bue Razz" spelling
+  s = s.replace(/to[\s-]?go/g, 'togo');               // "To-Go" / "to go" / "Chill To Go"
+  s = s.replace(/[|:]/g, ' ');                         // separators to spaces
+  s = s.replace(/\b\d+\/\d+\/\d+ct\b/g, ' ');          // 24/48/72ct
+  s = s.replace(/\b\d+ct\b/g, ' ');                    // 30ct, 50ct
+  const STOP = { case: 1, ct: 1, body: 1, rub: 1, chill: 1, medicated: 1 };
+  const toks = s.split(/[^a-z0-9-]+/).filter(t => t && t !== '-' && !STOP[t]);
+  return Array.from(new Set(toks)).sort().join(' ');
 };
+const __catKeyToLabel = (() => { const m = {}; CHILL_CATS.forEach(l => { m[catCanon(l)] = l; }); return m; })();
 function SalesByCategory({ rows }) {
   const e = React.createElement;
   const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
@@ -716,7 +1028,7 @@ function SalesByCategory({ rows }) {
         e("label", { className: "filter-label", style: { textTransform: 'uppercase' } }, "Rank by"),
         sel(metric, setMetric, [
           e("option", { key: 'g', value: "gross" }, "Gross ↓"),
-          e("option", { key: 'u', value: "units" }, "Cases ↓")]),
+          e("option", { key: 'u', value: "units" }, "Units ↓")]),
         sel(yr, setYr, [e("option", { key: 'all', value: "all" }, "All years")].concat(
           periods.years.map(y => e("option", { key: y, value: y }, y)))),
         sel(mo, setMo, [e("option", { key: 'all', value: "all" }, "All months")].concat(
@@ -727,7 +1039,7 @@ function SalesByCategory({ rows }) {
         e("table", { className: "data-table" },
           e("thead", null, e("tr", null,
             e("th", null, "Product / SKU"),
-            e("th", { className: "num" }, "Cases"),
+            e("th", { className: "num" }, "Units"),
             e("th", { className: "num" }, "Gross"),
             e("th", { className: "num" }, "Net Sales"),
             e("th", { className: "num" }, "Share"))),
@@ -791,6 +1103,7 @@ function MonthlyGrossBySku({ rows }) {
       border: '1px solid ' + (metric === id ? '#0EB1E8' : '#e3e9f1'),
       background: metric === id ? 'rgba(14,177,232,0.12)' : '#ffffff',
       color: metric === id ? '#0E86C4' : '#566274' } }, label);
+  const pg = usePager(list.length, 50);
   return e("section", { className: "section" },
     e("div", { className: "section-header" },
       e("h2", { className: "section-title" }, "Monthly ", e("em", null, isUnits ? "units by SKU" : "gross sales by SKU")),
@@ -810,7 +1123,7 @@ function MonthlyGrossBySku({ rows }) {
                   months.map(ym => e("th", { key: ym, className: "num" }, mlabel(ym))),
                   e("th", { className: "num" }, "Total"))),
               e("tbody", null,
-                list.slice(0, 100).map((p, i) => e("tr", { key: i },
+                list.slice(pg.start, pg.end).map((p, i) => e("tr", { key: i },
                   e("td", { style: stick, title: p.sku ? 'SKU: ' + p.sku : '' }, p.name),
                   months.map(ym => e("td", { key: ym, className: "num" }, cell(p.cells[ym]))),
                   e("td", { className: "num" }, e("strong", null, fmtVal(p.total))))),
@@ -818,43 +1131,10 @@ function MonthlyGrossBySku({ rows }) {
                   e("td", { style: Object.assign({}, stick, { background: 'var(--bg)', fontWeight: 700 }) }, "All products"),
                   months.map(ym => e("td", { key: ym, className: "num" }, e("strong", null, fmtVal(colTotals[ym])))),
                   e("td", { className: "num" }, e("strong", null, fmtVal(grand))))))),
-          list.length > 100 ? e("div", { style: { padding: '8px 14px', color: 'var(--text-faint)', fontSize: 12 } }, "Showing top 100 of " + fmtNum(list.length) + " products by total " + (isUnits ? "units" : "gross")) : null));
+          e(Pager, { pager: pg, total: list.length, unit: "products" })));
 }
 
-function MultiSelect({ options, selected, onChange, labelFn, placeholder }) {
-  const e = React.createElement;
-  const [open, setOpen] = React.useState(false);
-  const [q, setQ] = React.useState('');
-  const ref = React.useRef(null);
-  const label = labelFn || (x => x);
-  React.useEffect(() => {
-    const onDoc = ev => { if (ref.current && !ref.current.contains(ev.target)) setOpen(false); };
-    document.addEventListener('mousedown', onDoc);
-    return () => document.removeEventListener('mousedown', onDoc);
-  }, []);
-  const sel = Array.isArray(selected) ? selected : (selected ? [selected] : []);
-  const toggle = val => {
-    const next = sel.includes(val) ? sel.filter(x => x !== val) : sel.concat([val]);
-    onChange(next);
-  };
-  const ql = q.trim().toLowerCase();
-  const shown = ql ? options.filter(o => label(o).toLowerCase().includes(ql) || String(o).toLowerCase().includes(ql)) : options;
-  const summary = sel.length === 0 ? (placeholder || 'All') : sel.length === 1 ? label(sel[0]) : sel.length + ' selected';
-  return e("div", { className: "ms-wrap", ref: ref },
-    e("button", { type: "button", className: "ms-toggle" + (open || sel.length ? " active" : ""), onClick: () => setOpen(o => !o) },
-      e("span", { style: { overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' } }, summary),
-      sel.length > 1 ? e("span", { className: "ms-count" }, sel.length) : e("span", { className: "ms-caret" }, "▾")),
-    e("div", { className: "ms-panel" + (open ? " open" : "") },
-      e("input", { className: "ms-search", type: "text", placeholder: "search…", value: q, onChange: ev => setQ(ev.target.value) }),
-      e("div", { className: "ms-list" },
-        shown.length === 0 ? e("div", { style: { padding: 10, color: 'var(--text-faint)', fontSize: 12 } }, "No matches")
-          : shown.map(o => e("label", { key: o, className: "ms-opt" },
-              e("input", { type: "checkbox", checked: sel.includes(o), onChange: () => toggle(o) }),
-              e("span", { title: o }, label(o))))),
-      e("div", { className: "ms-actions" },
-        e("span", { style: { fontFamily: "'JetBrains Mono',monospace", fontSize: 10, color: 'var(--text-faint)' } }, sel.length + " of " + options.length),
-        e("button", { type: "button", className: "ms-clear", onClick: () => { onChange([]); } }, "Clear"))));
-}
+// ── View tabs (Sales / Accounts Receivable) ───────────────────────────
 function ViewTabs({ tab, setTab }) {
   const e = React.createElement;
   const mk = (id, label) => e('button', {
@@ -864,6 +1144,13 @@ function ViewTabs({ tab, setTab }) {
   return e('div', { className: 'view-tabs-wrap' },
     e('div', { className: 'view-tabs' }, mk('sales', 'Sales'), mk('ar', 'Accounts Receivable'), mk('inventory', 'Inventory'), mk('prospecting', 'Prospecting')));
 }
+
+// ── Accounts Receivable (Massachusetts) ───────────────────────────────
+// Layout modelled on the MedFarms multi-brand AR dashboard (lavender/magenta
+// theme, 5-cell aging KPI grid, aging donut, outstanding-by-rep stacked bar,
+// top-balances rank list, open-invoices table). Internal/External scope cards
+// are intentionally omitted. Open AR = invoices with payment_status Unpaid or
+// Partial; aging is from the due date (Net 30 fallback), net of credits.
 function AccountsReceivable({ data }) {
   const e = React.createElement;
   // AR uses current Apex data only (not the 2024 historical backfill).
@@ -885,9 +1172,41 @@ function AccountsReceivable({ data }) {
 
   const today = new Date(); today.setHours(0, 0, 0, 0);
   const fmtD = d => d ? ((d.getMonth() + 1) + '/' + String(d.getDate()).padStart(2, '0') + '/' + d.getFullYear()) : '—';
-  const repOf = r => (Array.isArray(r.sales_reps_display) && r.sales_reps_display.filter(Boolean).join(', ')) || r.sales_reps || r.distributor_name || '—';
+  const repOf = r => (Array.isArray(r.sales_reps_display) && r.sales_reps_display.filter(Boolean).join(', ')) || r.sales_reps || '—';
 
+  // When an AR aging report (ar_report.json) is provided, it is the authoritative
+  // source: build invoices directly from its records (all fields already populated).
+  const arReport = data.arReport;
   const invoices = React.useMemo(() => {
+    // AR aging report records (authoritative). Built once, then merged with the live AR below.
+    const reportObjs = (arReport && Array.isArray(arReport.records)) ? arReport.records.map(rec => {
+        const total = parseMoney(rec.invoice_total);
+        const outstanding = parseMoney(rec.outstanding);
+        const paid = Math.max(0, total - outstanding);
+        const days = parseFloat(rec.days_past_due) || 0;
+        const due = parseDate(rec.due_date);
+        return {
+          invoice: rec.invoice || '—',
+          buyer: rec.destination || '—',
+          destination: rec.destination || '—',
+          rep: rec.rep || '—',
+          license: rec.license || '—',
+          notes: (rec.notes || '').trim(),
+          paymentMethod: rec.payment_method || '',
+          orderDate: null,
+          deliveryDate: parseDate(rec.ship_date),
+          dueDate: due,
+          due: due,
+          terms: rec.net_terms != null ? rec.net_terms : '',
+          amount: total,
+          total: total,
+          credit: paid,
+          net: outstanding,
+          daysPastDue: days,
+          bucket: bucketOf(days),
+          status: paid > 0 ? 'Partial' : 'Unpaid'
+        };
+      }).filter(o => o.net > 0) : [];
     const map = {};
     rows.forEach(r => {
       const stRaw = r.payment_status || '';
@@ -905,9 +1224,13 @@ function AccountsReceivable({ data }) {
           status: stRaw,
           orderDate: parseDate(r.order_date_localized_raw || r.order_date_utc_raw || r.order_date_localized || r.order_date_utc || r.order_date_raw || r.order_date),
           dueDate: parseDate(r.due_date_raw || r.due_date),
-          amount: 0,
+          deliveryDate: parseDate(r.delivery_date_raw || r.delivery_date),
+          destination: r.buyer_shipping_name || r.buyer_name || '—',
+          license: r.buyer_license || '—',
+          notes: (r.notes || '').trim(),
           addlDiscount: typeof r.additional_discounts === 'number' ? r.additional_discounts / 100 : parseMoney(r.additional_discounts),
-          credit: parsePaymentsForCredits(r.payment_dates || r.payments || '').total || 0
+          amount: 0,
+          credit: parsePaymentsApplied(r.payment_dates || r.payments || '', stRaw)
         };
       }
       // Revenue schema varies by market: line-level (line_total_raw cents / line_total) is
@@ -918,14 +1241,29 @@ function AccountsReceivable({ data }) {
         map[id].orderRev = typeof r.order_total === 'number' ? r.order_total : (typeof r.order_price === 'number' ? r.order_price / 100 : 0);
       }
     });
-    return Object.values(map).map(o => {
+    const live = Object.values(map).map(o => {
       const due = o.dueDate || (o.orderDate ? new Date(o.orderDate.getTime() + 30 * 86400000) : null);
+      // Invoice total = line-item subtotal minus the invoice-level additional discount (matches the Apex invoice Total).
       const base = Math.max(0, (o._hasLine ? o.amount : (o.orderRev || 0)) - (o.addlDiscount || 0));
       const net = Math.max(0, base - (o.credit || 0));
       const daysPastDue = due ? Math.floor((today - due) / 86400000) : 0;
-      return Object.assign({}, o, { due, net, daysPastDue, bucket: bucketOf(daysPastDue) });
+      const shipBase = o.deliveryDate || o.orderDate;
+      const terms = (o.dueDate && shipBase) ? Math.round((o.dueDate.getTime() - shipBase.getTime()) / 86400000) : 30;
+      return Object.assign({}, o, { due, net, total: base, terms, daysPastDue, bucket: bucketOf(daysPastDue) });
     }).filter(o => o.net > 0);
-  }, [rows]);
+    if (!reportObjs.length) return live;
+    // Merge the manual AR report with the live Apex AR: a report record OVERRIDES a matching
+    // live invoice (its notes / payments / dates win), and report-only invoices are appended.
+    const byInv = {};
+    reportObjs.forEach(o => { byInv[String(o.invoice).toLowerCase()] = o; });
+    const liveSet = new Set(live.map(o => String(o.invoice).toLowerCase()));
+    const merged = live.map(o => {
+      const rep = byInv[String(o.invoice).toLowerCase()];
+      return rep ? Object.assign({}, o, rep) : o;
+    });
+    const reportOnly = reportObjs.filter(o => !liveSet.has(String(o.invoice).toLowerCase()));
+    return merged.concat(reportOnly);
+  }, [rows, arReport]);
 
   const buyerOptions = React.useMemo(() => [...new Set(invoices.map(o => o.buyer))].sort(), [invoices]);
   const repOptions = React.useMemo(() => [...new Set(invoices.map(o => o.rep).filter(x => x && x !== '—'))].sort(), [invoices]);
@@ -972,6 +1310,7 @@ function AccountsReceivable({ data }) {
   }, [shown]);
 
   const openSorted = React.useMemo(() => shown.slice().sort((a, b) => b.daysPastDue - a.daysPastDue), [shown]);
+  const openPg = usePager(openSorted.length, 50);
   const agingData = AGE.map(a => ({ name: a.label, value: tot[a.key], color: a.color }));
   const fetchedAt = new Date(data.fetched_at);
 
@@ -1059,27 +1398,43 @@ function AccountsReceivable({ data }) {
   const invTable = e('section', { className: 'section' },
     e('div', { className: 'section-header' },
       e('h2', { className: 'section-title' }, 'Open ', e('em', null, 'invoices')),
-      e('span', { className: 'section-meta' }, fmtNum(openSorted.length) + ' invoices · oldest first')),
+      e('div', { style: { display: 'flex', gap: 8, alignItems: 'center', flexWrap: 'wrap' } },
+        e('span', { className: 'section-meta' }, fmtNum(openSorted.length) + ' invoices · oldest first'),
+        e('button', { className: 'date-preset', onClick: () => downloadArExcel(openSorted), title: 'Download these open invoices as Excel' }, '⬇ Excel'),
+        e('button', { className: 'date-preset', onClick: () => downloadArPdf(openSorted), title: 'Download these open invoices as PDF' }, '⬇ PDF'))),
     e('div', { className: 'card', style: { padding: 0, overflow: 'hidden' } },
       e('div', { style: { overflowX: 'auto', maxHeight: 560 } },
-        e('table', { className: 'data-table', style: { minWidth: 880 } },
+        e('table', { className: 'data-table', style: { minWidth: 1720 } },
           e('thead', null, e('tr', null,
-            e('th', null, 'Invoice #'), e('th', null, 'Buyer'), e('th', null, 'Rep'),
-            e('th', null, 'Invoice'), e('th', null, 'Due'),
-            e('th', { className: 'num' }, 'Days Past'), e('th', null, 'Aging'),
-            e('th', { className: 'num' }, 'Outstanding'))),
+            e('th', { className: 'num' }, 'Days Past Due'),
+            e('th', null, 'Delivery Date'),
+            e('th', { className: 'num' }, 'Net Terms'),
+            e('th', null, 'Due Date'),
+            e('th', null, 'Destination'),
+            e('th', null, 'License #'),
+            e('th', null, 'Invoice #'),
+            e('th', { className: 'num' }, 'Invoice Total'),
+            e('th', { className: 'num' }, 'Partial Payment'),
+            e('th', { className: 'num' }, 'Outstanding Value'),
+            e('th', null, 'Rep'),
+            e('th', null, 'Notes'))),
           e('tbody', null,
             openSorted.length === 0
-              ? e('tr', null, e('td', { colSpan: 8, style: { padding: 20, color: 'var(--text-faint)', textAlign: 'center' } }, 'No open receivables match the filters.'))
-              : openSorted.slice(0, 300).map((o, i) => e('tr', { key: i },
-                  e('td', { className: 'font-mono', style: { color: 'var(--accent)' } }, o.invoice),
-                  e('td', { title: o.buyer }, buyerBusinessName(o.buyer)),
-                  e('td', { className: 'dim' }, o.rep),
-                  e('td', { className: 'dim font-mono' }, fmtD(o.orderDate)),
+              ? e('tr', null, e('td', { colSpan: 12, style: { padding: 20, color: 'var(--text-faint)', textAlign: 'center' } }, 'No open receivables match the filters.'))
+              : openSorted.slice(openPg.start, openPg.end).map((o, i) => e('tr', { key: i },
+                  e('td', { className: 'num', style: { color: bucketColor(o.bucket), fontWeight: o.daysPastDue > 30 ? 700 : 400 } }, o.daysPastDue > 0 ? o.daysPastDue : 'Not due'),
+                  e('td', { className: 'dim font-mono' }, fmtD(o.deliveryDate)),
+                  e('td', { className: 'num dim' }, o.terms),
                   e('td', { className: 'dim font-mono' }, fmtD(o.due)),
-                  e('td', { className: 'num', style: { color: bucketColor(o.bucket), fontWeight: o.daysPastDue > 30 ? 700 : 400 } }, o.daysPastDue > 0 ? o.daysPastDue + 'd' : 'Not due'),
-                  e('td', null, e('span', { style: { fontFamily: 'JetBrains Mono', fontSize: 10, textTransform: 'uppercase', letterSpacing: '0.06em', color: bucketColor(o.bucket), border: '1px solid ' + bucketColor(o.bucket), borderRadius: 999, padding: '2px 8px', whiteSpace: 'nowrap' } }, bucketLabel(o.bucket))),
-                  e('td', { className: 'num' }, e('strong', null, fmtMoneyFull(o.net))))))))));
+                  e('td', { title: o.destination, style: { whiteSpace: 'normal', minWidth: 150 } }, o.destination),
+                  e('td', { className: 'font-mono dim', style: { fontSize: 11 } }, o.license),
+                  e('td', { className: 'font-mono', style: { color: 'var(--accent)' } }, o.invoice),
+                  e('td', { className: 'num dim' }, fmtMoneyFull(o.total)),
+                  e('td', { className: 'num', style: { color: ((o.credit > 0 && o.net > 0) ? 'var(--accent)' : 'var(--text-faint)') } }, (o.credit > 0 && o.net > 0) ? fmtMoneyFull(o.credit) : '—'),
+                  e('td', { className: 'num' }, e('strong', null, fmtMoneyFull(o.net))),
+                  e('td', { className: 'dim' }, o.rep),
+                  e('td', { style: { minWidth: 220, maxWidth: 360, fontSize: 11, color: o.notes ? 'var(--text-dim)' : 'var(--text-faint)', whiteSpace: 'normal', lineHeight: 1.35 } }, o.notes || '—'))))))),
+      e(Pager, { pager: openPg, total: openSorted.length, unit: 'invoices' }));
 
   return e('div', { className: 'app ar-theme' },
     e(Topbar, { fetchedAt: fetchedAt, rowCount: shown.length, totalCount: invoices.length }),
@@ -1087,7 +1442,9 @@ function AccountsReceivable({ data }) {
       e('h1', { style: { fontFamily: 'Fraunces, serif', fontWeight: 400, fontSize: 30, letterSpacing: '-0.02em', margin: 0 } },
         'Accounts ', e('em', { style: { color: 'var(--accent)', fontStyle: 'italic' } }, 'Receivable'))),
     e('div', { style: { fontFamily: 'JetBrains Mono, monospace', fontSize: 11, color: 'var(--text-dim)', margin: '0 0 20px', letterSpacing: '0.04em' } },
-      'Missouri · aged as of ' + fmtD(today) + ' · due = invoice date + Net 30 (or Apex due date) · outstanding = net of credits'),
+      arReport
+        ? 'Massachusetts · live Apex AR + aging report' + (arReport.as_of ? ' (as of ' + arReport.as_of + ')' : '') + ' · ' + fmtNum(invoices.length) + ' open invoices'
+        : 'Massachusetts · aged as of ' + fmtD(today) + ' · due = invoice date + Net 30 (or Apex due date) · outstanding = net of credits'),
     filterBar,
     kpiGrid,
     twoUp,
@@ -1095,6 +1452,10 @@ function AccountsReceivable({ data }) {
     invTable);
 }
 
+// ── Inventory tab (single-brand, product-line view) ───────────────────
+// Layout modelled on the MedFarms multi-brand inventory dashboard, adapted to a
+// single brand: "brand" is replaced by product line, reserved/available are dropped
+// (Apex feed only has on-hand qty), and it stays on the default dashboard theme.
 function InventoryView({ data }) {
   const e = React.createElement;
   const rows = (data.rows || []).filter(r => !r._arReport);
@@ -1133,7 +1494,7 @@ function InventoryView({ data }) {
       const unitPrice = sold > 0 ? revT / sold : 0;
       const listedPrice = (p.sku && listedBySku[p.sku]) || listedByName[p.name] || 0;
       const priceForValue = listedPrice > 0 ? listedPrice : unitPrice;
-      const qty = p.qty != null ? p.qty : (p.available != null ? p.available : (p.inventory != null ? p.inventory : null));
+      const qty = p.qty != null ? p.qty : null;
       const recent = p.sku && recentSku[p.sku] != null ? recentSku[p.sku] : (recentName[p.name] || 0);
       const velocity = recent / WIN;
       let daysLeft = null;
@@ -1142,7 +1503,7 @@ function InventoryView({ data }) {
       const bsorted = Object.keys(bmap).sort((a, b) => String(bmap[b]).localeCompare(String(bmap[a])));
       const nActive = p.batches > 0 ? p.batches : (bsorted.length ? 1 : 0);
       const batchNames = bsorted.slice(0, nActive);
-      return { name: p.name || '—', line: p.line || '—', sku: p.sku || '', qty: qty, batches: p.batches || 0, batchNames: batchNames, listed: p.listed != null ? !!p.listed : (p.status ? String(p.status).toLowerCase() === 'available' : false), sold: sold, neverSold: sold <= 0, unitPrice: unitPrice, listedPrice: listedPrice, value: qty != null ? qty * unitPrice : 0, velocity: velocity, daysLeft: daysLeft };
+      return { name: p.name || '—', line: p.line || '—', sku: p.sku || '', qty: qty, batches: p.batches || 0, batchNames: batchNames, listed: !!p.listed, sold: sold, neverSold: sold <= 0, unitPrice: unitPrice, listedPrice: listedPrice, value: qty != null ? qty * unitPrice : 0, velocity: velocity, daysLeft: daysLeft };
     });
   }, [rows, data.inventory]);
 
@@ -1180,7 +1541,7 @@ function InventoryView({ data }) {
     e('button', { className: 'filter-reset', onClick: () => { setQ(''); setLineSel(''); }, style: { marginLeft: 'auto', alignSelf: 'flex-end', background: 'var(--accent)', color: '#fff', border: 'none', fontWeight: 700, padding: '10px 22px', borderRadius: 6, cursor: 'pointer', letterSpacing: '0.05em', textTransform: 'uppercase', fontSize: 12 } }, 'Reset'));
 
   const kpis = e('div', { className: 'kpi-grid' },
-    e(Kpi, { label: 'Cases On Hand', value: fmtNum(Math.round(onHandTotal)), sub: fmtNum(skus) + ' SKUs · ' + fmtMoneyFull(onHandValue), accent: true }),
+    e(Kpi, { label: 'Units On Hand', value: fmtNum(Math.round(onHandTotal)), sub: fmtNum(skus) + ' SKUs · ' + fmtMoneyFull(onHandValue), accent: true }),
     e(Kpi, { label: 'On-Hand Value', value: fmtMoneyFull(onHandValue), sub: fmtNum(listedN) + ' listed' }),
     e(Kpi, { label: 'Out of Stock', value: fmtNum(outN), sub: 'SKUs · 0 on hand' }),
     e(Kpi, { label: 'Low Stock', value: fmtNum(lowN), sub: '< 14 days of supply' }));
@@ -1221,7 +1582,7 @@ function InventoryView({ data }) {
         e('table', { className: 'data-table' },
           e('thead', null, e('tr', null,
             e('th', null, 'Product'), e('th', null, 'Line'), e('th', null, 'SKU'),
-            e('th', { className: 'num' }, 'Cases Sold'), e('th', { className: 'num' }, 'Batches'), e('th', null, 'Status'))),
+            e('th', { className: 'num' }, 'Units Sold'), e('th', { className: 'num' }, 'Batches'), e('th', null, 'Status'))),
           e('tbody', null,
             oos.length === 0
               ? e('tr', null, e('td', { colSpan: 6, style: { padding: 20, color: 'var(--text-faint)', textAlign: 'center' } }, 'Nothing out of stock — every SKU has units on hand'))
@@ -1237,14 +1598,14 @@ function InventoryView({ data }) {
     e(Topbar, { fetchedAt: fetchedAt, rowCount: inStock.length, totalCount: built.length }),
     e('div', { style: { marginBottom: 20 } },
       e('h1', { style: { fontFamily: 'Fraunces, serif', fontWeight: 400, fontSize: 30, letterSpacing: '-0.02em', margin: 0 } }, 'Inventory'),
-      e('div', { style: { fontFamily: 'JetBrains Mono, monospace', fontSize: 11, color: 'var(--text-dim)', marginTop: 6 } }, 'Missouri · Chill Medicated · live from Apex inventory')),
+      e('div', { style: { fontFamily: 'JetBrains Mono, monospace', fontSize: 11, color: 'var(--text-dim)', marginTop: 6 } }, 'Massachusetts · Chill Medicated · live from Apex inventory')),
     filterBar, kpis, byLineChart, lineCards, productSection, oosSection);
 }
 
-// ── Prospecting tab (Missouri) ───────────────────────────────────
+// ── Prospecting tab (Massachusetts) ───────────────────────────────────
 // As-of-today account development, independent of the dashboard date filter.
 // Three lenses:
-//   • New / potential buyers — licensed retailers we've never invoiced
+//   • New / potential buyers — licensed MA retailers we've never invoiced
 //     (needs prospects.json; matched to our book on license number).
 //   • Lapsed buyers — bought before, gone quiet (31–60 / 61–90 / 90+ days).
 //   • Growth opportunities — active buyers trending down, or carrying only a
@@ -1447,9 +1808,9 @@ function Prospecting({ data }) {
           e('div', { style: { fontSize: 15, fontWeight: 700, marginBottom: 8 } }, 'No prospect list loaded yet'),
           e('div', { style: { color: 'var(--text-dim)', fontSize: 13, lineHeight: 1.6, maxWidth: 620, margin: '0 auto' } },
             'Add a ', e('code', null, 'prospects.json'), ' file to this dashboard folder — a list of licensed ',
-            'Missouri retailers. This tab compares it against your book (by license number) and shows every ',
-            'licensed dispensary you have not yet invoiced. Generate it from your state regulator\'s ',
-            'licensed-business export.')));
+            'Massachusetts retailers. This tab compares it against your book (by license number) and shows every ',
+            'licensed dispensary you have not yet invoiced. Source it from the CCC open-data ',
+            '“licenses that commenced operations” export.')));
     } else {
       const flt = _newFlt;
       const cities = new Set(prospects.map(p => p.city).filter(Boolean));
@@ -1464,7 +1825,7 @@ function Prospecting({ data }) {
             e('h2', { className: 'section-title' }, 'New / potential ', e('em', null, 'buyers')),
             e('div', { style: { display: 'flex', gap: 8, alignItems: 'center', flexWrap: 'wrap' } },
               e('span', { className: 'section-meta' }, fmtNum(flt.length) + ' prospects · A→Z by town'),
-              dlBtn(() => exportXls('Chill_MO_Prospects_New.xls', 'Chill Medicated MO \u2014 New / Potential Buyers',
+              dlBtn(() => exportXls('Chill_MA_Prospects_New.xls', 'Chill Medicated MA \u2014 New / Potential Buyers',
                 ['Dispensary', 'Town', 'County', 'License #', 'Address', 'Phone', 'Email', 'Website'],
                 flt.map(p => [p.name, p.city, p.county, p.license, p.address, p.phone, p.email, p.website]))))),
           e('div', { className: 'card', style: { padding: 0, overflow: 'hidden' } },
@@ -1525,7 +1886,7 @@ function Prospecting({ data }) {
           e('h2', { className: 'section-title' }, 'Lapsed ', e('em', null, 'buyers')),
           e('div', { style: { display: 'flex', gap: 8, alignItems: 'center', flexWrap: 'wrap' } },
             e('span', { className: 'section-meta' }, fmtNum(list.length) + ' buyers · highest value first · as of ' + fmtD(asOf)),
-            dlBtn(() => exportXls('Chill_MO_Lapsed_Buyers.xls', 'Chill Medicated MO \u2014 Lapsed Buyers (as of ' + fmtD(asOf) + ')',
+            dlBtn(() => exportXls('Chill_MA_Lapsed_Buyers.xls', 'Chill Medicated MA \u2014 Lapsed Buyers (as of ' + fmtD(asOf) + ')',
               ['Buyer', 'Town', 'Last order', 'Days quiet', 'Lifetime value', 'Orders', 'Avg order', 'Rep'],
               list.map(b => [buyerBusinessName(b.name), b.city, fmtD(b.last ? new Date(b.last) : null), b.gap, b.rev.toFixed(2), b.orderCount, (b.orderCount ? b.rev / b.orderCount : 0).toFixed(2), b.rep]))))),
         e('div', { className: 'card', style: { padding: 0, overflow: 'hidden' } },
@@ -1573,7 +1934,7 @@ function Prospecting({ data }) {
           e('h2', { className: 'section-title' }, 'Growth ', e('em', null, 'opportunities')),
           e('div', { style: { display: 'flex', gap: 8, alignItems: 'center', flexWrap: 'wrap' } },
             e('span', { className: 'section-meta' }, fmtNum(list.length) + ' buyers · highest value first · as of ' + fmtD(asOf)),
-            dlBtn(() => exportXls('Chill_MO_Growth_Opportunities.xls', 'Chill Medicated MO \u2014 Growth Opportunities (as of ' + fmtD(asOf) + ')',
+            dlBtn(() => exportXls('Chill_MA_Growth_Opportunities.xls', 'Chill Medicated MA \u2014 Growth Opportunities (as of ' + fmtD(asOf) + ')',
               ['Buyer', 'Town', 'Signal', 'Last 30d', 'Prior 30d', 'Trend', 'Lines', 'Missing lines', 'Rep'],
               list.map(b => [buyerBusinessName(b.name), b.city, [b.declining ? 'Declining' : '', b.narrow ? 'Narrow' : ''].filter(Boolean).join(' + '), b.rev30.toFixed(2), b.revPrev30.toFixed(2), (b.trend == null ? 'new' : Math.round(b.trend * 100) + '%'), b.catCount + '/' + catUniverse.length, b.missing.join(', '), b.rep]))))),
         e('div', { className: 'card', style: { padding: 0, overflow: 'hidden' } },
@@ -1610,7 +1971,7 @@ function Prospecting({ data }) {
       e('h1', { style: { fontFamily: 'Fraunces, serif', fontWeight: 400, fontSize: 30, letterSpacing: '-0.02em', margin: 0 } },
         'Prospecting ', e('em', { style: { color: 'var(--accent)', fontStyle: 'italic' } }, '& growth'))),
     e('div', { style: { fontFamily: 'JetBrains Mono, monospace', fontSize: 11, color: 'var(--text-dim)', margin: '0 0 20px', letterSpacing: '0.04em' } },
-      'Missouri · account development · as of ' + fmtD(asOf) + ' · independent of the date filter'),
+      'Massachusetts · account development · as of ' + fmtD(asOf) + ' · independent of the date filter'),
     e('div', { style: { display: 'flex', gap: 8, flexWrap: 'wrap', marginBottom: 22 } },
       segBtn('new', 'New / potential', prospects ? fmtNum(prospects.length) : null),
       segBtn('lapsed', 'Lapsed', fmtNum(lapsed.length)),
@@ -1661,7 +2022,7 @@ function App() {
     let cancelled = false;
     let timer = null;
     let backoff = 0;
-    const BASE = 'https://raw.githubusercontent.com/chill-medicatedhub/apex-dashboard-missouri/refs/heads/main/';
+    const BASE = 'https://raw.githubusercontent.com/chill-medicatedhub/apex-dashboard/refs/heads/main/';
     const grab = name => fetch(BASE + name, { cache: 'default' }).then(r => {
       if (r.status === 429) {
         const e = new Error('GitHub is rate-limiting requests for this network (HTTP 429). The dashboard will retry automatically.');
@@ -1690,13 +2051,14 @@ function App() {
         // Prospect list (licensed retailers). Optional: powers the New/potential buyers section.
         grab('prospects.json').then(r => r.ok ? r.json() : null)
           .catch(e => { if (e.rateLimited) throw e; return null; })
-      ]).then(([live, hist, prospects]) => {
+        ,grab('ar_report.json').then(r => r.ok ? r.json() : null).catch(() => null)
+      ]).then(([live, hist, prospects, arRep]) => {
         if (cancelled) return;
         const histRows = Array.isArray(hist) ? hist : (hist.rows || []);
         // _liveRows = current Apex data only. Used by Accounts Receivable, which must
         // ignore the 2024 historical backfill (old records with stale "Unpaid" flags
         // and no due dates would otherwise inflate AR with settled invoices).
-        setData({ ...live, rows: [...histRows, ...(live.rows || [])], _liveRows: live.rows || [], prospects: prospects });
+        setData({ ...live, rows: [...histRows, ...(live.rows || [])], _liveRows: live.rows || [], prospects: prospects, ar_report: arRep });
         setError(null);
         setStale(null);
         backoff = 0;
@@ -1741,10 +2103,10 @@ function App() {
     /*#__PURE__*/React.createElement(ViewTabs, { tab: tab, setTab: setTab }),
     tab === 'ar'
       ? /*#__PURE__*/React.createElement(AccountsReceivable, { data: data })
-      : tab === 'prospecting'
-      ? /*#__PURE__*/React.createElement(Prospecting, { data: data })
       : tab === 'inventory'
       ? /*#__PURE__*/React.createElement(InventoryView, { data: data })
+      : tab === 'prospecting'
+      ? /*#__PURE__*/React.createElement(Prospecting, { data: data })
       : /*#__PURE__*/React.createElement(Dashboard, {
           data: data,
           filters: filters,
@@ -1753,23 +2115,6 @@ function App() {
 }
 
 // --- Dashboard --------------------------------------------------------------
-function usePager(total, pageSize) {
-  const size = pageSize || 50;
-  const [page, setPage] = React.useState(0);
-  const pages = Math.max(1, Math.ceil((total || 0) / size));
-  const cur = Math.min(page, pages - 1);
-  return { page: cur, pages: pages, size: size, start: cur * size, end: cur * size + size, setPage: setPage };
-}
-function Pager({ pager, total, unit }) {
-  const e = React.createElement;
-  if (!pager || pager.pages <= 1) return null;
-  const nav = (label, disabled, onClick) => e("button", { className: "date-preset", disabled: disabled, onClick: onClick, style: { opacity: disabled ? 0.35 : 1, cursor: disabled ? "default" : "pointer" } }, label);
-  return e("div", { style: { display: "flex", alignItems: "center", justifyContent: "space-between", padding: "12px 16px", borderTop: "1px solid var(--border)", fontFamily: "JetBrains Mono", fontSize: 11, color: "var(--text-dim)" } },
-    e("span", null, fmtNum(total) + " " + (unit || "items") + " \u00b7 page " + (pager.page + 1) + " of " + pager.pages),
-    e("div", { style: { display: "flex", gap: 8 } },
-      nav("\u2039 Prev", pager.page <= 0, function () { pager.setPage(pager.page - 1); }),
-      nav("Next \u203a", pager.page >= pager.pages - 1, function () { pager.setPage(pager.page + 1); })));
-}
 function Dashboard({
   data,
   filters,
@@ -1810,20 +2155,17 @@ function Dashboard({
     delivery_date_raw: r.delivery_date_raw || '',
     buyer_state: normalizeState(r.buyer_state),
     // Use order_number as the invoice/order identifier — Apex's real data doesn't have order_id at the line level
-    order_id: r.order_id || r.order_number || r.order || null,
+    order_id: r.order_id || r.order_number || null,
     // Computed fields
     _date: parseDate(r.order_date_utc_raw || r.order_date_localized_raw || r.order_date_raw || r.order_date_utc || r.order_date),
     _delivery: parseDate(r.delivery_date_raw || r.delivery_date),
-    _revenue: typeof r.line_total_raw === 'number' ? r.line_total_raw / 100 : typeof r.order_price === 'number' ? r.order_price / 100 : parseMoney(r.line_total || r.computed_sale_price || r.total),
+    _revenue: typeof r.line_total_raw === 'number' ? r.line_total_raw / 100 : parseMoney(r.line_total || r.computed_sale_price || r.total),
     _cost: parseMoney(r.batch_cost_of_goods),
     // Physical units sold. Apex's order_quantity (a.k.a. quantity) is in the
     // order's unit of measure — "Case" for ~380 lines — so it mixes cases and
     // eaches. inventory_quantity is the Total Unit Quantity (always "Unit"), the
     // true physical-units measure, so we use it and fall back only if absent.
     _quantity: parseFloat(r.inventory_quantity != null ? r.inventory_quantity : r.quantity_raw != null ? r.quantity_raw : r.quantity) || 0,
-    // Order's unit of measure — mostly "Case", some "Unit" (eaches). We keep the
-    // native quantity above and surface this so unit lines can be flagged.
-    _uom: /unit|each/i.test(String(r.unit_of_measure || '')) ? 'Unit' : 'Case',
     // DISCOUNT FIELD — using `discounts` (per-line) only. Apex also has
     // `additional_discounts` (invoice-level), but it's not consistently reflected
     // in the Apex UI, so we don't trust it as real discount activity. Line-level
@@ -1976,7 +2318,7 @@ function Dashboard({
       momLabel,
       discounts,
       // Invoice-level "additional discounts" for the current filter range. Not folded
-      // into revenue or `discounts` (see note above) - exposed for reporting only.
+      // into revenue or `discounts` (see note above) — exposed for reporting only.
       additionalDiscounts: addlDiscounts,
       credits,
       creditCount,
@@ -2064,7 +2406,7 @@ function Dashboard({
   const groupSum = (key, n = 10) => {
     const map = {};
     filtered.forEach(r => {
-      const k = Array.isArray(key) ? (key.map(f => r[f]).find(Boolean) || '') : r[key];
+      const k = r[key];
       if (!k) return;
       if (!map[k]) map[k] = {
         name: k,
@@ -2078,8 +2420,8 @@ function Dashboard({
   };
   const topProducts = useMemo(() => groupSum('product_name'), [filtered]);
   const topBuyers = useMemo(() => groupSum('buyer_name').map(d => ({ ...d, name: buyerBusinessName(d.name) })), [filtered]);
-  const byRep = useMemo(() => groupSum('distributor_name', 20), [filtered]);
-  const byCategory = useMemo(() => groupSum(['product_category','product_type']), [filtered]);
+  const byRep = useMemo(() => groupSum('sales_rep', 20), [filtered]);
+  const byCategory = useMemo(() => groupSum('product_category'), [filtered]);
   const byState = useMemo(() => groupSum('buyer_state', 15), [filtered]);
 
   // Per-product breakdown (matches the Apex product-line spreadsheet)
@@ -2130,8 +2472,12 @@ function Dashboard({
     }).sort((a, b) => b.netSales - a.netSales);
   }, [filtered, filters.cogsRatio]);
 
-  // Group line items into invoices (one row per order/invoice)
+  // Group line items into invoices (one row per order/invoice). Enriched with the same
+  // fields the Accounts Receivable "Open invoices" table shows (ship/due dates, net terms,
+  // destination, license, invoice total, partial payment, outstanding, notes, etc.).
   const invoices = useMemo(() => {
+    const today = new Date(); today.setHours(0, 0, 0, 0);
+    const fmtDate = d => d ? ((d.getMonth() + 1) + '/' + String(d.getDate()).padStart(2, '0') + '/' + d.getFullYear()) : '—';
     const map = {};
     filtered.forEach(r => {
       const id = r.order_id || r.order_number;
@@ -2143,10 +2489,18 @@ function Dashboard({
           date: r.order_date || '—',
           _date: r._date,
           buyer: r.buyer_name || '—',
+          destination: r.buyer_shipping_name || r.buyer_name || '—',
+          license: r.buyer_license || '—',
           rep: r.sales_rep || '—',
           state: r.buyer_state || '—',
           status: r.payment_status || 'Unknown',
           delivery: r.delivery_date || '—',
+          shipDate: parseDate(r.delivery_date_raw || r.delivery_date),
+          orderDate: parseDate(r.order_date_localized_raw || r.order_date_utc_raw || r.order_date_raw || r.order_date),
+          dueDate: parseDate(r.due_date_raw || r.due_date),
+          notes: (r.notes || '').trim(),
+          paymentMethod: r.payment_method || '',
+          addlDiscount: typeof r.additional_discounts === 'number' ? r.additional_discounts / 100 : parseMoney(r.additional_discounts),
           lineItems: 0,
           units: 0,
           revenue: 0,
@@ -2155,19 +2509,31 @@ function Dashboard({
           // line item, so we only capture it once per order (first line wins).
           credit: r._creditFromPayments || 0,
           creditEntries: r._creditEntries || [],
-          uomSet: new Set()
+          paid: parsePaymentsApplied(r.payment_dates || r.payments || '', r.payment_status)
         };
       }
       map[id].lineItems += 1;
       map[id].units += r._quantity;
-      if (r._uom) map[id].uomSet.add(r._uom);
       map[id].revenue += r._revenue;
       map[id].discount += r._lineDiscount;
     });
     return Object.values(map).map(o => {
-      const u = [...o.uomSet];
-      o.uom = u.length === 0 ? '' : u.length === 1 ? u[0] : 'Mixed';
-      return o;
+      // Invoice total = line subtotal minus the invoice-level additional discount (matches Apex).
+      const total = Math.max(0, o.revenue - (o.addlDiscount || 0));
+      // An invoice Apex marks Completed/Paid is settled — force it fully paid regardless of how
+      // the payment was recorded (credit, unrecorded, short), so it never shows a phantom balance.
+      // Word-boundary match: "paid"/"complete(d)" mean settled, but must NOT match "unpaid".
+      const paidStatus = /\bcomplet|\bpaid\b/i.test(o.status);
+      const paid = paidStatus ? total : Math.min(o.paid, total);
+      const outstanding = paidStatus ? 0 : Math.max(0, total - paid);
+      const due = o.dueDate || (o.orderDate ? new Date(o.orderDate.getTime() + 30 * 86400000) : null);
+      const shipBase = o.shipDate || o.orderDate;
+      const terms = (o.dueDate && shipBase) ? Math.round((o.dueDate.getTime() - shipBase.getTime()) / 86400000) : 30;
+      const daysPastDue = paidStatus ? 0 : (due ? Math.floor((today - due) / 86400000) : 0);
+      return Object.assign({}, o, {
+        invoiceTotal: total, partialPayment: paid, outstanding: outstanding, terms: terms,
+        daysPastDue: daysPastDue, paidStatus: paidStatus, shipStr: fmtDate(o.shipDate), dueStr: fmtDate(due)
+      });
     }).sort((a, b) => (b._date?.getTime() || 0) - (a._date?.getTime() || 0));
   }, [filtered]);
 
@@ -2193,18 +2559,21 @@ function Dashboard({
       soldByName = {},
       revBySku = {},
       revByName = {},
-      batchesBySku = {},
-      batchesByName = {};
+      activeBatchBySku = {},
+      activeBatchByName = {};
     normalized.forEach(r => {
       const u = parseFloat(r.inventory_quantity) || r._quantity || 0;
       const rev = r._revenue || 0;
-      const bn = (r.batch_name || '').trim();
-      if (bn) {
-        if (r.product_sku) (batchesBySku[r.product_sku] = batchesBySku[r.product_sku] || new Set()).add(bn);
-        if (r.product_name) (batchesByName[r.product_name] = batchesByName[r.product_name] || new Set()).add(bn);
-      }
       if (r.product_sku) { soldBySku[r.product_sku] = (soldBySku[r.product_sku] || 0) + u; revBySku[r.product_sku] = (revBySku[r.product_sku] || 0) + rev; }
       if (r.product_name) { soldByName[r.product_name] = (soldByName[r.product_name] || 0) + u; revByName[r.product_name] = (revByName[r.product_name] || 0) + rev; }
+      // Collect every batch seen per SKU / product (name -> created date), so we can
+      // show the ACTIVE batches (the N most-recent lots, where N = the inventory batch count).
+      const bn = (r.batch_name || '').trim();
+      if (bn) {
+        const created = String(r.batch_created_at_raw || r.batch_created_at || '');
+        if (r.product_sku) { (activeBatchBySku[r.product_sku] = activeBatchBySku[r.product_sku] || {})[bn] = created; }
+        if (r.product_name) { (activeBatchByName[r.product_name] = activeBatchByName[r.product_name] || {})[bn] = created; }
+      }
     });
     // Sales velocity for the stock forecast: physical units sold in the trailing
     // 30 days, measured from the most recent order date in the data (not "today"),
@@ -2225,16 +2594,19 @@ function Dashboard({
       const sold = p.sku && soldBySku[p.sku] != null ? soldBySku[p.sku] : soldByName[p.name] || 0;
       const revT = p.sku && revBySku[p.sku] != null ? revBySku[p.sku] : revByName[p.name] || 0;
       const unitPrice = sold > 0 ? revT / sold : 0;
-      const qty = p.qty != null ? p.qty : (p.available != null ? p.available : (p.inventory != null ? p.inventory : null));
+      const qty = p.qty != null ? p.qty : null;
       const recent = p.sku && recentBySku[p.sku] != null ? recentBySku[p.sku] : recentByName[p.name] || 0;
       const velocity = recent / WIN; // physical units per day over the last 30 days
       let daysLeft = null;
       if (qty != null) {
-        if (qty <= 0) daysLeft = 0;
+        if (qty <= 0) daysLeft = 0;              // already out
         else if (velocity > 0) daysLeft = qty / velocity;
-        else daysLeft = null;
+        else daysLeft = null;                     // in stock but no recent sales — no basis to forecast
       }
-      const batchNames = Array.from((p.sku && batchesBySku[p.sku]) ? batchesBySku[p.sku] : (batchesByName[p.name] || [])).sort();
+      const bmap = (p.sku && activeBatchBySku[p.sku]) ? activeBatchBySku[p.sku] : (activeBatchByName[p.name] || {});
+      const bsorted = Object.keys(bmap).sort((a, b) => String(bmap[b]).localeCompare(String(bmap[a])));
+      const nActive = p.batches > 0 ? p.batches : (bsorted.length ? 1 : 0);
+      const batchNames = bsorted.slice(0, nActive);
       return {
         name: p.name || '—',
         line: p.line || '—',
@@ -2242,7 +2614,7 @@ function Dashboard({
         qty,
         batches: p.batches || 0,
         batchNames,
-        listed: p.listed != null ? !!p.listed : (p.status ? String(p.status).toLowerCase() === 'available' : false),
+        listed: !!p.listed,
         sold,
         neverSold: sold <= 0,
         unitPrice,
@@ -2361,8 +2733,10 @@ function Dashboard({
       rawPaymentsSample
     };
   }, [normalized, rows, filtered]);
+  const recentRows = useMemo(() => filtered.slice().sort((a, b) => (b._date?.getTime() || 0) - (a._date?.getTime() || 0)), [filtered]);
   const invPg = usePager(invoices.length, 50);
   const pbPg = usePager(productBreakdown.length, 50);
+  const rliPg = usePager(recentRows.length, 50);
   return /*#__PURE__*/React.createElement("div", {
     className: "app"
   }, /*#__PURE__*/React.createElement(Topbar, {
@@ -2502,17 +2876,17 @@ function Dashboard({
     value: fmtNum(kpis.orders),
     sub: `${fmtMoneyFull(kpis.avgOrder)} avg order`
   }), /*#__PURE__*/React.createElement(Kpi, {
-    label: "Cases Sold",
+    label: "Units Sold",
     value: fmtNum(Math.round(kpis.units)),
-    sub: `${fmtNum(kpis.lineItems)} line items · cases (some unit lines)`
+    sub: `${fmtNum(kpis.lineItems)} line items`
   })), /*#__PURE__*/React.createElement("div", {
     className: "kpi-grid"
   }, /*#__PURE__*/React.createElement(Kpi, {
-    label: "Avg Case Price",
+    label: "Avg Unit Price",
     value: fmtMoneyFull(kpis.avgUnitPrice),
-    sub: "revenue \xF7 cases"
+    sub: "revenue \xF7 units"
   }), /*#__PURE__*/React.createElement(Kpi, {
-    label: "Avg Cases / Invoice",
+    label: "Avg Units / Invoice",
     value: kpis.avgUnitsPerInvoice.toFixed(1),
     sub: `across ${fmtNum(kpis.orders)} invoices`
   }), /*#__PURE__*/React.createElement(Kpi, {
@@ -2540,74 +2914,30 @@ function Dashboard({
   }, /*#__PURE__*/React.createElement("h2", {
     className: "section-title"
   }, "Invoices ", /*#__PURE__*/React.createElement("em", null, "\xB7 units & revenue per order")), /*#__PURE__*/React.createElement("div", {
-    style: { display: 'flex', gap: 10, alignItems: 'center', flexWrap: 'wrap' }
+    style: {
+      display: 'flex',
+      gap: 10,
+      alignItems: 'center',
+      flexWrap: 'wrap'
+    }
   }, /*#__PURE__*/React.createElement("input", {
-    type: "text", className: "filter-input", placeholder: "search invoice #\u2026", value: filters.invoice,
-    onChange: ev => setFilters(f => ({ ...f, invoice: ev.target.value })), style: { height: 36, fontSize: 13, minWidth: 180 }
+    type: "text",
+    className: "filter-input",
+    placeholder: "search invoice #…",
+    value: filters.invoice,
+    onChange: ev => setFilters(f => ({ ...f, invoice: ev.target.value })),
+    style: {
+      height: 36,
+      fontSize: 13,
+      minWidth: 180
+    }
   }), /*#__PURE__*/React.createElement("button", {
-    className: "date-preset", onClick: () => setFilters(f => ({ ...f, invoice: '' })), title: "Clear the invoice search"
+    className: "date-preset",
+    onClick: () => setFilters(f => ({ ...f, invoice: '' })),
+    title: "Clear the invoice search"
   }, "Reset"), /*#__PURE__*/React.createElement("span", {
     className: "section-meta"
-  }, fmtNum(invoices.length), " invoices"))), /*#__PURE__*/React.createElement("div", {
-    className: "card",
-    style: {
-      padding: 0,
-      overflow: 'hidden'
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      overflowX: 'auto',
-      maxHeight: 480
-    }
-  }, /*#__PURE__*/React.createElement("table", {
-    className: "data-table"
-  }, /*#__PURE__*/React.createElement("thead", null, /*#__PURE__*/React.createElement("tr", null, /*#__PURE__*/React.createElement("th", null, "Invoice #"), /*#__PURE__*/React.createElement("th", null, "Date"), /*#__PURE__*/React.createElement("th", null, "Buyer"), /*#__PURE__*/React.createElement("th", null, "Rep"), /*#__PURE__*/React.createElement("th", {
-    className: "num"
-  }, "Line Items"), /*#__PURE__*/React.createElement("th", {
-    className: "num"
-  }, "Total Cases"), /*#__PURE__*/React.createElement("th", {
-    className: "num"
-  }, "Revenue"), /*#__PURE__*/React.createElement("th", {
-    className: "num"
-  }, "Credit Applied"), /*#__PURE__*/React.createElement("th", null, "Payment"))), /*#__PURE__*/React.createElement("tbody", null, invoices.slice(invPg.start, invPg.end).map((inv, i) => /*#__PURE__*/React.createElement("tr", {
-    key: i,
-    style: {
-      cursor: 'pointer'
-    },
-    onClick: () => setFilters(f => ({
-      ...f,
-      invoice: inv.invoice
-    })),
-    title: "Click to filter the whole dashboard by this invoice"
-  }, /*#__PURE__*/React.createElement("td", {
-    className: "font-mono",
-    style: {
-      color: 'var(--accent)'
-    }
-  }, inv.invoice), /*#__PURE__*/React.createElement("td", {
-    className: "dim font-mono"
-  }, inv.date), /*#__PURE__*/React.createElement("td", { title: inv.buyer }, buyerBusinessName(inv.buyer)), /*#__PURE__*/React.createElement("td", {
-    className: "dim"
-  }, inv.rep), /*#__PURE__*/React.createElement("td", {
-    className: "num dim"
-  }, fmtNum(inv.lineItems)), /*#__PURE__*/React.createElement("td", {
-    className: "num"
-  }, /*#__PURE__*/React.createElement("strong", null, fmtNum(Math.round(inv.units))), inv.uom && inv.uom !== 'Case' ? /*#__PURE__*/React.createElement("span", { style: { color: inv.uom === 'Unit' ? 'var(--rose)' : 'var(--text-faint)', fontSize: 10, marginLeft: 4 }, title: "Unit of measure for this invoice" }, inv.uom === 'Unit' ? 'un' : 'mix') : null), /*#__PURE__*/React.createElement("td", {
-    className: "num"
-  }, fmtMoneyFull(inv.revenue)), /*#__PURE__*/React.createElement("td", {
-    className: "num",
-    style: inv.credit > 0 ? {
-      color: 'var(--accent)'
-    } : {
-      color: 'var(--text-faint)'
-    },
-    title: inv.credit > 0 && inv.creditEntries.length ? inv.creditEntries.map(e => `Credit of $${e.amount.toLocaleString(undefined, {
-      minimumFractionDigits: 2,
-      maximumFractionDigits: 2
-    })} on ${e.date}`).join('\n') : ''
-  }, inv.credit > 0 ? fmtMoneyFull(inv.credit) : '—'), /*#__PURE__*/React.createElement("td", null, /*#__PURE__*/React.createElement(StatusPill, {
-    status: inv.status
-  }))))))), /*#__PURE__*/React.createElement(Pager, { pager: invPg, total: invoices.length, unit: "invoices" }))), React.createElement("section", {
+  }, fmtNum(invoices.length), " invoices"))), /*#__PURE__*/React.createElement(SalesInvoicesTable, { invoices: invoices, pager: invPg, setFilters: setFilters })), React.createElement("section", {
     className: "section"
   }, /*#__PURE__*/React.createElement("div", {
     className: "section-header"
@@ -2632,7 +2962,7 @@ function Dashboard({
     className: "num"
   }, "Qty"), /*#__PURE__*/React.createElement("th", {
     className: "num"
-  }, "Revenue"), /*#__PURE__*/React.createElement("th", null, "Status"))), /*#__PURE__*/React.createElement("tbody", null, filtered.slice().sort((a, b) => (b._date?.getTime() || 0) - (a._date?.getTime() || 0)).slice(0, 25).map((r, i) => /*#__PURE__*/React.createElement("tr", {
+  }, "Revenue"), /*#__PURE__*/React.createElement("th", null, "Status"))), /*#__PURE__*/React.createElement("tbody", null, recentRows.slice(rliPg.start, rliPg.end).map((r, i) => /*#__PURE__*/React.createElement("tr", {
     key: i
   }, /*#__PURE__*/React.createElement("td", {
     className: "dim font-mono"
@@ -2642,11 +2972,11 @@ function Dashboard({
     className: "dim"
   }, r.product_name || '—'), /*#__PURE__*/React.createElement("td", null, r.sales_rep || '—'), /*#__PURE__*/React.createElement("td", {
     className: "num"
-  }, fmtNum(r._quantity), r._uom === 'Unit' ? /*#__PURE__*/React.createElement("span", { style: { color: 'var(--rose)', fontSize: 10, marginLeft: 4 }, title: "Sold in units, not cases" }, "un") : /*#__PURE__*/React.createElement("span", { style: { color: 'var(--text-faint)', fontSize: 10, marginLeft: 4 } }, "cs")), /*#__PURE__*/React.createElement("td", {
+  }, fmtNum(r._quantity)), /*#__PURE__*/React.createElement("td", {
     className: "num"
   }, fmtMoneyFull(r._revenue)), /*#__PURE__*/React.createElement("td", null, /*#__PURE__*/React.createElement(StatusPill, {
     status: r.payment_status
-  }))))))))), React.createElement("section", {
+  })))))))), /*#__PURE__*/React.createElement(Pager, { pager: rliPg, total: recentRows.length, unit: "line items" })), React.createElement("section", {
     className: "section"
   }, /*#__PURE__*/React.createElement("div", {
     className: "section-header"
@@ -2667,10 +2997,12 @@ function Dashboard({
     }
   }, /*#__PURE__*/React.createElement("table", {
     className: "data-table",
-    style: { minWidth: 820 }
+    style: {
+      minWidth: 820
+    }
   }, /*#__PURE__*/React.createElement("thead", null, /*#__PURE__*/React.createElement("tr", null, /*#__PURE__*/React.createElement("th", null, "Product"), /*#__PURE__*/React.createElement("th", null, "Line"), /*#__PURE__*/React.createElement("th", {
     className: "num"
-  }, "Cases Sold"), /*#__PURE__*/React.createElement("th", {
+  }, "Units Sold"), /*#__PURE__*/React.createElement("th", {
     className: "num"
   }, "Gross Sales"), /*#__PURE__*/React.createElement("th", {
     className: "num"
@@ -2678,7 +3010,7 @@ function Dashboard({
     className: "num"
   }, "Net Sales"), /*#__PURE__*/React.createElement("th", {
     className: "num"
-  }, "Avg Case $"), /*#__PURE__*/React.createElement("th", {
+  }, "Avg Unit $"), /*#__PURE__*/React.createElement("th", {
     className: "num"
   }, "Listed $"), /*#__PURE__*/React.createElement("th", {
     className: "num"
@@ -2704,7 +3036,11 @@ function Dashboard({
     style: {
       color: 'var(--text-faint)'
     }
-  }, "\u2014") : fmtNum(Math.round(p.currentInventory)))))))), /*#__PURE__*/React.createElement(Pager, { pager: pbPg, total: productBreakdown.length, unit: "products" }))), React.createElement(SalesByCategory, { rows: filtered }), React.createElement("section", {
+  }, "\u2014") : fmtNum(Math.round(p.currentInventory)))))))), /*#__PURE__*/React.createElement(Pager, {
+    pager: pbPg,
+    total: productBreakdown.length,
+    unit: "products"
+  }))), React.createElement(SalesByCategory, { rows: filtered }), React.createElement("section", {
     className: "section"
   }, /*#__PURE__*/React.createElement("div", {
     className: "section-header"
@@ -2727,6 +3063,8 @@ function Dashboard({
     className: "data-table"
   }, /*#__PURE__*/React.createElement("thead", null, /*#__PURE__*/React.createElement("tr", null, /*#__PURE__*/React.createElement("th", null, "Month"), /*#__PURE__*/React.createElement("th", {
     className: "num"
+  }, "Units"), /*#__PURE__*/React.createElement("th", {
+    className: "num"
   }, "Cases"), /*#__PURE__*/React.createElement("th", {
     className: "num"
   }, "Gross Sales"), /*#__PURE__*/React.createElement("th", {
@@ -2740,6 +3078,8 @@ function Dashboard({
   }, /*#__PURE__*/React.createElement("td", null, m.monthName), /*#__PURE__*/React.createElement("td", {
     className: "num"
   }, fmtNum(Math.round(m.units))), /*#__PURE__*/React.createElement("td", {
+    className: "num dim"
+  }, m.cases.toFixed(1)), /*#__PURE__*/React.createElement("td", {
     className: "num"
   }, fmtMoneyFull(m.gross)), /*#__PURE__*/React.createElement("td", {
     className: "num dim"
@@ -2758,6 +3098,8 @@ function Dashboard({
   }, /*#__PURE__*/React.createElement("td", null, "TOTAL"), /*#__PURE__*/React.createElement("td", {
     className: "num"
   }, fmtNum(Math.round(monthlyBreakdown.reduce((s, m) => s + m.units, 0)))), /*#__PURE__*/React.createElement("td", {
+    className: "num dim"
+  }, monthlyBreakdown.reduce((s, m) => s + m.cases, 0).toFixed(1)), /*#__PURE__*/React.createElement("td", {
     className: "num"
   }, fmtMoneyFull(monthlyBreakdown.reduce((s, m) => s + m.gross, 0))), /*#__PURE__*/React.createElement("td", {
     className: "num dim"
@@ -2773,9 +3115,9 @@ function Dashboard({
     className: "section-header"
   }, /*#__PURE__*/React.createElement("h2", {
     className: "section-title"
-  }, "Sales ", /*#__PURE__*/React.createElement("em", null, "by distributor")), /*#__PURE__*/React.createElement("span", {
+  }, "Sales ", /*#__PURE__*/React.createElement("em", null, "by rep")), /*#__PURE__*/React.createElement("span", {
     className: "section-meta"
-  }, byRep.length, " distributors")), /*#__PURE__*/React.createElement("div", {
+  }, byRep.length, " reps")), /*#__PURE__*/React.createElement("div", {
     className: "card",
     style: {
       height: 360
@@ -2826,7 +3168,7 @@ function Dashboard({
     formatter: v => [fmtMoneyFull(v), 'Revenue']
   }), /*#__PURE__*/React.createElement(Bar, {
     dataKey: "revenue",
-    fill: "#4E8A2C",
+    fill: "#3A93D0",
     radius: [0, 2, 2, 0]
   }))))), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
     className: "section-header"
@@ -2857,7 +3199,7 @@ function Dashboard({
     stroke: "#ffffff",
     strokeWidth: 2
   }, byCategory.map((_, i) => {
-    const colors = ['#5FA83D', '#3F7A1F', '#A6D179', '#4C8CA0', '#C2772A', '#6B7B8C', '#A7B2C0'];
+    const colors = ['#0EB1E8', '#588BCD', '#8462AF', '#4696D5', '#E0A24E', '#D6607E', '#8A97A9'];
     return /*#__PURE__*/React.createElement(Cell, {
       key: i,
       fill: colors[i % colors.length]
@@ -2879,21 +3221,6 @@ function Dashboard({
       color: '#566274'
     }
   }))))))), React.createElement("section", {
-    className: "section"
-  }, /*#__PURE__*/React.createElement("div", {
-    className: "section-header"
-  }, /*#__PURE__*/React.createElement("h2", {
-    className: "section-title"
-  }, "Payment ", /*#__PURE__*/React.createElement("em", null, "status")), /*#__PURE__*/React.createElement("span", {
-    className: "section-meta"
-  }, "AR mix")), /*#__PURE__*/React.createElement("div", {
-    className: "card"
-  }, /*#__PURE__*/React.createElement(RankList, {
-    data: paymentMix.map(p => ({
-      name: p.name,
-      revenue: p.value
-    }))
-  }))), React.createElement("section", {
     className: "section"
   }, /*#__PURE__*/React.createElement("div", {
     className: "grid-half"
@@ -2950,7 +3277,7 @@ function Topbar({
     }
   }, /*#__PURE__*/React.createElement("span", {
     style: {
-      background: 'linear-gradient(90deg, #5FA83D 0%, #2F5A1C 100%)',
+      background: 'linear-gradient(90deg, #0EB1E8 0%, #8462AF 100%)',
       WebkitBackgroundClip: 'text',
       WebkitTextFillColor: 'transparent',
       backgroundClip: 'text'
@@ -2969,11 +3296,47 @@ function Topbar({
       padding: 0,
       fontSize: 9
     }
-  }, "Missouri \xB7 Sales Intelligence"))), /*#__PURE__*/React.createElement("div", {
+  }, "Massachusetts \xB7 Sales Intelligence"))), /*#__PURE__*/React.createElement("div", {
     className: "topbar-meta"
   }, /*#__PURE__*/React.createElement("span", null, /*#__PURE__*/React.createElement("strong", null, fmtNum(rowCount)), " / ", fmtNum(totalCount), " rows"), /*#__PURE__*/React.createElement("span", null, "\xB7"), /*#__PURE__*/React.createElement("span", null, "Updated ", ago < 1 ? 'just now' : ago + 'm ago'), /*#__PURE__*/React.createElement("span", {
     className: "pulse"
   })));
+}
+// Multi-select dropdown with a search box. `options` are the raw values (used for
+// filtering); `labelFn` maps each to a display label. `selected` is an array.
+function MultiSelect({ options, selected, onChange, labelFn, placeholder }) {
+  const e = React.createElement;
+  const [open, setOpen] = React.useState(false);
+  const [q, setQ] = React.useState('');
+  const ref = React.useRef(null);
+  const label = labelFn || (x => x);
+  React.useEffect(() => {
+    const onDoc = ev => { if (ref.current && !ref.current.contains(ev.target)) setOpen(false); };
+    document.addEventListener('mousedown', onDoc);
+    return () => document.removeEventListener('mousedown', onDoc);
+  }, []);
+  const sel = Array.isArray(selected) ? selected : (selected ? [selected] : []);
+  const toggle = val => {
+    const next = sel.includes(val) ? sel.filter(x => x !== val) : sel.concat([val]);
+    onChange(next);
+  };
+  const ql = q.trim().toLowerCase();
+  const shown = ql ? options.filter(o => label(o).toLowerCase().includes(ql) || String(o).toLowerCase().includes(ql)) : options;
+  const summary = sel.length === 0 ? (placeholder || 'All') : sel.length === 1 ? label(sel[0]) : sel.length + ' selected';
+  return e("div", { className: "ms-wrap", ref: ref },
+    e("button", { type: "button", className: "ms-toggle" + (open || sel.length ? " active" : ""), onClick: () => setOpen(o => !o) },
+      e("span", { style: { overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' } }, summary),
+      sel.length > 1 ? e("span", { className: "ms-count" }, sel.length) : e("span", { className: "ms-caret" }, "▾")),
+    e("div", { className: "ms-panel" + (open ? " open" : "") },
+      e("input", { className: "ms-search", type: "text", placeholder: "search…", value: q, onChange: ev => setQ(ev.target.value) }),
+      e("div", { className: "ms-list" },
+        shown.length === 0 ? e("div", { style: { padding: 10, color: 'var(--text-faint)', fontSize: 12 } }, "No matches")
+          : shown.map(o => e("label", { key: o, className: "ms-opt" },
+              e("input", { type: "checkbox", checked: sel.includes(o), onChange: () => toggle(o) }),
+              e("span", { title: o }, label(o))))),
+      e("div", { className: "ms-actions" },
+        e("span", { style: { fontFamily: "'JetBrains Mono',monospace", fontSize: 10, color: 'var(--text-faint)' } }, sel.length + " of " + options.length),
+        e("button", { type: "button", className: "ms-clear", onClick: () => { onChange([]); } }, "Clear"))));
 }
 function FilterBar({
   filters,
@@ -3143,7 +3506,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(/*#__PURE__*/React.c
       '<div style="max-width:680px;margin:80px auto;padding:28px;background:var(--bg-elev,#ffffff);border:1px solid var(--border,#e7ecf2);border-left:3px solid var(--warm,#e0a85a);border-radius:10px;color:var(--text,#1a2230);font-family:Inter,system-ui,sans-serif">'
       + '<div style="font-family:Fraunces,serif;font-size:22px;font-style:italic;margin-bottom:10px">Dashboard didn\u2019t load</div>'
       + '<p style="color:var(--text-dim,#566274);line-height:1.7;font-size:14px;margin:0 0 12px">' + why + '</p>'
-      + '<button onclick="location.reload()" style="background:var(--accent,#3F7A1F);border:none;color:#ffffff;font-weight:600;padding:9px 16px;border-radius:7px;cursor:pointer;font-family:JetBrains Mono,monospace;font-size:12px">Reload</button>'
+      + '<button onclick="location.reload()" style="background:var(--accent,#4dd4ff);border:none;color:var(--bg,#0a1220);font-weight:600;padding:9px 16px;border-radius:7px;cursor:pointer;font-family:JetBrains Mono,monospace;font-size:12px">Reload</button>'
       + '</div>';
   }
   setTimeout(diagnose, 5000);
@@ -3166,7 +3529,6 @@ ReactDOM.createRoot(document.getElementById('root')).render(/*#__PURE__*/React.c
 </style>
 <script>
 (function(){
-  /* ===== EDIT THIS: URL of the 4-card landing page ("Back to main page" target) ===== */
   var HUB_URL = 'https://sales-intelligence.chill-hub.workers.dev/';
   if (document.getElementById('dash-nav')) return;
   var backSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>';
@@ -3209,15 +3571,14 @@ ReactDOM.createRoot(document.getElementById('root')).render(/*#__PURE__*/React.c
 <style id="back-to-top-styles">
   #back-to-top{ position:fixed; right:24px; bottom:24px; z-index:70; width:44px; height:44px; display:flex; align-items:center; justify-content:center; background:var(--accent,#0EB1E8); color:#ffffff; border:none; border-radius:50%; box-shadow:0 6px 18px rgba(20,35,60,0.22); cursor:pointer; opacity:0; visibility:hidden; transform:translateY(10px); transition:opacity .2s, transform .2s, visibility .2s, background .15s; }
   #back-to-top.show{ opacity:1; visibility:visible; transform:translateY(0); }
-  #back-to-top:hover{ background:var(--brand-purple,#8462AF); }
-  #back-to-top svg{ width:20px; height:20px; }
-  @media print{ #back-to-top{ display:none; } }
+  #back-to-top:hover{ background:var(--brand-purple,#8462d6); }
 </style>
 <script>
 (function(){
-  if (document.getElementById('back-to-top')) return;
-  var btn=document.createElement('button'); btn.id='back-to-top'; btn.type='button';
-  btn.setAttribute('aria-label','Back to top'); btn.title='Back to top';
+  var btn=document.createElement('button');
+  btn.id='back-to-top';
+  btn.setAttribute('aria-label','Back to top');
+  btn.title='Back to top';
   btn.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="19" x2="12" y2="5"></line><polyline points="5 12 12 5 19 12"></polyline></svg>';
   document.body.appendChild(btn);
   var toggle=function(){ if(window.pageYOffset>300) btn.classList.add('show'); else btn.classList.remove('show'); };
