@@ -700,6 +700,23 @@ const normalizeState = raw => {
 // --- Main App ---------------------------------------------------------------
 
 // ── Revenue Over Time: Month (year-over-year) / Year toggle ──────────────
+// Strip a trailing "| Nct Case" (or "(Nct)") marker from an Apex product name.
+const CASE_SUFFIX = /\s*[|(]\s*\d+(?:\s*\/\s*\d+)*\s*ct\s*(?:Case)?\s*\)?\s*$/i;
+
+// One display name per product, with a case marker driven by the DATA rather
+// than by whatever the name happened to say when the line was written.
+function canonicalProductName(r) {
+  const raw = String(r.product_name || '').trim();
+  if (!raw) return '(unnamed)';
+  const base = raw.replace(CASE_SUFFIX, '').replace(/\s+\|\s*$/, '').trim();
+  // packages_per_case is Apex's own figure. Fall back to the number that was
+  // in the name for older rows that predate the field.
+  const m = raw.match(CASE_SUFFIX);
+  const fromName = m ? parseInt(String(m[0]).replace(/[^0-9/]/g, '').split('/')[0], 10) : null;
+  const ppc = Number(r.packages_per_case) || fromName || null;
+  return ppc ? base + ' | ' + ppc + 'ct Case' : base;
+}
+
 function RevenueOverTime({ rows }) {
   const e = React.createElement;
   const [view, setView] = React.useState('month');
@@ -2146,6 +2163,23 @@ function Dashboard({
   // Normalize once — maps Apex's real field names into the dashboard's working fields
   const normalized = useMemo(() => rows.map(r => ({
     ...r,
+    // PRODUCT NAME NORMALISATION
+    //
+    // On 11 Aug 2026 Apex renamed the catalogue: the "| 30ct Case" suffix was
+    // dropped and the case halved to 15. Grouping on the raw name therefore
+    // split every affected product into two rows - the old 30ct name with all
+    // history up to 11 Aug, and a new bare name from 13 Aug - which understates
+    // both halves everywhere products are ranked or charted.
+    //
+    // canonicalProductName() strips any "| Nct Case" suffix so the two halves
+    // collapse into one product, then re-attaches a marker taken from the case
+    // size Apex actually reports (packages_per_case) rather than from the name.
+    // A product whose case changed shows "| 15ct Case" on its recent lines and
+    // "| 30ct Case" on its older ones, so the change stays visible while the
+    // product stays a single series. The 14 products still on the old name are
+    // handled automatically the first time they are reordered.
+    product_name: canonicalProductName(r),
+    _rawProductName: r.product_name || '',
     // Canonical aliases the dashboard uses everywhere
     brand: r.product_brand || r.brand || '',
     sales_rep: extractRep(r),
