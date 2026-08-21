@@ -1,5 +1,5 @@
 {
-  "fetched_at": "2026-08-21T20:45:32.774143+00:00",
+  "fetched_at": "2026-08-21T20:52:05.013028+00:00",
   "from_date": "2025-05-01",
   "to_date": "2026-08-22",
   "row_count": 2356,
@@ -18469,14 +18469,14 @@
       "package_case": null,
       "is_sample": "No",
       "order_number": "Legacy-5200",
-      "order_status": "Order approved",
-      "payment_status": "Unpaid",
+      "order_status": "Complete",
+      "payment_status": "Completed",
       "order_date_utc": "07/09/2026",
       "order_date_utc_raw": "2026-07-09",
       "order_date_localized": "07/09/2026",
       "order_date_localized_raw": "2026-07-09T00:00:00.000000Z",
-      "delivery_date": null,
-      "delivery_date_raw": null,
+      "delivery_date": "07/14/2026",
+      "delivery_date_raw": "2026-07-14",
       "due_date": null,
       "due_date_raw": null,
       "manifest_number": null,
@@ -18494,7 +18494,9 @@
       "sales_reps_display": [
         "David Shaba"
       ],
-      "payment_dates": [],
+      "payment_dates": [
+        "Payment of $2.00 on 08/21/2026"
+      ],
       "metrc_packages": null,
       "notes": null,
       "current_inventory": 150.0
