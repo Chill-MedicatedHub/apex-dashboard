@@ -636,6 +636,31 @@ const parsePaidDate = pd => {
   return best;
 };
 
+// Every settlement entry on an invoice, structured. Apex records these as
+// "Payment of $5,705.50 on 09/19/2025" or "Credit of $1,045.22 on 03/17/2026",
+// so the KIND matters - a credit is not cash received. Newest first.
+// (parsePaymentsPaid/Applied above total the money; this one keeps the detail.)
+const paymentEntries = pd => {
+  if (!pd) return [];
+  const text = Array.isArray(pd) ? pd.filter(Boolean) : [String(pd)];
+  const out = [];
+  text.forEach(s => {
+    const str = String(s || '');
+    const dm = str.match(/(\d{1,2}\/\d{1,2}\/\d{2,4}|\d{4}-\d{2}-\d{2})/);
+    if (!dm) return;
+    const d = parseDate(dm[1]);
+    if (!d) return;
+    const am = str.match(/\$\s*([\d,]+(?:\.\d{2})?)/);
+    const km = str.match(/(Payment|Credit|Trade)/i);
+    out.push({
+      date: d,
+      amount: am ? parseFloat(am[1].replace(/,/g, '')) : null,
+      kind: km ? km[1][0].toUpperCase() + km[1].slice(1).toLowerCase() : 'Payment'
+    });
+  });
+  return out.sort((a, b) => b.date.getTime() - a.date.getTime());
+};
+
 const ymd = d => {
   if (!(d instanceof Date) || isNaN(d)) return '';
   const y = d.getFullYear();
@@ -719,18 +744,32 @@ const normalizeState = raw => {
 // Strip a trailing "| Nct Case" (or "(Nct)") marker from an Apex product name.
 const CASE_SUFFIX = /\s*[|(]\s*\d+(?:\s*\/\s*\d+)*\s*ct\s*(?:Case)?\s*\)?\s*$/i;
 
-// One display name per product, with a case marker driven by the DATA rather
-// than by whatever the name happened to say when the line was written.
+// ONE name per product, with the case marker stripped. This is what everything
+// groups on - Top products, charts, buyer breakdowns - so a product that Apex
+// renamed on 11 Aug 2026 stays a single continuous series instead of splitting
+// into a stale "30ct Case" entry and a tiny new "15ct Case" one.
 function canonicalProductName(r) {
   const raw = String(r.product_name || '').trim();
   if (!raw) return '(unnamed)';
-  const base = raw.replace(CASE_SUFFIX, '').replace(/\s+\|\s*$/, '').trim();
-  // packages_per_case is Apex's own figure. Fall back to the number that was
-  // in the name for older rows that predate the field.
+  return raw.replace(CASE_SUFFIX, '').replace(/\s+\|\s*$/, '').trim() || raw;
+}
+
+// Case size for a single line, taken from Apex's own figure and falling back to
+// whatever number was in the name on older rows. Shown only on line-level
+// tables, where the row IS one order and the pack size is a real detail -
+// never in aggregates, where it would re-split the product.
+function caseSizeOf(r) {
+  const raw = String(r.product_name || '').trim();
   const m = raw.match(CASE_SUFFIX);
   const fromName = m ? parseInt(String(m[0]).replace(/[^0-9/]/g, '').split('/')[0], 10) : null;
-  const ppc = Number(r.packages_per_case) || fromName || null;
-  return ppc ? base + ' | ' + ppc + 'ct Case' : base;
+  return Number(r.packages_per_case) || fromName || null;
+}
+
+// Product label for line-level rows: canonical name plus the case marker.
+function productLabelWithCase(r) {
+  const n = canonicalProductName(r);
+  const c = caseSizeOf(r);
+  return c ? n + ' | ' + c + 'ct Case' : n;
 }
 
 function RevenueOverTime({ rows }) {
@@ -1371,6 +1410,7 @@ function AccountsReceivable({ data }) {
           dueDate: parseDate(r.due_date_raw || r.due_date),
           deliveryDate: parseDate(r.delivery_date_raw || r.delivery_date),
           paidDate: pDate,
+          payments: paymentEntries(r.payment_dates),
           addlDiscount: typeof r.additional_discounts === 'number' ? r.additional_discounts / 100 : parseMoney(r.additional_discounts),
           amount: 0
         };
@@ -1550,7 +1590,7 @@ function AccountsReceivable({ data }) {
       e('div', { style: { overflowX: 'auto', maxHeight: 560 } },
         e('table', { className: 'data-table', style: { minWidth: 1180 } },
           e('thead', null, e('tr', null,
-            e('th', null, 'Paid Date'),
+            e('th', null, 'Payments'),
             e('th', null, 'Invoice #'),
             e('th', null, 'Destination'),
             e('th', null, 'License #'),
@@ -1564,7 +1604,20 @@ function AccountsReceivable({ data }) {
             paidSorted.length === 0
               ? e('tr', null, e('td', { colSpan: 10, style: { padding: 20, color: 'var(--text-faint)', textAlign: 'center' } }, 'No paid invoices match the filters.'))
               : paidSorted.slice(paidPg.start, paidPg.end).map((o, i) => e('tr', { key: i },
-                  e('td', { className: 'dim font-mono' }, fmtD(o.paidDate)),
+                  // Paid date. An invoice can settle in several instalments -
+                  // Apex records each, and some are credits rather than cash.
+                  // Show every one, newest first, so a $2 top-up in Jul 2026 on
+                  // top of a $5,705 payment in Sep 2025 is visible rather than
+                  // hidden behind a single date.
+                  e('td', { className: 'dim font-mono', style: { whiteSpace: 'nowrap' } },
+                    (o.payments && o.payments.length)
+                      ? o.payments.map((p, k) => e('div', {
+                          key: k,
+                          style: { lineHeight: 1.5, color: k === 0 ? 'var(--text)' : 'var(--text-dim)' },
+                          title: p.kind + (p.amount != null ? ' of ' + fmtMoneyFull(p.amount) : '') + ' on ' + fmtD(p.date)
+                        }, fmtD(p.date) + (p.amount != null ? '  ' + fmtMoneyFull(p.amount) : '')
+                           + (p.kind === 'Credit' ? '  (credit)' : '')))
+                      : fmtD(o.paidDate)),
                   e('td', { className: 'font-mono', style: { color: 'var(--accent)' } }, o.invoice),
                   e('td', { title: o.destination, style: { whiteSpace: 'normal', minWidth: 150 } }, o.destination),
                   e('td', { className: 'font-mono dim', style: { fontSize: 11 } }, o.license),
@@ -2306,6 +2359,10 @@ function Dashboard({
     // handled automatically the first time they are reordered.
     product_name: canonicalProductName(r),
     _rawProductName: r.product_name || '',
+    // Case size for this individual line, and the label that shows it. Used by
+    // line-level tables only; aggregates group on product_name above.
+    _caseSize: caseSizeOf(r),
+    _productWithCase: productLabelWithCase(r),
     // Canonical aliases the dashboard uses everywhere
     brand: r.product_brand || r.brand || '',
     sales_rep: extractRep(r),
