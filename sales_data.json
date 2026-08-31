@@ -1,5 +1,5 @@
 {
-  "fetched_at": "2026-08-31T15:00:43.325793+00:00",
+  "fetched_at": "2026-08-31T15:15:33.796339+00:00",
   "from_date": "2025-05-01",
   "to_date": "2026-09-01",
   "row_count": 2384,
@@ -9740,8 +9740,8 @@
       "package_case": null,
       "is_sample": "No",
       "order_number": "Legacy-5231",
-      "order_status": "Delivered",
-      "payment_status": "Unpaid",
+      "order_status": "Complete",
+      "payment_status": "Completed",
       "order_date_utc": "07/30/2026",
       "order_date_utc_raw": "2026-07-30",
       "order_date_localized": "07/30/2026",
@@ -9765,7 +9765,9 @@
       "sales_reps_display": [
         "Derek Dambrosio"
       ],
-      "payment_dates": [],
+      "payment_dates": [
+        "Payment of $2,100.00 on 08/28/2026"
+      ],
       "metrc_packages": null,
       "notes": "1A40A030000B4DD000009843",
       "current_inventory": 105.0
@@ -9831,8 +9833,8 @@
       "package_case": null,
       "is_sample": "No",
       "order_number": "Legacy-5231",
-      "order_status": "Delivered",
-      "payment_status": "Unpaid",
+      "order_status": "Complete",
+      "payment_status": "Completed",
       "order_date_utc": "07/30/2026",
       "order_date_utc_raw": "2026-07-30",
       "order_date_localized": "07/30/2026",
@@ -9856,7 +9858,9 @@
       "sales_reps_display": [
         "Derek Dambrosio"
       ],
-      "payment_dates": [],
+      "payment_dates": [
+        "Payment of $2,100.00 on 08/28/2026"
+      ],
       "metrc_packages": null,
       "notes": null,
       "current_inventory": 30.0
@@ -9922,8 +9926,8 @@
       "package_case": null,
       "is_sample": "No",
       "order_number": "Legacy-5231",
-      "order_status": "Delivered",
-      "payment_status": "Unpaid",
+      "order_status": "Complete",
+      "payment_status": "Completed",
       "order_date_utc": "07/30/2026",
       "order_date_utc_raw": "2026-07-30",
       "order_date_localized": "07/30/2026",
@@ -9947,7 +9951,9 @@
       "sales_reps_display": [
         "Derek Dambrosio"
       ],
-      "payment_dates": [],
+      "payment_dates": [
+        "Payment of $2,100.00 on 08/28/2026"
+      ],
       "metrc_packages": null,
       "notes": null,
       "current_inventory": 105.0
