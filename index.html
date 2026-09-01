@@ -337,6 +337,8 @@
     background: var(--accent); color: #fff; font-family: 'JetBrains Mono', monospace; font-size: 11px;
     letter-spacing: 0.06em; cursor: pointer; }
   .crm-btn:disabled { opacity: 0.45; cursor: default; }
+  .crm-btn-quiet { background: transparent; color: var(--text-dim); border-color: var(--border); }
+  .crm-btn-quiet:hover { color: var(--text); border-color: var(--accent); }
   .crm-link-btn { background: none; border: none; cursor: pointer; color: var(--text-faint);
     font-family: 'JetBrains Mono', monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 0.08em; }
   .crm-link-btn:hover { color: #d6433f; }
@@ -1419,6 +1421,10 @@ const fmtStamp = s => {
 // ── Additional information (from Salesforce) ─────────────────────────────
 function CRMSalesforce({ sf, customer }) {
   const e = React.createElement;
+  // Off by default so the section reads as information; turning it on reveals
+  // the editing controls. Without this the fields were editable but nothing
+  // said so, which meant nobody found it.
+  const [editing, setEditing] = React.useState(false);
   sf = sf || {};
 
   const rows = [
@@ -1447,8 +1453,13 @@ function CRMSalesforce({ sf, customer }) {
   return e('section', { className: 'section' },
     e('div', { className: 'section-header' },
       e('h2', { className: 'section-title' }, 'Additional ', e('em', null, 'information')),
-      e('span', { className: 'section-meta' },
-        hasSf ? 'from Salesforce \u00b7 plus fields added by the team' : 'added by the team')),
+      e('div', { style: { display: 'flex', alignItems: 'center', gap: 12 } },
+        e('span', { className: 'section-meta' },
+          hasSf ? 'from Salesforce \u00b7 plus fields added by the team' : 'added by the team'),
+        e('button', {
+          className: editing ? 'crm-btn' : 'crm-btn crm-btn-quiet',
+          onClick: () => setEditing(!editing)
+        }, editing ? 'Done' : 'Edit'))),
     e('div', { className: 'card' },
       rows.length
         ? e('div', { className: 'crm-fields' }, rows.map(r => crmField(r[0],
@@ -1484,7 +1495,7 @@ function CRMSalesforce({ sf, customer }) {
       // supplied, separated by a rule so the two sources stay distinguishable.
       e('div', {
         style: hasSf ? { marginTop: 20, paddingTop: 18, borderTop: '1px solid var(--border)' } : null
-      }, e(CRMDetails, { customer: customer }))));
+      }, e(CRMDetails, { customer: customer, editing: editing }))));
 }
 
 function CRM({ data }) {
@@ -1857,7 +1868,7 @@ const crmKpi = (label, value) => React.createElement('div', { className: 'kpi', 
 // Apex or Salesforce feeds do not carry — delivery windows, who to ask for,
 // order cadence. Saving a label that already exists overwrites it, so editing
 // and adding are the same action.
-function CRMDetails({ customer }) {
+function CRMDetails({ customer, editing }) {
   const e = React.createElement;
   const [items, setItems] = React.useState(null);
   const [err, setErr] = React.useState(null);
@@ -1893,6 +1904,15 @@ function CRMDetails({ customer }) {
       .then(load).catch(x => setErr(x.message));
   };
 
+  // Read-only rendering. The same rows, without inputs or remove buttons, so
+  // the section reads cleanly until Edit is pressed.
+  const headerRowRO = it => e('tr', { key: it.id, className: 'crm-detail-header' },
+    e('td', { colSpan: 4, className: 'crm-inline-header' }, it.label));
+
+  const fieldRowRO = it => e('tr', { key: it.id },
+    e('td', { style: { width: '30%', fontWeight: 600 } }, it.label),
+    e('td', { colSpan: 3 }, it.value || '\u2014'));
+
   const headerRow = it => e('tr', { key: it.id, className: 'crm-detail-header' },
     e('td', { colSpan: 3 }, e('input', {
       className: 'crm-inline-input crm-inline-header',
@@ -1924,7 +1944,9 @@ function CRMDetails({ customer }) {
       className: 'crm-link-btn', onClick: () => remove(it.id, it.label)
     }, 'remove')));
 
-  const rows = (items || []).map(it => it.kind === 'header' ? headerRow(it) : fieldRow(it));
+  const rows = (items || []).map(it => editing
+    ? (it.kind === 'header' ? headerRow(it) : fieldRow(it))
+    : (it.kind === 'header' ? headerRowRO(it) : fieldRowRO(it)));
 
   const table = items && items.length
     ? e('table', { className: 'data-table crm-detail-table', style: { marginBottom: 14 } },
@@ -1965,11 +1987,13 @@ function CRMDetails({ customer }) {
       e('span', { style: { color: 'var(--text-faint)' } },
         items ? fmtNum(items.length) + (items.length === 1 ? ' entry' : ' entries') : 'loading\u2026')),
     table,
-    addRow,
+    editing ? addRow : null,
     err ? e('div', { className: 'crm-warn' }, err) : null,
     items && !items.length && !err
       ? e('div', { className: 'kpi-sub', style: { marginTop: 10 } },
-          'Nothing added yet. Add a field, or a heading to group fields under.')
+          editing
+            ? 'Add a field, or a heading to group fields under.'
+            : 'Nothing added yet \u2014 press Edit to add a field.')
       : null);
 }
 
