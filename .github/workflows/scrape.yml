@@ -35,6 +35,9 @@ jobs:
 
       - name: Run scraper
         env:
+          CHILL_DESK_URL: 'https://chill-desk.onrender.com'
+          CHILL_INGEST_KEY: ${{ secrets.CHILL_INGEST_KEY }}
+          CHILL_MARKET: 'MA'
           APEX_COOKIE: ${{ secrets.APEX_COOKIE }}
           APEX_USER_ID: ${{ secrets.APEX_USER_ID }}
           APEX_COMPANY_ID: ${{ secrets.APEX_COMPANY_ID }}
