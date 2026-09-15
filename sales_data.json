@@ -1,9 +1,100 @@
 {
-  "fetched_at": "2026-09-15T19:45:26.235213+00:00",
+  "fetched_at": "2026-09-15T20:00:40.920335+00:00",
   "from_date": "2025-05-01",
   "to_date": "2026-09-16",
-  "row_count": 2489,
+  "row_count": 2490,
   "rows": [
+    {
+      "industry": "Recreational",
+      "buyer_license": "MR282884",
+      "seller_license": "MT281556",
+      "product_id": 328425,
+      "product_name": "SUBZERO | 1000mg THC : 1000mg CBD | Roll-On",
+      "product_sku": "SUBZERO1000",
+      "product_category_id": 15,
+      "product_category": "Topicals & Wellness",
+      "product_category_name": "Topicals & Wellness",
+      "product_type_id": 2324,
+      "product_type": "Roll-on",
+      "product_brand_id": 2500,
+      "product_brand": "Chill Medicated",
+      "product_brand_image": null,
+      "product_cultivar_id": null,
+      "product_cultivar": null,
+      "product_cultivar_type_id": null,
+      "product_cultivar_type": null,
+      "product_cbd_type": "THC",
+      "product_grow_environment": null,
+      "product_extraction_method": null,
+      "product_unit_size_and_measurement": "3.00 Ounce",
+      "product_listing_price": "$450.00",
+      "operation_id": 4547,
+      "operation": "Bodelle's - Chill Medicated",
+      "batch_name": "Chill_Subzero_05 - 1A40A030000B4DD000016020-082126",
+      "batch_cbd_potency": "1040.91Mg",
+      "batch_cost_of_goods": "$0.00",
+      "batch_location": null,
+      "batch_harvest_date": null,
+      "batch_harvest_date_raw": null,
+      "batch_best_by_date": "08/26/2027",
+      "batch_best_by_date_raw": "2027-08-26",
+      "batch_production_date": "08/21/2026",
+      "batch_production_date_raw": "2026-08-21",
+      "batch_test_date": null,
+      "batch_test_date_raw": null,
+      "batch_created_at": "08/31/2026",
+      "batch_created_at_raw": "2026-08-31 15:55:15",
+      "computed_sale_price": "$450.00",
+      "minimum_sales_price": "$0.00",
+      "total_cost_of_goods": "$0.00",
+      "true_cost": "$0.00",
+      "discounts": 0,
+      "surcharges": 0,
+      "additional_discounts": 0,
+      "tiered_surcharge": null,
+      "line_total": "$450.00",
+      "line_total_raw": 45000,
+      "inventory_quantity": 15,
+      "order_quantity": 1,
+      "quantity": 1,
+      "quantity_raw": 1,
+      "inventory_unit_of_measurement": "Unit",
+      "order_unit_of_measurement": "Case",
+      "units_per_package": 1,
+      "packages_per_case": 15,
+      "package_case": null,
+      "is_sample": "No",
+      "order_number": "Legacy-5317",
+      "order_status": "Order approved",
+      "payment_status": "Unpaid",
+      "order_date_utc": "09/15/2026",
+      "order_date_utc_raw": "2026-09-15",
+      "order_date_localized": "09/15/2026",
+      "order_date_localized_raw": "2026-09-15T00:00:00.000000Z",
+      "delivery_date": null,
+      "delivery_date_raw": null,
+      "due_date": null,
+      "due_date_raw": null,
+      "manifest_number": null,
+      "buyer_id": 109139,
+      "buyer_name": "GREAT BARRINGTON DISPENSARY--GREAT BARRINGTON",
+      "buyer_group": "Great Barrington Dispensary",
+      "buyer_shipping_name": "Great Barrington",
+      "buyer_address": "454 Main St",
+      "buyer_address_html": "454 Main St",
+      "buyer_city": "Great Barrington",
+      "buyer_state": "MA",
+      "buyer_zip": "01230",
+      "buyer_country": "US",
+      "sales_reps": "Derek Dambrosio",
+      "sales_reps_display": [
+        "Derek Dambrosio"
+      ],
+      "payment_dates": [],
+      "metrc_packages": null,
+      "notes": "1A40A030000B4DD000016020",
+      "current_inventory": 525.0
+    },
     {
       "industry": "Recreational",
       "buyer_license": "RMD585-R",
@@ -48,12 +139,12 @@
       "minimum_sales_price": "$0.00",
       "total_cost_of_goods": "$0.00",
       "true_cost": "$0.00",
-      "discounts": 0,
+      "discounts": 1313,
       "surcharges": 0,
       "additional_discounts": 0,
       "tiered_surcharge": null,
-      "line_total": "$262.50",
-      "line_total_raw": 26250,
+      "line_total": "$249.37",
+      "line_total_raw": 24937,
       "inventory_quantity": 15,
       "order_quantity": 1,
       "quantity": 1,
@@ -76,7 +167,7 @@
       "due_date": null,
       "due_date_raw": null,
       "manifest_number": null,
-      "buyer_id": 225769,
+      "buyer_id": 110987,
       "buyer_name": "Alternative Compassion Services",
       "buyer_group": "Alternative Compassion Services",
       "buyer_shipping_name": "Alternative Compassion Services",
@@ -139,12 +230,12 @@
       "minimum_sales_price": "$0.00",
       "total_cost_of_goods": "$0.00",
       "true_cost": "$0.00",
-      "discounts": 0,
+      "discounts": 1688,
       "surcharges": 0,
       "additional_discounts": 0,
       "tiered_surcharge": null,
-      "line_total": "$337.50",
-      "line_total_raw": 33750,
+      "line_total": "$320.62",
+      "line_total_raw": 32062,
       "inventory_quantity": 15,
       "order_quantity": 1,
       "quantity": 1,
@@ -167,7 +258,7 @@
       "due_date": null,
       "due_date_raw": null,
       "manifest_number": null,
-      "buyer_id": 225769,
+      "buyer_id": 110987,
       "buyer_name": "Alternative Compassion Services",
       "buyer_group": "Alternative Compassion Services",
       "buyer_shipping_name": "Alternative Compassion Services",
@@ -230,12 +321,12 @@
       "minimum_sales_price": "$0.00",
       "total_cost_of_goods": "$0.00",
       "true_cost": "$0.00",
-      "discounts": 0,
+      "discounts": 1688,
       "surcharges": 0,
       "additional_discounts": 0,
       "tiered_surcharge": null,
-      "line_total": "$337.50",
-      "line_total_raw": 33750,
+      "line_total": "$320.62",
+      "line_total_raw": 32062,
       "inventory_quantity": 15,
       "order_quantity": 1,
       "quantity": 1,
@@ -258,7 +349,7 @@
       "due_date": null,
       "due_date_raw": null,
       "manifest_number": null,
-      "buyer_id": 225769,
+      "buyer_id": 110987,
       "buyer_name": "Alternative Compassion Services",
       "buyer_group": "Alternative Compassion Services",
       "buyer_shipping_name": "Alternative Compassion Services",
@@ -321,12 +412,12 @@
       "minimum_sales_price": "$0.00",
       "total_cost_of_goods": "$0.00",
       "true_cost": "$0.00",
-      "discounts": 0,
+      "discounts": 1313,
       "surcharges": 0,
       "additional_discounts": 0,
       "tiered_surcharge": null,
-      "line_total": "$262.50",
-      "line_total_raw": 26250,
+      "line_total": "$249.37",
+      "line_total_raw": 24937,
       "inventory_quantity": 15,
       "order_quantity": 1,
       "quantity": 1,
@@ -349,7 +440,7 @@
       "due_date": null,
       "due_date_raw": null,
       "manifest_number": null,
-      "buyer_id": 225769,
+      "buyer_id": 110987,
       "buyer_name": "Alternative Compassion Services",
       "buyer_group": "Alternative Compassion Services",
       "buyer_shipping_name": "Alternative Compassion Services",
@@ -412,12 +503,12 @@
       "minimum_sales_price": "$0.00",
       "total_cost_of_goods": "$0.00",
       "true_cost": "$0.00",
-      "discounts": 0,
+      "discounts": 1313,
       "surcharges": 0,
       "additional_discounts": 0,
       "tiered_surcharge": null,
-      "line_total": "$262.50",
-      "line_total_raw": 26250,
+      "line_total": "$249.37",
+      "line_total_raw": 24937,
       "inventory_quantity": 15,
       "order_quantity": 1,
       "quantity": 1,
@@ -440,7 +531,7 @@
       "due_date": null,
       "due_date_raw": null,
       "manifest_number": null,
-      "buyer_id": 225769,
+      "buyer_id": 110987,
       "buyer_name": "Alternative Compassion Services",
       "buyer_group": "Alternative Compassion Services",
       "buyer_shipping_name": "Alternative Compassion Services",
@@ -503,12 +594,12 @@
       "minimum_sales_price": "$0.00",
       "total_cost_of_goods": "$0.00",
       "true_cost": "$0.00",
-      "discounts": 0,
+      "discounts": 1313,
       "surcharges": 0,
       "additional_discounts": 0,
       "tiered_surcharge": null,
-      "line_total": "$262.50",
-      "line_total_raw": 26250,
+      "line_total": "$249.37",
+      "line_total_raw": 24937,
       "inventory_quantity": 15,
       "order_quantity": 1,
       "quantity": 1,
@@ -531,7 +622,7 @@
       "due_date": null,
       "due_date_raw": null,
       "manifest_number": null,
-      "buyer_id": 225769,
+      "buyer_id": 110987,
       "buyer_name": "Alternative Compassion Services",
       "buyer_group": "Alternative Compassion Services",
       "buyer_shipping_name": "Alternative Compassion Services",
@@ -594,12 +685,12 @@
       "minimum_sales_price": "$0.00",
       "total_cost_of_goods": "$0.00",
       "true_cost": "$0.00",
-      "discounts": 0,
+      "discounts": 1313,
       "surcharges": 0,
       "additional_discounts": 0,
       "tiered_surcharge": null,
-      "line_total": "$262.50",
-      "line_total_raw": 26250,
+      "line_total": "$249.37",
+      "line_total_raw": 24937,
       "inventory_quantity": 15,
       "order_quantity": 1,
       "quantity": 1,
@@ -622,7 +713,7 @@
       "due_date": null,
       "due_date_raw": null,
       "manifest_number": null,
-      "buyer_id": 225769,
+      "buyer_id": 110987,
       "buyer_name": "Alternative Compassion Services",
       "buyer_group": "Alternative Compassion Services",
       "buyer_shipping_name": "Alternative Compassion Services",
@@ -685,12 +776,12 @@
       "minimum_sales_price": "$0.00",
       "total_cost_of_goods": "$0.00",
       "true_cost": "$0.00",
-      "discounts": 0,
+      "discounts": 1313,
       "surcharges": 0,
       "additional_discounts": 0,
       "tiered_surcharge": null,
-      "line_total": "$262.50",
-      "line_total_raw": 26250,
+      "line_total": "$249.37",
+      "line_total_raw": 24937,
       "inventory_quantity": 15,
       "order_quantity": 1,
       "quantity": 1,
@@ -713,7 +804,7 @@
       "due_date": null,
       "due_date_raw": null,
       "manifest_number": null,
-      "buyer_id": 225769,
+      "buyer_id": 110987,
       "buyer_name": "Alternative Compassion Services",
       "buyer_group": "Alternative Compassion Services",
       "buyer_shipping_name": "Alternative Compassion Services",
@@ -6168,7 +6259,7 @@
       "payment_dates": [],
       "metrc_packages": null,
       "notes": "1A40A030000B4DD000016020",
-      "current_inventory": 540.0
+      "current_inventory": 525.0
     },
     {
       "industry": "Recreational",
@@ -7709,7 +7800,7 @@
       "payment_dates": [],
       "metrc_packages": null,
       "notes": "1A40A030000B4DD000016020",
-      "current_inventory": 540.0
+      "current_inventory": 525.0
     },
     {
       "industry": "Recreational",
@@ -8160,7 +8251,7 @@
       "payment_dates": [],
       "metrc_packages": null,
       "notes": "1A40A030000B4DD000016020",
-      "current_inventory": 540.0
+      "current_inventory": 525.0
     },
     {
       "industry": "Recreational",
@@ -32855,7 +32946,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 540.0
+      "current_inventory": 525.0
     },
     {
       "industry": "Recreational",
@@ -33692,7 +33783,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 540.0
+      "current_inventory": 525.0
     },
     {
       "industry": "Recreational",
@@ -35742,7 +35833,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 540.0
+      "current_inventory": 525.0
     },
     {
       "industry": "Recreational",
@@ -36681,7 +36772,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 540.0
+      "current_inventory": 525.0
     },
     {
       "industry": "Recreational",
@@ -37983,7 +38074,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 540.0
+      "current_inventory": 525.0
     },
     {
       "industry": "Recreational",
@@ -40030,7 +40121,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 540.0
+      "current_inventory": 525.0
     },
     {
       "industry": "Recreational",
@@ -40592,7 +40683,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 540.0
+      "current_inventory": 525.0
     },
     {
       "industry": "Recreational",
@@ -41235,7 +41326,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 540.0
+      "current_inventory": 525.0
     },
     {
       "industry": "Recreational",
@@ -44323,7 +44414,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 540.0
+      "current_inventory": 525.0
     },
     {
       "industry": "Recreational",
@@ -45253,7 +45344,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 540.0
+      "current_inventory": 525.0
     },
     {
       "industry": "Recreational",
@@ -45983,7 +46074,7 @@
       "payment_dates": [],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 540.0
+      "current_inventory": 525.0
     },
     {
       "industry": "Recreational",
@@ -50246,7 +50337,7 @@
       "payment_dates": [],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 540.0
+      "current_inventory": 525.0
     },
     {
       "industry": "Recreational",
@@ -52023,7 +52114,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 540.0
+      "current_inventory": 525.0
     },
     {
       "industry": "Recreational",
@@ -52674,7 +52765,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 540.0
+      "current_inventory": 525.0
     },
     {
       "industry": "Recreational",
@@ -54354,7 +54445,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 540.0
+      "current_inventory": 525.0
     },
     {
       "industry": "Recreational",
@@ -58080,7 +58171,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 540.0
+      "current_inventory": 525.0
     },
     {
       "industry": "Recreational",
@@ -60842,7 +60933,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 540.0
+      "current_inventory": 525.0
     },
     {
       "industry": "Recreational",
@@ -64197,7 +64288,7 @@
       "payment_dates": [],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 540.0
+      "current_inventory": 525.0
     },
     {
       "industry": "Recreational",
@@ -64473,7 +64564,7 @@
       "payment_dates": [],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 540.0
+      "current_inventory": 525.0
     },
     {
       "industry": "Recreational",
@@ -72658,7 +72749,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 540.0
+      "current_inventory": 525.0
     },
     {
       "industry": "Recreational",
@@ -78537,7 +78628,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 540.0
+      "current_inventory": 525.0
     },
     {
       "industry": "Recreational",
@@ -80960,7 +81051,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 540.0
+      "current_inventory": 525.0
     },
     {
       "industry": "Recreational",
@@ -86835,7 +86926,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 540.0
+      "current_inventory": 525.0
     },
     {
       "industry": "Recreational",
@@ -87117,7 +87208,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 540.0
+      "current_inventory": 525.0
     },
     {
       "industry": "Recreational",
@@ -90570,7 +90661,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 540.0
+      "current_inventory": 525.0
     },
     {
       "industry": "Recreational",
@@ -93183,7 +93274,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 540.0
+      "current_inventory": 525.0
     },
     {
       "industry": "Recreational",
@@ -97525,7 +97616,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 540.0
+      "current_inventory": 525.0
     },
     {
       "industry": "Recreational",
@@ -108924,7 +109015,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 540.0
+      "current_inventory": 525.0
     },
     {
       "industry": "Recreational",
@@ -118474,7 +118565,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 540.0
+      "current_inventory": 525.0
     },
     {
       "industry": "Recreational",
@@ -122865,7 +122956,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 540.0
+      "current_inventory": 525.0
     },
     {
       "industry": "Recreational",
@@ -125735,7 +125826,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 540.0
+      "current_inventory": 525.0
     },
     {
       "industry": "Recreational",
@@ -127781,7 +127872,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 540.0
+      "current_inventory": 525.0
     },
     {
       "industry": "Recreational",
@@ -129920,7 +130011,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 540.0
+      "current_inventory": 525.0
     },
     {
       "industry": "Recreational",
@@ -131975,7 +132066,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 540.0
+      "current_inventory": 525.0
     },
     {
       "industry": "Recreational",
@@ -132807,7 +132898,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 540.0
+      "current_inventory": 525.0
     },
     {
       "industry": "Recreational",
@@ -133368,7 +133459,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 540.0
+      "current_inventory": 525.0
     },
     {
       "industry": "Recreational",
@@ -133837,7 +133928,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 540.0
+      "current_inventory": 525.0
     },
     {
       "industry": "Recreational",
@@ -134116,7 +134207,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 540.0
+      "current_inventory": 525.0
     },
     {
       "industry": "Recreational",
@@ -135139,7 +135230,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 540.0
+      "current_inventory": 525.0
     },
     {
       "industry": "Recreational",
@@ -135883,7 +135974,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 540.0
+      "current_inventory": 525.0
     },
     {
       "industry": "Recreational",
@@ -136906,7 +136997,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 540.0
+      "current_inventory": 525.0
     },
     {
       "industry": "Recreational",
@@ -138032,7 +138123,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 540.0
+      "current_inventory": 525.0
     },
     {
       "industry": "Recreational",
@@ -138125,7 +138216,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 540.0
+      "current_inventory": 525.0
     },
     {
       "industry": "Recreational",
@@ -138962,7 +139053,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 540.0
+      "current_inventory": 525.0
     },
     {
       "industry": "Recreational",
@@ -139799,7 +139890,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 540.0
+      "current_inventory": 525.0
     },
     {
       "industry": "Recreational",
@@ -140915,7 +141006,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 540.0
+      "current_inventory": 525.0
     },
     {
       "industry": "Recreational",
@@ -141287,7 +141378,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 540.0
+      "current_inventory": 525.0
     },
     {
       "industry": "Recreational",
@@ -143519,7 +143610,7 @@
       ],
       "metrc_packages": null,
       "notes": null,
-      "current_inventory": 540.0
+      "current_inventory": 525.0
     },
     {
       "industry": "Recreational",
@@ -231198,7 +231289,7 @@
       "name": "SUBZERO | 1000mg THC : 1000mg CBD | Roll-On",
       "sku": "SUBZERO1000",
       "line": "Topicals & Wellness",
-      "qty": 540.0,
+      "qty": 525.0,
       "listed": true,
       "batches": 1
     },
