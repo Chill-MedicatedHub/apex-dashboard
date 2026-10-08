@@ -11,6 +11,10 @@ USAGE:
 
 To refresh data automatically, schedule this script with cron (macOS/Linux)
 or Task Scheduler (Windows). See README.md for the exact commands.
+
+Each row also gets `delivery_cost`: the shipping charge of its order, in cents,
+read from Apex's Seller Orders report (the sales report has no shipping
+column). It is an order-level amount repeated on every line of the order.
 """
 
 import json
@@ -129,6 +133,17 @@ INV_ONHAND_FIELDS = [f.strip() for f in os.getenv(
     "APEX_INV_ONHAND_FIELDS",
     "on_hand,on_hand_quantity,total_quantity,quantity,quantity_on_hand,inventory_quantity"
 ).split(",") if f.strip()]
+
+# --- Shipping charge per order ----------------------------------------------
+# The product sales report is one row per product line and has no shipping
+# column, so an invoice with a shipping charge came out short by that charge.
+# Apex's "Seller Orders" report is one row per order and carries the charge as
+# `delivery_cost` (in cents; "Shipping Cost" on screen, "Shipping" on the
+# invoice). We pull it for the same dates and stamp it on every row of the
+# order as `delivery_cost` - an order-level amount repeated on each line, the
+# same way `additional_discounts` already is. ON by default.
+ORDERS_URL = "https://app.apextrading.com/b-api/reporting/run-seller-order-report"
+PULL_SHIPPING = os.getenv("APEX_PULL_SHIPPING", "1") == "1"
 
 
 # ----------------------------------------------------------------------------
@@ -456,8 +471,196 @@ def _name_of(v):
     return v or ""
 
 
+def _cents(v):
+    """Whole cents from an Apex amount. No charge (None) is 0; junk is None."""
+    if v is None:
+        return 0
+    if isinstance(v, bool):
+        return None
+    try:
+        return int(round(float(v)))
+    except (TypeError, ValueError):
+        return None
+
+
+def fetch_order_shipping(xsrf: str, from_date: str, to_date: str):
+    """Shipping charge of every order in the date range: {order number: cents}.
+
+    Uses Apex's Seller Orders report (one row per order). Returns None when
+    the pull did not work - it never raises and never stops the scraper, so a
+    problem here cannot cost us the sales data.
+    """
+    headers = {
+        "Accept": "application/json",
+        "Content-Type": "application/json",
+        "Origin": "https://app.apextrading.com",
+        "Referer": "https://app.apextrading.com/reports/seller-orders",
+        "User-Agent": (
+            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+            "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36"
+        ),
+        "Cookie": COOKIE,
+        "X-XSRF-TOKEN": xsrf,
+        "X-Requested-With": "XMLHttpRequest",
+    }
+    body = {
+        "name": None,
+        "userId": USER_ID,
+        "companyId": COMPANY_ID,
+        "selectedLimit": "All",
+        "dataExportType": "json",
+        "isNewReportDefault": False,
+        "categoriesEnabled": [],
+        # The report's full column list, as the Apex screen sends it.
+        "columnsEnabled": {
+            "view_button": False,
+            "order_total": True,
+            "delivery_cost": True,
+            "total_discount": True,
+            "discounts": False,
+            "additional_discounts": True,
+            "total_surcharges": True,
+            "surcharges": False,
+            "order_number": True,
+            "order_status": True,
+            "order_date_localized": False,
+            "order_date_utc": True,
+            "delivery_date": True,
+            "shipping_method": True,
+            "operation": True,
+            "buyer_name": True,
+            "payment_method": False,
+            "payment_status": True,
+            "total_payments": True,
+            "total_credits": True,
+            "due_amount": True,
+            "outstanding_amount": True,
+            "total_write_offs": True,
+            "total_trades": True,
+            "payment_dates": False,
+            "buyer_term": False,
+            "due_date_localized": False,
+            "manifest_number": False,
+            "invoice_note": False,
+            "buyer_license": True,
+            "seller_license": False,
+            "sales_reps": False,
+            "ship_name": True,
+            "buyer_address": False,
+            "buyer_city": False,
+            "estimated_departure_date": False,
+            "estimated_arrival_date": False,
+        },
+        # No filters: every operation and every order status, so each order in
+        # the sales rows can be found by its number.
+        "reportQuery": {
+            "operations": [],
+            "salesReps": [],
+            "paymentStatus": [],
+            "fromDate": from_date,
+            "toDate": to_date,
+            "paymentReceivedFromDate": None,
+            "paymentReceivedToDate": None,
+            "deliveryFromDate": None,
+            "deliveryToDate": None,
+            "withinLastCount": None,
+            "withinLastType": None,
+            "parentOrderStatus": [],
+            "timeZone": "America/New_York",
+        },
+    }
+    try:
+        resp = requests.post(ORDERS_URL, json=body, headers=headers, timeout=90)
+    except requests.RequestException as e:
+        print(f"  shipping: network error ({e}); keeping the charges already saved.")
+        return None
+    if resp.status_code != 200:
+        print(f"  shipping: status {resp.status_code} from the Seller Orders report; "
+              f"keeping the charges already saved.")
+        return None
+    try:
+        data = resp.json()
+        orders = data.get("data", {}).get("reportData", [])
+    except (ValueError, AttributeError):
+        print("  shipping: the Seller Orders report did not return JSON; "
+              "keeping the charges already saved.")
+        return None
+    if not isinstance(orders, list) or not orders:
+        print("  shipping: the Seller Orders report came back empty; "
+              "keeping the charges already saved.")
+        return None
+
+    charges = {}
+    for o in orders:
+        if not isinstance(o, dict):
+            continue
+        number = str(o.get("custom_invoice_number") or "").strip()
+        cents = _cents(o.get("delivery_cost"))
+        if number and cents is not None:
+            charges[number] = cents
+    return charges
+
+
+def _saved_shipping() -> dict:
+    """Charges in the sales_data.json written by the last run, if there is one."""
+    saved = {}
+    try:
+        old = json.loads(OUTPUT_FILE.read_text())
+        for r in old.get("rows", []):
+            number = str(r.get("order_number") or "").strip()
+            cents = _cents(r.get("delivery_cost")) if "delivery_cost" in r else None
+            if number and cents is not None:
+                saved[number] = cents
+    except (OSError, ValueError, AttributeError, TypeError):
+        pass
+    return saved
+
+
+def stamp_shipping(payload: dict) -> None:
+    """Put each order's shipping charge (cents) on its rows as `delivery_cost`.
+
+    If today's pull fails, or an order is not in it, the charge saved by the
+    last run is kept, so an invoice total does not drop for one run.
+    """
+    fresh = fetch_order_shipping(
+        extract_xsrf_token(COOKIE), payload["from_date"], payload["to_date"])
+    saved = _saved_shipping()
+    orders, charged, total, unknown = set(), set(), 0, set()
+    for r in payload["rows"]:
+        number = str(r.get("order_number") or "").strip()
+        if not number:
+            continue
+        orders.add(number)
+        if fresh is not None and number in fresh:
+            cents = fresh[number]
+        elif number in saved:
+            cents = saved[number]
+        else:
+            unknown.add(number)
+            continue
+        r["delivery_cost"] = cents
+        if cents and number not in charged:
+            charged.add(number)
+            total += cents
+    print(f"  Shipping: {len(charged)} of {len(orders)} orders carry a shipping charge "
+          f"(${total / 100:,.2f} in all)"
+          + ("." if fresh is not None else " - from the last run's file."))
+    if unknown:
+        some = ", ".join(sorted(unknown)[:5])
+        print(f"  Shipping: no charge found for {len(unknown)} order(s): {some}"
+              + (" ..." if len(unknown) > 5 else ""))
+
+
 def main():
     payload = fetch_report()
+
+    # Shipping charge per order (separate Apex report). Non-fatal.
+    if PULL_SHIPPING:
+        print("Pulling shipping charges...")
+        try:
+            stamp_shipping(payload)
+        except Exception as e:
+            print(f"  shipping pull errored ({e}); continuing without it.")
 
     # Current inventory (separate Apex endpoint). Non-fatal: if it fails, the
     # sales data still writes and the dashboard inventory section shows '—'.
