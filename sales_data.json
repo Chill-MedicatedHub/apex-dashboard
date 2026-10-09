@@ -1,5 +1,5 @@
 {
-  "fetched_at": "2026-10-09T21:09:25.480576+00:00",
+  "fetched_at": "2026-10-09T21:15:24.787670+00:00",
   "from_date": "2025-05-01",
   "to_date": "2026-10-10",
   "row_count": 2684,
@@ -44858,7 +44858,7 @@
       "package_case": null,
       "is_sample": "No",
       "order_number": "Legacy-5208",
-      "order_status": "Delivered",
+      "order_status": "Complete",
       "payment_status": "Completed",
       "order_date_utc": "07/16/2026",
       "order_date_utc_raw": "2026-07-16",
@@ -44953,7 +44953,7 @@
       "package_case": null,
       "is_sample": "No",
       "order_number": "Legacy-5208",
-      "order_status": "Delivered",
+      "order_status": "Complete",
       "payment_status": "Completed",
       "order_date_utc": "07/16/2026",
       "order_date_utc_raw": "2026-07-16",
@@ -45048,7 +45048,7 @@
       "package_case": null,
       "is_sample": "No",
       "order_number": "Legacy-5208",
-      "order_status": "Delivered",
+      "order_status": "Complete",
       "payment_status": "Completed",
       "order_date_utc": "07/16/2026",
       "order_date_utc_raw": "2026-07-16",
@@ -45143,7 +45143,7 @@
       "package_case": null,
       "is_sample": "No",
       "order_number": "Legacy-5208",
-      "order_status": "Delivered",
+      "order_status": "Complete",
       "payment_status": "Completed",
       "order_date_utc": "07/16/2026",
       "order_date_utc_raw": "2026-07-16",
@@ -45238,7 +45238,7 @@
       "package_case": null,
       "is_sample": "No",
       "order_number": "Legacy-5208",
-      "order_status": "Delivered",
+      "order_status": "Complete",
       "payment_status": "Completed",
       "order_date_utc": "07/16/2026",
       "order_date_utc_raw": "2026-07-16",
@@ -45333,7 +45333,7 @@
       "package_case": null,
       "is_sample": "No",
       "order_number": "Legacy-5208",
-      "order_status": "Delivered",
+      "order_status": "Complete",
       "payment_status": "Completed",
       "order_date_utc": "07/16/2026",
       "order_date_utc_raw": "2026-07-16",
@@ -45428,7 +45428,7 @@
       "package_case": null,
       "is_sample": "No",
       "order_number": "Legacy-5208",
-      "order_status": "Delivered",
+      "order_status": "Complete",
       "payment_status": "Completed",
       "order_date_utc": "07/16/2026",
       "order_date_utc_raw": "2026-07-16",
@@ -45523,7 +45523,7 @@
       "package_case": null,
       "is_sample": "No",
       "order_number": "Legacy-5208",
-      "order_status": "Delivered",
+      "order_status": "Complete",
       "payment_status": "Completed",
       "order_date_utc": "07/16/2026",
       "order_date_utc_raw": "2026-07-16",
@@ -45618,7 +45618,7 @@
       "package_case": null,
       "is_sample": "No",
       "order_number": "Legacy-5208",
-      "order_status": "Delivered",
+      "order_status": "Complete",
       "payment_status": "Completed",
       "order_date_utc": "07/16/2026",
       "order_date_utc_raw": "2026-07-16",
@@ -170068,7 +170068,7 @@
       "is_sample": "No",
       "order_number": "Erva-819",
       "order_status": "Delivered",
-      "payment_status": "Unpaid",
+      "payment_status": "Completed",
       "order_date_utc": "10/23/2025",
       "order_date_utc_raw": "2025-10-23",
       "order_date_localized": "10/23/2025",
@@ -170093,7 +170093,8 @@
         "David Shaba"
       ],
       "payment_dates": [
-        "Payment of $2,100.00 on 10/14/2025"
+        "Payment of $2,100.00 on 10/14/2025",
+        "Payment of $2,100.00 on 09/30/2026"
       ],
       "metrc_packages": null,
       "notes": null,
@@ -170163,7 +170164,7 @@
       "is_sample": "No",
       "order_number": "Erva-819",
       "order_status": "Delivered",
-      "payment_status": "Unpaid",
+      "payment_status": "Completed",
       "order_date_utc": "10/23/2025",
       "order_date_utc_raw": "2025-10-23",
       "order_date_localized": "10/23/2025",
@@ -170188,7 +170189,8 @@
         "David Shaba"
       ],
       "payment_dates": [
-        "Payment of $2,100.00 on 10/14/2025"
+        "Payment of $2,100.00 on 10/14/2025",
+        "Payment of $2,100.00 on 09/30/2026"
       ],
       "metrc_packages": null,
       "notes": null,
@@ -170258,7 +170260,7 @@
       "is_sample": "No",
       "order_number": "Erva-819",
       "order_status": "Delivered",
-      "payment_status": "Unpaid",
+      "payment_status": "Completed",
       "order_date_utc": "10/23/2025",
       "order_date_utc_raw": "2025-10-23",
       "order_date_localized": "10/23/2025",
@@ -170283,7 +170285,8 @@
         "David Shaba"
       ],
       "payment_dates": [
-        "Payment of $2,100.00 on 10/14/2025"
+        "Payment of $2,100.00 on 10/14/2025",
+        "Payment of $2,100.00 on 09/30/2026"
       ],
       "metrc_packages": null,
       "notes": null,
@@ -170353,7 +170356,7 @@
       "is_sample": "No",
       "order_number": "Erva-819",
       "order_status": "Delivered",
-      "payment_status": "Unpaid",
+      "payment_status": "Completed",
       "order_date_utc": "10/23/2025",
       "order_date_utc_raw": "2025-10-23",
       "order_date_localized": "10/23/2025",
@@ -170378,7 +170381,8 @@
         "David Shaba"
       ],
       "payment_dates": [
-        "Payment of $2,100.00 on 10/14/2025"
+        "Payment of $2,100.00 on 10/14/2025",
+        "Payment of $2,100.00 on 09/30/2026"
       ],
       "metrc_packages": null,
       "notes": null,
