@@ -1,7 +1,7 @@
 {
-  "fetched_at": "2026-10-20T23:56:05.197912+00:00",
+  "fetched_at": "2026-10-21T00:00:41.961803+00:00",
   "from_date": "2025-05-01",
-  "to_date": "2026-10-21",
+  "to_date": "2026-10-22",
   "row_count": 2734,
   "rows": [
     {
@@ -31088,7 +31088,7 @@
       "is_sample": "No",
       "order_number": "Legacy-5287",
       "order_status": "Delivered",
-      "payment_status": "Unpaid",
+      "payment_status": "Completed",
       "order_date_utc": "09/03/2026",
       "order_date_utc_raw": "2026-09-03",
       "order_date_localized": "09/03/2026",
@@ -31112,7 +31112,9 @@
       "sales_reps_display": [
         "David Shaba"
       ],
-      "payment_dates": [],
+      "payment_dates": [
+        "Payment of $2,430.00 on 10/19/2026"
+      ],
       "metrc_packages": null,
       "notes": null,
       "delivery_cost": 0,
@@ -31181,7 +31183,7 @@
       "is_sample": "No",
       "order_number": "Legacy-5287",
       "order_status": "Delivered",
-      "payment_status": "Unpaid",
+      "payment_status": "Completed",
       "order_date_utc": "09/03/2026",
       "order_date_utc_raw": "2026-09-03",
       "order_date_localized": "09/03/2026",
@@ -31205,7 +31207,9 @@
       "sales_reps_display": [
         "David Shaba"
       ],
-      "payment_dates": [],
+      "payment_dates": [
+        "Payment of $2,430.00 on 10/19/2026"
+      ],
       "metrc_packages": null,
       "notes": null,
       "delivery_cost": 0,
@@ -31274,7 +31278,7 @@
       "is_sample": "No",
       "order_number": "Legacy-5287",
       "order_status": "Delivered",
-      "payment_status": "Unpaid",
+      "payment_status": "Completed",
       "order_date_utc": "09/03/2026",
       "order_date_utc_raw": "2026-09-03",
       "order_date_localized": "09/03/2026",
@@ -31298,7 +31302,9 @@
       "sales_reps_display": [
         "David Shaba"
       ],
-      "payment_dates": [],
+      "payment_dates": [
+        "Payment of $2,430.00 on 10/19/2026"
+      ],
       "metrc_packages": null,
       "notes": "1A40A030000B4DD000016020",
       "delivery_cost": 0,
@@ -31367,7 +31373,7 @@
       "is_sample": "No",
       "order_number": "Legacy-5287",
       "order_status": "Delivered",
-      "payment_status": "Unpaid",
+      "payment_status": "Completed",
       "order_date_utc": "09/03/2026",
       "order_date_utc_raw": "2026-09-03",
       "order_date_localized": "09/03/2026",
@@ -31391,7 +31397,9 @@
       "sales_reps_display": [
         "David Shaba"
       ],
-      "payment_dates": [],
+      "payment_dates": [
+        "Payment of $2,430.00 on 10/19/2026"
+      ],
       "metrc_packages": null,
       "notes": "1A40A030000B4DD000016019",
       "delivery_cost": 0,
