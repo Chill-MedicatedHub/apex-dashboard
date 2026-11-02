@@ -1,5 +1,5 @@
 {
-  "fetched_at": "2026-11-02T15:00:51.523933+00:00",
+  "fetched_at": "2026-11-02T15:15:29.995643+00:00",
   "from_date": "2025-05-01",
   "to_date": "2026-11-03",
   "row_count": 2769,
@@ -24167,8 +24167,8 @@
       "package_case": null,
       "is_sample": "No",
       "order_number": "Legacy-5330",
-      "order_status": "Delivered",
-      "payment_status": "Unpaid",
+      "order_status": "Complete",
+      "payment_status": "Completed",
       "order_date_utc": "09/23/2026",
       "order_date_utc_raw": "2026-09-23",
       "order_date_localized": "09/23/2026",
@@ -24192,7 +24192,9 @@
       "sales_reps_display": [
         "David Shaba"
       ],
-      "payment_dates": [],
+      "payment_dates": [
+        "Payment of $1,057.50 on 10/31/2026"
+      ],
       "metrc_packages": null,
       "notes": null,
       "delivery_cost": 0,
@@ -24260,8 +24262,8 @@
       "package_case": null,
       "is_sample": "No",
       "order_number": "Legacy-5330",
-      "order_status": "Delivered",
-      "payment_status": "Unpaid",
+      "order_status": "Complete",
+      "payment_status": "Completed",
       "order_date_utc": "09/23/2026",
       "order_date_utc_raw": "2026-09-23",
       "order_date_localized": "09/23/2026",
@@ -24285,7 +24287,9 @@
       "sales_reps_display": [
         "David Shaba"
       ],
-      "payment_dates": [],
+      "payment_dates": [
+        "Payment of $1,057.50 on 10/31/2026"
+      ],
       "metrc_packages": null,
       "notes": "1A40A030000B4DD000016017",
       "delivery_cost": 0,
@@ -24353,8 +24357,8 @@
       "package_case": null,
       "is_sample": "No",
       "order_number": "Legacy-5330",
-      "order_status": "Delivered",
-      "payment_status": "Unpaid",
+      "order_status": "Complete",
+      "payment_status": "Completed",
       "order_date_utc": "09/23/2026",
       "order_date_utc_raw": "2026-09-23",
       "order_date_localized": "09/23/2026",
@@ -24378,7 +24382,9 @@
       "sales_reps_display": [
         "David Shaba"
       ],
-      "payment_dates": [],
+      "payment_dates": [
+        "Payment of $1,057.50 on 10/31/2026"
+      ],
       "metrc_packages": null,
       "notes": "1A40A030000B4DD000016016",
       "delivery_cost": 0,
