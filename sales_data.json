@@ -1,5 +1,5 @@
 {
-  "fetched_at": "2026-11-03T18:15:39.501883+00:00",
+  "fetched_at": "2026-11-03T18:30:43.569095+00:00",
   "from_date": "2025-05-01",
   "to_date": "2026-11-04",
   "row_count": 2773,
@@ -22577,7 +22577,7 @@
       "is_sample": "No",
       "order_number": "Legacy-5341",
       "order_status": "Delivered",
-      "payment_status": "Unpaid",
+      "payment_status": "Completed",
       "order_date_utc": "09/29/2026",
       "order_date_utc_raw": "2026-09-29",
       "order_date_localized": "09/29/2026",
@@ -22601,7 +22601,9 @@
       "sales_reps_display": [
         "David Shaba"
       ],
-      "payment_dates": [],
+      "payment_dates": [
+        "Payment of $1,162.50 on 11/02/2026"
+      ],
       "metrc_packages": null,
       "notes": "1A40A030000B4DD000016005",
       "delivery_cost": 0,
@@ -22670,7 +22672,7 @@
       "is_sample": "No",
       "order_number": "Legacy-5341",
       "order_status": "Delivered",
-      "payment_status": "Unpaid",
+      "payment_status": "Completed",
       "order_date_utc": "09/29/2026",
       "order_date_utc_raw": "2026-09-29",
       "order_date_localized": "09/29/2026",
@@ -22694,7 +22696,9 @@
       "sales_reps_display": [
         "David Shaba"
       ],
-      "payment_dates": [],
+      "payment_dates": [
+        "Payment of $1,162.50 on 11/02/2026"
+      ],
       "metrc_packages": null,
       "notes": "1A40A030000B4DD000016011",
       "delivery_cost": 0,
@@ -22763,7 +22767,7 @@
       "is_sample": "No",
       "order_number": "Legacy-5341",
       "order_status": "Delivered",
-      "payment_status": "Unpaid",
+      "payment_status": "Completed",
       "order_date_utc": "09/29/2026",
       "order_date_utc_raw": "2026-09-29",
       "order_date_localized": "09/29/2026",
@@ -22787,7 +22791,9 @@
       "sales_reps_display": [
         "David Shaba"
       ],
-      "payment_dates": [],
+      "payment_dates": [
+        "Payment of $1,162.50 on 11/02/2026"
+      ],
       "metrc_packages": null,
       "notes": "1A40A030000B4DD000016014",
       "delivery_cost": 0,
