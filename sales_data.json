@@ -1,8 +1,8 @@
 {
-  "fetched_at": "2026-11-20T17:00:56.730985+00:00",
+  "fetched_at": "2026-11-20T17:15:30.113451+00:00",
   "from_date": "2025-05-01",
   "to_date": "2026-11-21",
-  "row_count": 2883,
+  "row_count": 2884,
   "rows": [
     {
       "industry": "Recreational",
@@ -139,7 +139,7 @@
       "batch_test_date_raw": null,
       "batch_created_at": "08/31/2026",
       "batch_created_at_raw": "2026-08-31 17:00:09",
-      "computed_sale_price": "$450.00",
+      "computed_sale_price": "$375.00",
       "minimum_sales_price": "$0.00",
       "total_cost_of_goods": "$0.00",
       "true_cost": "$0.00",
@@ -148,8 +148,8 @@
       "additional_discounts": 0,
       "tiered_surcharge": null,
       "pricing_tier": null,
-      "line_total": "$450.00",
-      "line_total_raw": 45000,
+      "line_total": "$375.00",
+      "line_total_raw": 37500,
       "inventory_quantity": 15,
       "order_quantity": 1,
       "quantity": 1,
@@ -234,7 +234,7 @@
       "batch_test_date_raw": null,
       "batch_created_at": "08/31/2026",
       "batch_created_at_raw": "2026-08-31 16:52:56",
-      "computed_sale_price": "$450.00",
+      "computed_sale_price": "$375.00",
       "minimum_sales_price": "$0.00",
       "total_cost_of_goods": "$0.00",
       "true_cost": "$0.00",
@@ -243,8 +243,8 @@
       "additional_discounts": 0,
       "tiered_surcharge": null,
       "pricing_tier": null,
-      "line_total": "$450.00",
-      "line_total_raw": 45000,
+      "line_total": "$375.00",
+      "line_total_raw": 37500,
       "inventory_quantity": 15,
       "order_quantity": 1,
       "quantity": 1,
@@ -614,7 +614,7 @@
       "batch_test_date_raw": null,
       "batch_created_at": "08/31/2026",
       "batch_created_at_raw": "2026-08-31 16:24:58",
-      "computed_sale_price": "$262.50",
+      "computed_sale_price": "$225.00",
       "minimum_sales_price": "$0.00",
       "total_cost_of_goods": "$0.00",
       "true_cost": "$0.00",
@@ -623,8 +623,8 @@
       "additional_discounts": 0,
       "tiered_surcharge": null,
       "pricing_tier": null,
-      "line_total": "$262.50",
-      "line_total_raw": 26250,
+      "line_total": "$225.00",
+      "line_total_raw": 22500,
       "inventory_quantity": 15,
       "order_quantity": 1,
       "quantity": 1,
@@ -709,7 +709,7 @@
       "batch_test_date_raw": null,
       "batch_created_at": "08/31/2026",
       "batch_created_at_raw": "2026-08-31 16:33:08",
-      "computed_sale_price": "$262.50",
+      "computed_sale_price": "$225.00",
       "minimum_sales_price": "$0.00",
       "total_cost_of_goods": "$0.00",
       "true_cost": "$0.00",
@@ -718,8 +718,8 @@
       "additional_discounts": 0,
       "tiered_surcharge": null,
       "pricing_tier": null,
-      "line_total": "$262.50",
-      "line_total_raw": 26250,
+      "line_total": "$225.00",
+      "line_total_raw": 22500,
       "inventory_quantity": 15,
       "order_quantity": 1,
       "quantity": 1,
@@ -804,7 +804,7 @@
       "batch_test_date_raw": null,
       "batch_created_at": "08/31/2026",
       "batch_created_at_raw": "2026-08-31 16:36:52",
-      "computed_sale_price": "$262.50",
+      "computed_sale_price": "$225.00",
       "minimum_sales_price": "$0.00",
       "total_cost_of_goods": "$0.00",
       "true_cost": "$0.00",
@@ -813,8 +813,8 @@
       "additional_discounts": 0,
       "tiered_surcharge": null,
       "pricing_tier": null,
-      "line_total": "$262.50",
-      "line_total_raw": 26250,
+      "line_total": "$225.00",
+      "line_total_raw": 22500,
       "inventory_quantity": 15,
       "order_quantity": 1,
       "quantity": 1,
@@ -858,6 +858,101 @@
       "sample_tag": null,
       "delivery_cost": 0,
       "current_inventory": 180.0
+    },
+    {
+      "industry": "Recreational",
+      "buyer_license": "MR284222",
+      "seller_license": "MT281556",
+      "product_id": 208094,
+      "product_name": "500mg THC | Blue Razz Syrup",
+      "product_sku": "500bluerazz",
+      "product_category_id": 12,
+      "product_category": "Tinctures",
+      "product_category_name": "Tincture",
+      "product_type_id": 32,
+      "product_type": "Full Spectrum",
+      "product_brand_id": 2500,
+      "product_brand": "Chill Medicated",
+      "product_brand_image": null,
+      "product_cultivar_id": null,
+      "product_cultivar": null,
+      "product_cultivar_type_id": null,
+      "product_cultivar_type": null,
+      "product_cbd_type": "THC",
+      "product_grow_environment": null,
+      "product_extraction_method": null,
+      "product_unit_size_and_measurement": "4.00 US Fluid Ounce",
+      "product_listing_price": "$262.50",
+      "operation_id": 4547,
+      "operation": "Bodelle's - Chill Medicated",
+      "batch_name": "Chill_BR500_05 - 1A40A030000B4DD000016002-082126",
+      "batch_cbd_potency": "527.28Mg",
+      "batch_cost_of_goods": "$0.00",
+      "batch_location": null,
+      "batch_harvest_date": null,
+      "batch_harvest_date_raw": null,
+      "batch_best_by_date": "08/26/2027",
+      "batch_best_by_date_raw": "2027-08-26",
+      "batch_production_date": "08/21/2026",
+      "batch_production_date_raw": "2026-08-21",
+      "batch_test_date": null,
+      "batch_test_date_raw": null,
+      "batch_created_at": "08/31/2026",
+      "batch_created_at_raw": "2026-08-31 16:40:51",
+      "computed_sale_price": "$0.15",
+      "minimum_sales_price": "$0.00",
+      "total_cost_of_goods": "$0.00",
+      "true_cost": "$0.00",
+      "discounts": 0,
+      "surcharges": 0,
+      "additional_discounts": 0,
+      "tiered_surcharge": null,
+      "pricing_tier": null,
+      "line_total": "$0.15",
+      "line_total_raw": 15,
+      "inventory_quantity": 15,
+      "order_quantity": 1,
+      "quantity": 1,
+      "quantity_raw": 1,
+      "inventory_unit_of_measurement": "Unit",
+      "order_unit_of_measurement": "Case",
+      "units_per_package": 0,
+      "packages_per_case": 15,
+      "package_case": null,
+      "is_sample": "No",
+      "order_number": "Legacy-5440",
+      "order_status": "Draft order",
+      "payment_status": "Unpaid",
+      "order_date_utc": "11/20/2026",
+      "order_date_utc_raw": "2026-11-20",
+      "order_date_localized": "11/20/2026",
+      "order_date_localized_raw": "2026-11-20T00:00:00.000000Z",
+      "delivery_date": null,
+      "delivery_date_raw": null,
+      "due_date": null,
+      "due_date_raw": null,
+      "manifest_number": null,
+      "buyer_id": 109180,
+      "buyer_name": "New Dia Fenway",
+      "buyer_group": "New Dia",
+      "buyer_shipping_name": "New Dia Fenway",
+      "buyer_address": "48-62 Brookline Ave",
+      "buyer_address_html": "48-62 Brookline Ave",
+      "buyer_city": "Boston",
+      "buyer_state": "Massachusetts",
+      "buyer_zip": "02215",
+      "buyer_country": "US",
+      "sales_reps": "Derek Dambrosio / David Shaba",
+      "sales_reps_display": [
+        "Derek Dambrosio",
+        "David Shaba"
+      ],
+      "payment_dates": [],
+      "metrc_packages": null,
+      "notes": "1A40A030000B4DD000016002",
+      "sample_tag": null,
+      "delivery_cost": 0,
+      "current_inventory": 245.0
     },
     {
       "industry": "Recreational",
@@ -1409,7 +1504,7 @@
       "notes": "1A40A030000B4DD000016002",
       "sample_tag": null,
       "delivery_cost": 0,
-      "current_inventory": 260.0
+      "current_inventory": 245.0
     },
     {
       "industry": "Recreational",
@@ -3569,7 +3664,7 @@
       "notes": "1A40A030000B4DD000016002",
       "sample_tag": null,
       "delivery_cost": 0,
-      "current_inventory": 260.0
+      "current_inventory": 245.0
     },
     {
       "industry": "Recreational",
@@ -4227,7 +4322,7 @@
       "notes": "1A40A030000B4DD000016002",
       "sample_tag": null,
       "delivery_cost": 0,
-      "current_inventory": 260.0
+      "current_inventory": 245.0
     },
     {
       "industry": "Recreational",
@@ -5261,7 +5356,7 @@
       "notes": "1A40A030000B4DD000016002",
       "sample_tag": null,
       "delivery_cost": 0,
-      "current_inventory": 260.0
+      "current_inventory": 245.0
     },
     {
       "industry": "Recreational",
@@ -6107,7 +6202,7 @@
       "notes": "1A40A030000B4DD000016002",
       "sample_tag": null,
       "delivery_cost": 0,
-      "current_inventory": 260.0
+      "current_inventory": 245.0
     },
     {
       "industry": "Recreational",
@@ -8081,7 +8176,7 @@
       "notes": "1A40A030000B4DD000016002",
       "sample_tag": null,
       "delivery_cost": 0,
-      "current_inventory": 260.0
+      "current_inventory": 245.0
     },
     {
       "industry": "Recreational",
@@ -9491,7 +9586,7 @@
       "notes": "1A40A030000B4DD000016002",
       "sample_tag": null,
       "delivery_cost": 0,
-      "current_inventory": 260.0
+      "current_inventory": 245.0
     },
     {
       "industry": "Recreational",
@@ -18925,7 +19020,7 @@
       "notes": "1A40A030000B4DD000016002",
       "sample_tag": null,
       "delivery_cost": 0,
-      "current_inventory": 260.0
+      "current_inventory": 245.0
     },
     {
       "industry": "Recreational",
@@ -20553,7 +20648,7 @@
       "notes": "1A40A030000B4DD000016002",
       "sample_tag": null,
       "delivery_cost": 0,
-      "current_inventory": 260.0
+      "current_inventory": 245.0
     },
     {
       "industry": "Recreational",
@@ -21775,7 +21870,7 @@
       "notes": "1A40A030000B4DD000016002",
       "sample_tag": null,
       "delivery_cost": 0,
-      "current_inventory": 260.0
+      "current_inventory": 245.0
     },
     {
       "industry": "Recreational",
@@ -23485,7 +23580,7 @@
       "notes": "1A40A030000B4DD000016002",
       "sample_tag": null,
       "delivery_cost": 0,
-      "current_inventory": 260.0
+      "current_inventory": 245.0
     },
     {
       "industry": "Recreational",
@@ -24529,7 +24624,7 @@
       "notes": "1A40A030000B4DD000016002",
       "sample_tag": null,
       "delivery_cost": 0,
-      "current_inventory": 260.0
+      "current_inventory": 245.0
     },
     {
       "industry": "Recreational",
@@ -25469,7 +25564,7 @@
       "notes": "1A40A030000B4DD000016002",
       "sample_tag": null,
       "delivery_cost": 0,
-      "current_inventory": 260.0
+      "current_inventory": 245.0
     },
     {
       "industry": "Recreational",
@@ -27349,7 +27444,7 @@
       "notes": "1A40A030000B4DD000016002",
       "sample_tag": null,
       "delivery_cost": 0,
-      "current_inventory": 260.0
+      "current_inventory": 245.0
     },
     {
       "industry": "Recreational",
@@ -30357,7 +30452,7 @@
       "notes": "1A40A030000B4DD000016002",
       "sample_tag": null,
       "delivery_cost": 0,
-      "current_inventory": 260.0
+      "current_inventory": 245.0
     },
     {
       "industry": "Recreational",
@@ -32941,7 +33036,7 @@
       "notes": "1A40A030000B4DD000016002",
       "sample_tag": null,
       "delivery_cost": 0,
-      "current_inventory": 260.0
+      "current_inventory": 245.0
     },
     {
       "industry": "Recreational",
@@ -39192,7 +39287,7 @@
       "notes": "1A40A030000B4DD000016002",
       "sample_tag": null,
       "delivery_cost": 0,
-      "current_inventory": 260.0
+      "current_inventory": 245.0
     },
     {
       "industry": "Recreational",
@@ -39480,7 +39575,7 @@
       "notes": "1A40A030000B4DD000016002",
       "sample_tag": null,
       "delivery_cost": 0,
-      "current_inventory": 260.0
+      "current_inventory": 245.0
     },
     {
       "industry": "Recreational",
@@ -40056,7 +40151,7 @@
       "notes": "1A40A030000B4DD000016002",
       "sample_tag": null,
       "delivery_cost": 0,
-      "current_inventory": 260.0
+      "current_inventory": 245.0
     },
     {
       "industry": "Recreational",
@@ -40824,7 +40919,7 @@
       "notes": "1A40A030000B4DD000016002",
       "sample_tag": null,
       "delivery_cost": 0,
-      "current_inventory": 260.0
+      "current_inventory": 245.0
     },
     {
       "industry": "Recreational",
@@ -41400,7 +41495,7 @@
       "notes": "1A40A030000B4DD000016002",
       "sample_tag": null,
       "delivery_cost": 0,
-      "current_inventory": 260.0
+      "current_inventory": 245.0
     },
     {
       "industry": "Recreational",
@@ -45504,7 +45599,7 @@
       "notes": "1A40A030000B4DD000016002",
       "sample_tag": null,
       "delivery_cost": 0,
-      "current_inventory": 260.0
+      "current_inventory": 245.0
     },
     {
       "industry": "Recreational",
@@ -47337,7 +47432,7 @@
       "notes": null,
       "sample_tag": null,
       "delivery_cost": 0,
-      "current_inventory": 260.0
+      "current_inventory": 245.0
     },
     {
       "industry": "Recreational",
@@ -48469,7 +48564,7 @@
       "notes": null,
       "sample_tag": null,
       "delivery_cost": 0,
-      "current_inventory": 260.0
+      "current_inventory": 245.0
     },
     {
       "industry": "Recreational",
@@ -49233,7 +49328,7 @@
       "notes": null,
       "sample_tag": null,
       "delivery_cost": 0,
-      "current_inventory": 260.0
+      "current_inventory": 245.0
     },
     {
       "industry": "Recreational",
@@ -50098,7 +50193,7 @@
       "notes": null,
       "sample_tag": null,
       "delivery_cost": 0,
-      "current_inventory": 260.0
+      "current_inventory": 245.0
     },
     {
       "industry": "Recreational",
@@ -50964,7 +51059,7 @@
       "notes": null,
       "sample_tag": null,
       "delivery_cost": 0,
-      "current_inventory": 260.0
+      "current_inventory": 245.0
     },
     {
       "industry": "Recreational",
@@ -51732,7 +51827,7 @@
       "notes": null,
       "sample_tag": null,
       "delivery_cost": 0,
-      "current_inventory": 260.0
+      "current_inventory": 245.0
     },
     {
       "industry": "Recreational",
@@ -52020,7 +52115,7 @@
       "notes": null,
       "sample_tag": null,
       "delivery_cost": 0,
-      "current_inventory": 260.0
+      "current_inventory": 245.0
     },
     {
       "industry": "Recreational",
@@ -52212,7 +52307,7 @@
       "notes": null,
       "sample_tag": null,
       "delivery_cost": 0,
-      "current_inventory": 260.0
+      "current_inventory": 245.0
     },
     {
       "industry": "Recreational",
@@ -52692,7 +52787,7 @@
       "notes": null,
       "sample_tag": null,
       "delivery_cost": 0,
-      "current_inventory": 260.0
+      "current_inventory": 245.0
     },
     {
       "industry": "Recreational",
@@ -54041,7 +54136,7 @@
       "notes": null,
       "sample_tag": null,
       "delivery_cost": 0,
-      "current_inventory": 260.0
+      "current_inventory": 245.0
     },
     {
       "industry": "Recreational",
@@ -54613,7 +54708,7 @@
       "notes": null,
       "sample_tag": null,
       "delivery_cost": 0,
-      "current_inventory": 260.0
+      "current_inventory": 245.0
     },
     {
       "industry": "Recreational",
@@ -55083,7 +55178,7 @@
       "notes": null,
       "sample_tag": null,
       "delivery_cost": 0,
-      "current_inventory": 260.0
+      "current_inventory": 245.0
     },
     {
       "industry": "Recreational",
@@ -55837,7 +55932,7 @@
       "notes": null,
       "sample_tag": null,
       "delivery_cost": 0,
-      "current_inventory": 260.0
+      "current_inventory": 245.0
     },
     {
       "industry": "Recreational",
@@ -57175,7 +57270,7 @@
       "notes": null,
       "sample_tag": null,
       "delivery_cost": 0,
-      "current_inventory": 260.0
+      "current_inventory": 245.0
     },
     {
       "industry": "Recreational",
@@ -57649,7 +57744,7 @@
       "notes": null,
       "sample_tag": null,
       "delivery_cost": 0,
-      "current_inventory": 260.0
+      "current_inventory": 245.0
     },
     {
       "industry": "Recreational",
@@ -60045,7 +60140,7 @@
       "notes": null,
       "sample_tag": null,
       "delivery_cost": 0,
-      "current_inventory": 260.0
+      "current_inventory": 245.0
     },
     {
       "industry": "Recreational",
@@ -60621,7 +60716,7 @@
       "notes": null,
       "sample_tag": null,
       "delivery_cost": 0,
-      "current_inventory": 260.0
+      "current_inventory": 245.0
     },
     {
       "industry": "Recreational",
@@ -62527,7 +62622,7 @@
       "notes": null,
       "sample_tag": null,
       "delivery_cost": 0,
-      "current_inventory": 260.0
+      "current_inventory": 245.0
     },
     {
       "industry": "Recreational",
@@ -63487,7 +63582,7 @@
       "notes": null,
       "sample_tag": null,
       "delivery_cost": 0,
-      "current_inventory": 260.0
+      "current_inventory": 245.0
     },
     {
       "industry": "Recreational",
@@ -64447,7 +64542,7 @@
       "notes": null,
       "sample_tag": null,
       "delivery_cost": 0,
-      "current_inventory": 260.0
+      "current_inventory": 245.0
     },
     {
       "industry": "Recreational",
@@ -65599,7 +65694,7 @@
       "notes": null,
       "sample_tag": null,
       "delivery_cost": 0,
-      "current_inventory": 260.0
+      "current_inventory": 245.0
     },
     {
       "industry": "Recreational",
@@ -66843,7 +66938,7 @@
       "notes": null,
       "sample_tag": null,
       "delivery_cost": 0,
-      "current_inventory": 260.0
+      "current_inventory": 245.0
     },
     {
       "industry": "Recreational",
@@ -68253,7 +68348,7 @@
       "notes": null,
       "sample_tag": null,
       "delivery_cost": 0,
-      "current_inventory": 260.0
+      "current_inventory": 245.0
     },
     {
       "industry": "Recreational",
@@ -68347,7 +68442,7 @@
       "notes": null,
       "sample_tag": null,
       "delivery_cost": 0,
-      "current_inventory": 260.0
+      "current_inventory": 245.0
     },
     {
       "industry": "Recreational",
@@ -70343,7 +70438,7 @@
       "notes": null,
       "sample_tag": null,
       "delivery_cost": 0,
-      "current_inventory": 260.0
+      "current_inventory": 245.0
     },
     {
       "industry": "Recreational",
@@ -71783,7 +71878,7 @@
       "notes": null,
       "sample_tag": null,
       "delivery_cost": 0,
-      "current_inventory": 260.0
+      "current_inventory": 245.0
     },
     {
       "industry": "Recreational",
@@ -73034,7 +73129,7 @@
       "notes": null,
       "sample_tag": null,
       "delivery_cost": 0,
-      "current_inventory": 260.0
+      "current_inventory": 245.0
     },
     {
       "industry": "Recreational",
@@ -73514,7 +73609,7 @@
       "notes": null,
       "sample_tag": null,
       "delivery_cost": 0,
-      "current_inventory": 260.0
+      "current_inventory": 245.0
     },
     {
       "industry": "Recreational",
@@ -75250,7 +75345,7 @@
       "notes": null,
       "sample_tag": null,
       "delivery_cost": 0,
-      "current_inventory": 260.0
+      "current_inventory": 245.0
     },
     {
       "industry": "Recreational",
@@ -76692,7 +76787,7 @@
       "notes": null,
       "sample_tag": null,
       "delivery_cost": 0,
-      "current_inventory": 260.0
+      "current_inventory": 245.0
     },
     {
       "industry": "Recreational",
@@ -77172,7 +77267,7 @@
       "notes": null,
       "sample_tag": null,
       "delivery_cost": 0,
-      "current_inventory": 260.0
+      "current_inventory": 245.0
     },
     {
       "industry": "Recreational",
@@ -77556,7 +77651,7 @@
       "notes": null,
       "sample_tag": null,
       "delivery_cost": 0,
-      "current_inventory": 260.0
+      "current_inventory": 245.0
     },
     {
       "industry": "Recreational",
@@ -79385,7 +79480,7 @@
       "notes": null,
       "sample_tag": null,
       "delivery_cost": 0,
-      "current_inventory": 260.0
+      "current_inventory": 245.0
     },
     {
       "industry": "Recreational",
@@ -81698,7 +81793,7 @@
       "notes": null,
       "sample_tag": null,
       "delivery_cost": 0,
-      "current_inventory": 260.0
+      "current_inventory": 245.0
     },
     {
       "industry": "Recreational",
@@ -82474,7 +82569,7 @@
       "notes": null,
       "sample_tag": null,
       "delivery_cost": 0,
-      "current_inventory": 260.0
+      "current_inventory": 245.0
     },
     {
       "industry": "Recreational",
@@ -82860,7 +82955,7 @@
       "notes": null,
       "sample_tag": null,
       "delivery_cost": 0,
-      "current_inventory": 260.0
+      "current_inventory": 245.0
     },
     {
       "industry": "Recreational",
@@ -83724,7 +83819,7 @@
       "notes": null,
       "sample_tag": null,
       "delivery_cost": 0,
-      "current_inventory": 260.0
+      "current_inventory": 245.0
     },
     {
       "industry": "Recreational",
@@ -84680,7 +84775,7 @@
       "notes": null,
       "sample_tag": null,
       "delivery_cost": 0,
-      "current_inventory": 260.0
+      "current_inventory": 245.0
     },
     {
       "industry": "Recreational",
@@ -85246,7 +85341,7 @@
       "notes": null,
       "sample_tag": null,
       "delivery_cost": 0,
-      "current_inventory": 260.0
+      "current_inventory": 245.0
     },
     {
       "industry": "Recreational",
@@ -88028,7 +88123,7 @@
       "notes": null,
       "sample_tag": null,
       "delivery_cost": 0,
-      "current_inventory": 260.0
+      "current_inventory": 245.0
     },
     {
       "industry": "Recreational",
@@ -89463,7 +89558,7 @@
       "notes": null,
       "sample_tag": null,
       "delivery_cost": 0,
-      "current_inventory": 260.0
+      "current_inventory": 245.0
     },
     {
       "industry": "Recreational",
@@ -89751,7 +89846,7 @@
       "notes": null,
       "sample_tag": null,
       "delivery_cost": 0,
-      "current_inventory": 260.0
+      "current_inventory": 245.0
     },
     {
       "industry": "Recreational",
@@ -90135,7 +90230,7 @@
       "notes": null,
       "sample_tag": null,
       "delivery_cost": 0,
-      "current_inventory": 260.0
+      "current_inventory": 245.0
     },
     {
       "industry": "Recreational",
@@ -90716,7 +90811,7 @@
       "notes": null,
       "sample_tag": null,
       "delivery_cost": 0,
-      "current_inventory": 260.0
+      "current_inventory": 245.0
     },
     {
       "industry": "Recreational",
@@ -95528,7 +95623,7 @@
       "notes": "1A40A030000B4DD000009849",
       "sample_tag": null,
       "delivery_cost": 0,
-      "current_inventory": 260.0
+      "current_inventory": 245.0
     },
     {
       "industry": "Recreational",
@@ -101656,7 +101751,7 @@
       "notes": "1A40A030000B4DD000009849",
       "sample_tag": null,
       "delivery_cost": 0,
-      "current_inventory": 260.0
+      "current_inventory": 245.0
     },
     {
       "industry": "Recreational",
@@ -103481,7 +103576,7 @@
       "notes": "1A40A030000B4DD000009849",
       "sample_tag": null,
       "delivery_cost": 0,
-      "current_inventory": 260.0
+      "current_inventory": 245.0
     },
     {
       "industry": "Recreational",
@@ -105801,7 +105896,7 @@
       "notes": "1A40A030000B4DD000009849",
       "sample_tag": null,
       "delivery_cost": 0,
-      "current_inventory": 260.0
+      "current_inventory": 245.0
     },
     {
       "industry": "Recreational",
@@ -109087,7 +109182,7 @@
       "notes": "1A40A030000B4DD000009849",
       "sample_tag": null,
       "delivery_cost": 0,
-      "current_inventory": 260.0
+      "current_inventory": 245.0
     },
     {
       "industry": "Recreational",
@@ -109375,7 +109470,7 @@
       "notes": "1A40A030000B4DD000009849",
       "sample_tag": null,
       "delivery_cost": 0,
-      "current_inventory": 260.0
+      "current_inventory": 245.0
     },
     {
       "industry": "Recreational",
@@ -110535,7 +110630,7 @@
       "notes": "1A40A030000B4DD000009849",
       "sample_tag": null,
       "delivery_cost": 0,
-      "current_inventory": 260.0
+      "current_inventory": 245.0
     },
     {
       "industry": "Recreational",
@@ -110823,7 +110918,7 @@
       "notes": "1A40A030000B4DD000009849",
       "sample_tag": null,
       "delivery_cost": 0,
-      "current_inventory": 260.0
+      "current_inventory": 245.0
     },
     {
       "industry": "Recreational",
@@ -111207,7 +111302,7 @@
       "notes": "1A40A030000B4DD000009849",
       "sample_tag": null,
       "delivery_cost": 0,
-      "current_inventory": 260.0
+      "current_inventory": 245.0
     },
     {
       "industry": "Recreational",
@@ -111975,7 +112070,7 @@
       "notes": "1A40A030000B4DD000009849",
       "sample_tag": null,
       "delivery_cost": 0,
-      "current_inventory": 260.0
+      "current_inventory": 245.0
     },
     {
       "industry": "Recreational",
@@ -112839,7 +112934,7 @@
       "notes": "1A40A030000B4DD000009849",
       "sample_tag": null,
       "delivery_cost": 0,
-      "current_inventory": 260.0
+      "current_inventory": 245.0
     },
     {
       "industry": "Recreational",
@@ -113511,7 +113606,7 @@
       "notes": "1A40A030000B4DD000009849",
       "sample_tag": null,
       "delivery_cost": 0,
-      "current_inventory": 260.0
+      "current_inventory": 245.0
     },
     {
       "industry": "Recreational",
@@ -114375,7 +114470,7 @@
       "notes": "1A40A030000B4DD000009849",
       "sample_tag": null,
       "delivery_cost": 0,
-      "current_inventory": 260.0
+      "current_inventory": 245.0
     },
     {
       "industry": "Recreational",
@@ -122372,7 +122467,7 @@
       "notes": "1A40A030000B4DD000009849",
       "sample_tag": null,
       "delivery_cost": 0,
-      "current_inventory": 260.0
+      "current_inventory": 245.0
     },
     {
       "industry": "Recreational",
@@ -122756,7 +122851,7 @@
       "notes": "1A40A030000B4DD000009849",
       "sample_tag": null,
       "delivery_cost": 0,
-      "current_inventory": 260.0
+      "current_inventory": 245.0
     },
     {
       "industry": "Recreational",
@@ -124004,7 +124099,7 @@
       "notes": "1A40A030000B4DD000009849",
       "sample_tag": null,
       "delivery_cost": 0,
-      "current_inventory": 260.0
+      "current_inventory": 245.0
     },
     {
       "industry": "Recreational",
@@ -125444,7 +125539,7 @@
       "notes": "1A40A030000B4DD000009849",
       "sample_tag": null,
       "delivery_cost": 0,
-      "current_inventory": 260.0
+      "current_inventory": 245.0
     },
     {
       "industry": "Recreational",
@@ -130844,7 +130939,7 @@
       "notes": null,
       "sample_tag": null,
       "delivery_cost": 0,
-      "current_inventory": 260.0
+      "current_inventory": 245.0
     },
     {
       "industry": "Recreational",
@@ -135176,7 +135271,7 @@
       "notes": null,
       "sample_tag": null,
       "delivery_cost": 0,
-      "current_inventory": 260.0
+      "current_inventory": 245.0
     },
     {
       "industry": "Recreational",
@@ -139395,7 +139490,7 @@
       "notes": null,
       "sample_tag": null,
       "delivery_cost": 0,
-      "current_inventory": 260.0
+      "current_inventory": 245.0
     },
     {
       "industry": "Recreational",
@@ -140364,7 +140459,7 @@
       "notes": null,
       "sample_tag": null,
       "delivery_cost": 0,
-      "current_inventory": 260.0
+      "current_inventory": 245.0
     },
     {
       "industry": "Recreational",
@@ -141805,7 +141900,7 @@
       "notes": null,
       "sample_tag": null,
       "delivery_cost": 0,
-      "current_inventory": 260.0
+      "current_inventory": 245.0
     },
     {
       "industry": "Recreational",
@@ -143245,7 +143340,7 @@
       "notes": null,
       "sample_tag": null,
       "delivery_cost": 0,
-      "current_inventory": 260.0
+      "current_inventory": 245.0
     },
     {
       "industry": "Recreational",
@@ -148163,7 +148258,7 @@
       "notes": null,
       "sample_tag": null,
       "delivery_cost": 0,
-      "current_inventory": 260.0
+      "current_inventory": 245.0
     },
     {
       "industry": "Recreational",
@@ -148357,7 +148452,7 @@
       "notes": null,
       "sample_tag": null,
       "delivery_cost": 0,
-      "current_inventory": 260.0
+      "current_inventory": 245.0
     },
     {
       "industry": "Recreational",
@@ -149618,7 +149713,7 @@
       "notes": null,
       "sample_tag": null,
       "delivery_cost": 0,
-      "current_inventory": 260.0
+      "current_inventory": 245.0
     },
     {
       "industry": "Recreational",
@@ -151073,7 +151168,7 @@
       "notes": null,
       "sample_tag": null,
       "delivery_cost": 0,
-      "current_inventory": 260.0
+      "current_inventory": 245.0
     },
     {
       "industry": "Recreational",
@@ -152815,7 +152910,7 @@
       "notes": null,
       "sample_tag": null,
       "delivery_cost": 0,
-      "current_inventory": 260.0
+      "current_inventory": 245.0
     },
     {
       "industry": "Recreational",
@@ -154745,7 +154840,7 @@
       "notes": null,
       "sample_tag": null,
       "delivery_cost": 0,
-      "current_inventory": 260.0
+      "current_inventory": 245.0
     },
     {
       "industry": "Recreational",
@@ -155514,7 +155609,7 @@
       "notes": null,
       "sample_tag": null,
       "delivery_cost": 0,
-      "current_inventory": 260.0
+      "current_inventory": 245.0
     },
     {
       "industry": "Recreational",
@@ -156581,7 +156676,7 @@
       "notes": null,
       "sample_tag": null,
       "delivery_cost": 0,
-      "current_inventory": 260.0
+      "current_inventory": 245.0
     },
     {
       "industry": "Recreational",
@@ -157350,7 +157445,7 @@
       "notes": null,
       "sample_tag": null,
       "delivery_cost": 0,
-      "current_inventory": 260.0
+      "current_inventory": 245.0
     },
     {
       "industry": "Recreational",
@@ -160635,7 +160730,7 @@
       "notes": null,
       "sample_tag": null,
       "delivery_cost": 0,
-      "current_inventory": 260.0
+      "current_inventory": 245.0
     },
     {
       "industry": "Recreational",
@@ -161023,7 +161118,7 @@
       "notes": null,
       "sample_tag": null,
       "delivery_cost": 0,
-      "current_inventory": 260.0
+      "current_inventory": 245.0
     },
     {
       "industry": "Recreational",
@@ -161409,7 +161504,7 @@
       "notes": null,
       "sample_tag": null,
       "delivery_cost": 0,
-      "current_inventory": 260.0
+      "current_inventory": 245.0
     },
     {
       "industry": "Recreational",
@@ -161985,7 +162080,7 @@
       "notes": null,
       "sample_tag": null,
       "delivery_cost": 0,
-      "current_inventory": 260.0
+      "current_inventory": 245.0
     },
     {
       "industry": "Recreational",
@@ -162561,7 +162656,7 @@
       "notes": null,
       "sample_tag": null,
       "delivery_cost": 0,
-      "current_inventory": 260.0
+      "current_inventory": 245.0
     },
     {
       "industry": "Recreational",
@@ -165919,7 +166014,7 @@
       "notes": null,
       "sample_tag": null,
       "delivery_cost": 0,
-      "current_inventory": 260.0
+      "current_inventory": 245.0
     },
     {
       "industry": "Recreational",
@@ -168319,7 +168414,7 @@
       "notes": null,
       "sample_tag": null,
       "delivery_cost": 0,
-      "current_inventory": 260.0
+      "current_inventory": 245.0
     },
     {
       "industry": "Recreational",
@@ -170815,7 +170910,7 @@
       "notes": null,
       "sample_tag": null,
       "delivery_cost": 0,
-      "current_inventory": 260.0
+      "current_inventory": 245.0
     },
     {
       "industry": "Recreational",
@@ -178602,7 +178697,7 @@
       "notes": null,
       "sample_tag": null,
       "delivery_cost": 0,
-      "current_inventory": 260.0
+      "current_inventory": 245.0
     },
     {
       "industry": "Recreational",
@@ -187444,7 +187539,7 @@
       "notes": null,
       "sample_tag": null,
       "delivery_cost": 0,
-      "current_inventory": 260.0
+      "current_inventory": 245.0
     },
     {
       "industry": "Recreational",
@@ -187732,7 +187827,7 @@
       "notes": null,
       "sample_tag": null,
       "delivery_cost": 0,
-      "current_inventory": 260.0
+      "current_inventory": 245.0
     },
     {
       "industry": "Recreational",
@@ -188505,7 +188600,7 @@
       "notes": null,
       "sample_tag": null,
       "delivery_cost": 0,
-      "current_inventory": 260.0
+      "current_inventory": 245.0
     },
     {
       "industry": "Recreational",
@@ -188699,7 +188794,7 @@
       "notes": null,
       "sample_tag": null,
       "delivery_cost": 0,
-      "current_inventory": 260.0
+      "current_inventory": 245.0
     },
     {
       "industry": "Recreational",
@@ -189187,7 +189282,7 @@
       "notes": null,
       "sample_tag": null,
       "delivery_cost": 0,
-      "current_inventory": 260.0
+      "current_inventory": 245.0
     },
     {
       "industry": "Recreational",
@@ -189575,7 +189670,7 @@
       "notes": null,
       "sample_tag": null,
       "delivery_cost": 0,
-      "current_inventory": 260.0
+      "current_inventory": 245.0
     },
     {
       "industry": "Recreational",
@@ -189768,7 +189863,7 @@
       "notes": null,
       "sample_tag": null,
       "delivery_cost": 0,
-      "current_inventory": 260.0
+      "current_inventory": 245.0
     },
     {
       "industry": "Recreational",
@@ -190056,7 +190151,7 @@
       "notes": null,
       "sample_tag": null,
       "delivery_cost": 0,
-      "current_inventory": 260.0
+      "current_inventory": 245.0
     },
     {
       "industry": "Recreational",
@@ -190924,7 +191019,7 @@
       "notes": null,
       "sample_tag": null,
       "delivery_cost": 0,
-      "current_inventory": 260.0
+      "current_inventory": 245.0
     },
     {
       "industry": "Recreational",
@@ -191215,7 +191310,7 @@
       "notes": null,
       "sample_tag": null,
       "delivery_cost": 0,
-      "current_inventory": 260.0
+      "current_inventory": 245.0
     },
     {
       "industry": "Recreational",
@@ -191409,7 +191504,7 @@
       "notes": null,
       "sample_tag": null,
       "delivery_cost": 0,
-      "current_inventory": 260.0
+      "current_inventory": 245.0
     },
     {
       "industry": "Recreational",
@@ -192085,7 +192180,7 @@
       "notes": null,
       "sample_tag": null,
       "delivery_cost": 0,
-      "current_inventory": 260.0
+      "current_inventory": 245.0
     },
     {
       "industry": "Recreational",
@@ -192949,7 +193044,7 @@
       "notes": null,
       "sample_tag": null,
       "delivery_cost": 0,
-      "current_inventory": 260.0
+      "current_inventory": 245.0
     },
     {
       "industry": "Recreational",
@@ -193333,7 +193428,7 @@
       "notes": null,
       "sample_tag": null,
       "delivery_cost": 0,
-      "current_inventory": 260.0
+      "current_inventory": 245.0
     },
     {
       "industry": "Recreational",
@@ -193621,7 +193716,7 @@
       "notes": null,
       "sample_tag": null,
       "delivery_cost": 0,
-      "current_inventory": 260.0
+      "current_inventory": 245.0
     },
     {
       "industry": "Recreational",
@@ -195067,7 +195162,7 @@
       "notes": null,
       "sample_tag": null,
       "delivery_cost": 0,
-      "current_inventory": 260.0
+      "current_inventory": 245.0
     },
     {
       "industry": "Recreational",
@@ -196122,7 +196217,7 @@
       "notes": null,
       "sample_tag": null,
       "delivery_cost": 0,
-      "current_inventory": 260.0
+      "current_inventory": 245.0
     },
     {
       "industry": "Recreational",
@@ -197082,7 +197177,7 @@
       "notes": null,
       "sample_tag": null,
       "delivery_cost": 0,
-      "current_inventory": 260.0
+      "current_inventory": 245.0
     },
     {
       "industry": "Recreational",
@@ -197945,7 +198040,7 @@
       "notes": null,
       "sample_tag": null,
       "delivery_cost": 0,
-      "current_inventory": 260.0
+      "current_inventory": 245.0
     },
     {
       "industry": "Recreational",
@@ -199673,7 +199768,7 @@
       "notes": null,
       "sample_tag": null,
       "delivery_cost": 0,
-      "current_inventory": 260.0
+      "current_inventory": 245.0
     },
     {
       "industry": "Recreational",
@@ -200350,7 +200445,7 @@
       "notes": null,
       "sample_tag": null,
       "delivery_cost": 0,
-      "current_inventory": 260.0
+      "current_inventory": 245.0
     },
     {
       "industry": "Recreational",
@@ -200734,7 +200829,7 @@
       "notes": null,
       "sample_tag": null,
       "delivery_cost": 0,
-      "current_inventory": 260.0
+      "current_inventory": 245.0
     },
     {
       "industry": "Recreational",
@@ -202380,7 +202475,7 @@
       "notes": null,
       "sample_tag": null,
       "delivery_cost": 0,
-      "current_inventory": 260.0
+      "current_inventory": 245.0
     },
     {
       "industry": "Recreational",
@@ -202768,7 +202863,7 @@
       "notes": null,
       "sample_tag": null,
       "delivery_cost": 0,
-      "current_inventory": 260.0
+      "current_inventory": 245.0
     },
     {
       "industry": "Recreational",
@@ -204121,7 +204216,7 @@
       "notes": null,
       "sample_tag": null,
       "delivery_cost": 0,
-      "current_inventory": 260.0
+      "current_inventory": 245.0
     },
     {
       "industry": "Recreational",
@@ -207301,7 +207396,7 @@
       "notes": null,
       "sample_tag": null,
       "delivery_cost": 0,
-      "current_inventory": 260.0
+      "current_inventory": 245.0
     },
     {
       "industry": "Recreational",
@@ -207781,7 +207876,7 @@
       "notes": null,
       "sample_tag": null,
       "delivery_cost": 0,
-      "current_inventory": 260.0
+      "current_inventory": 245.0
     },
     {
       "industry": "Recreational",
@@ -208357,7 +208452,7 @@
       "notes": null,
       "sample_tag": null,
       "delivery_cost": 0,
-      "current_inventory": 260.0
+      "current_inventory": 245.0
     },
     {
       "industry": "Recreational",
@@ -210659,7 +210754,7 @@
       "notes": null,
       "sample_tag": null,
       "delivery_cost": 0,
-      "current_inventory": 260.0
+      "current_inventory": 245.0
     },
     {
       "industry": "Recreational",
@@ -212577,7 +212672,7 @@
       "notes": null,
       "sample_tag": null,
       "delivery_cost": 0,
-      "current_inventory": 260.0
+      "current_inventory": 245.0
     },
     {
       "industry": "Recreational",
@@ -213345,7 +213440,7 @@
       "notes": null,
       "sample_tag": null,
       "delivery_cost": 0,
-      "current_inventory": 260.0
+      "current_inventory": 245.0
     },
     {
       "industry": "Recreational",
@@ -214113,7 +214208,7 @@
       "notes": null,
       "sample_tag": null,
       "delivery_cost": 0,
-      "current_inventory": 260.0
+      "current_inventory": 245.0
     },
     {
       "industry": "Recreational",
@@ -214593,7 +214688,7 @@
       "notes": null,
       "sample_tag": null,
       "delivery_cost": 0,
-      "current_inventory": 260.0
+      "current_inventory": 245.0
     },
     {
       "industry": "Recreational",
@@ -216801,7 +216896,7 @@
       "notes": null,
       "sample_tag": null,
       "delivery_cost": 0,
-      "current_inventory": 260.0
+      "current_inventory": 245.0
     },
     {
       "industry": "Recreational",
@@ -221774,7 +221869,7 @@
       "notes": null,
       "sample_tag": null,
       "delivery_cost": 0,
-      "current_inventory": 260.0
+      "current_inventory": 245.0
     },
     {
       "industry": "Recreational",
@@ -222722,7 +222817,7 @@
       "notes": null,
       "sample_tag": null,
       "delivery_cost": 0,
-      "current_inventory": 260.0
+      "current_inventory": 245.0
     },
     {
       "industry": "Recreational",
@@ -227426,7 +227521,7 @@
       "notes": null,
       "sample_tag": null,
       "delivery_cost": 0,
-      "current_inventory": 260.0
+      "current_inventory": 245.0
     },
     {
       "industry": "Recreational",
@@ -227810,7 +227905,7 @@
       "notes": null,
       "sample_tag": null,
       "delivery_cost": 0,
-      "current_inventory": 260.0
+      "current_inventory": 245.0
     },
     {
       "industry": "Recreational",
@@ -228386,7 +228481,7 @@
       "notes": null,
       "sample_tag": null,
       "delivery_cost": 0,
-      "current_inventory": 260.0
+      "current_inventory": 245.0
     },
     {
       "industry": "Recreational",
@@ -228674,7 +228769,7 @@
       "notes": null,
       "sample_tag": null,
       "delivery_cost": 0,
-      "current_inventory": 260.0
+      "current_inventory": 245.0
     },
     {
       "industry": "Recreational",
@@ -229540,7 +229635,7 @@
       "notes": null,
       "sample_tag": null,
       "delivery_cost": 0,
-      "current_inventory": 260.0
+      "current_inventory": 245.0
     },
     {
       "industry": "Recreational",
@@ -234645,7 +234740,7 @@
       "notes": null,
       "sample_tag": null,
       "delivery_cost": 0,
-      "current_inventory": 260.0
+      "current_inventory": 245.0
     },
     {
       "industry": "Recreational",
@@ -238496,7 +238591,7 @@
       "notes": null,
       "sample_tag": null,
       "delivery_cost": 0,
-      "current_inventory": 260.0
+      "current_inventory": 245.0
     },
     {
       "industry": "Recreational",
@@ -240798,7 +240893,7 @@
       "notes": null,
       "sample_tag": null,
       "delivery_cost": 0,
-      "current_inventory": 260.0
+      "current_inventory": 245.0
     },
     {
       "industry": "Recreational",
@@ -243582,7 +243677,7 @@
       "notes": null,
       "sample_tag": null,
       "delivery_cost": 0,
-      "current_inventory": 260.0
+      "current_inventory": 245.0
     },
     {
       "industry": "Recreational",
@@ -247822,7 +247917,7 @@
       "notes": null,
       "sample_tag": null,
       "delivery_cost": 0,
-      "current_inventory": 260.0
+      "current_inventory": 245.0
     },
     {
       "industry": "Recreational",
@@ -251569,7 +251664,7 @@
       "notes": null,
       "sample_tag": null,
       "delivery_cost": 0,
-      "current_inventory": 260.0
+      "current_inventory": 245.0
     },
     {
       "industry": "Recreational",
@@ -253884,7 +253979,7 @@
       "notes": null,
       "sample_tag": null,
       "delivery_cost": 0,
-      "current_inventory": 260.0
+      "current_inventory": 245.0
     },
     {
       "industry": "Recreational",
@@ -255420,7 +255515,7 @@
       "notes": null,
       "sample_tag": null,
       "delivery_cost": 0,
-      "current_inventory": 260.0
+      "current_inventory": 245.0
     },
     {
       "industry": "Recreational",
@@ -257239,7 +257334,7 @@
       "notes": null,
       "sample_tag": null,
       "delivery_cost": 0,
-      "current_inventory": 260.0
+      "current_inventory": 245.0
     },
     {
       "industry": "Recreational",
@@ -258583,7 +258678,7 @@
       "notes": null,
       "sample_tag": null,
       "delivery_cost": 0,
-      "current_inventory": 260.0
+      "current_inventory": 245.0
     },
     {
       "industry": "Recreational",
@@ -260302,7 +260397,7 @@
       "notes": null,
       "sample_tag": null,
       "delivery_cost": 0,
-      "current_inventory": 260.0
+      "current_inventory": 245.0
     },
     {
       "industry": "Recreational",
@@ -261932,7 +262027,7 @@
       "notes": null,
       "sample_tag": null,
       "delivery_cost": 0,
-      "current_inventory": 260.0
+      "current_inventory": 245.0
     },
     {
       "industry": "Recreational",
@@ -263275,7 +263370,7 @@
       "notes": null,
       "sample_tag": null,
       "delivery_cost": 0,
-      "current_inventory": 260.0
+      "current_inventory": 245.0
     },
     {
       "industry": "Recreational",
@@ -263659,7 +263754,7 @@
       "notes": null,
       "sample_tag": null,
       "delivery_cost": 0,
-      "current_inventory": 260.0
+      "current_inventory": 245.0
     },
     {
       "industry": "Recreational",
@@ -266823,7 +266918,7 @@
       "notes": null,
       "sample_tag": null,
       "delivery_cost": 0,
-      "current_inventory": 260.0
+      "current_inventory": 245.0
     },
     {
       "industry": "Recreational",
@@ -267495,7 +267590,7 @@
       "notes": null,
       "sample_tag": null,
       "delivery_cost": 0,
-      "current_inventory": 260.0
+      "current_inventory": 245.0
     },
     {
       "industry": "Recreational",
@@ -268646,7 +268741,7 @@
       "notes": null,
       "sample_tag": null,
       "delivery_cost": 0,
-      "current_inventory": 260.0
+      "current_inventory": 245.0
     },
     {
       "industry": "Recreational",
@@ -270852,7 +270947,7 @@
       "notes": null,
       "sample_tag": null,
       "delivery_cost": 0,
-      "current_inventory": 260.0
+      "current_inventory": 245.0
     },
     {
       "industry": "Recreational",
@@ -271333,7 +271428,7 @@
       "notes": null,
       "sample_tag": null,
       "delivery_cost": 0,
-      "current_inventory": 260.0
+      "current_inventory": 245.0
     },
     {
       "industry": "Recreational",
@@ -271430,7 +271525,7 @@
       "notes": null,
       "sample_tag": null,
       "delivery_cost": 0,
-      "current_inventory": 260.0
+      "current_inventory": 245.0
     },
     {
       "industry": "Recreational",
@@ -276578,7 +276673,7 @@
       "name": "500mg THC | Blue Razz Syrup",
       "sku": "500bluerazz",
       "line": "Tinctures",
-      "qty": 260.0,
+      "qty": 245.0,
       "listed": true,
       "batches": 1
     },
