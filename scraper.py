@@ -690,6 +690,17 @@ def main():
     print(f"Saved → {OUTPUT_FILE}")
     push_to_chill(payload)
 
+    # Buyer contacts from Apex (same saved login), posted straight to the
+    # Chill Hub app - never into this public repo (see apex_contacts.py).
+    # Non-fatal, and it runs after the sales data is saved, so it can never
+    # cost us that. The sales rows map Apex buyer ids to licences.
+    print("Pulling Apex contacts...")
+    try:
+        import apex_contacts
+        apex_contacts.run(payload)
+    except Exception as e:
+        print(f"  Apex contacts step errored ({type(e).__name__}); sales data unaffected.")
+
 
 if __name__ == "__main__":
     main()
