@@ -43,6 +43,11 @@ jobs:
           APEX_COMPANY_ID: ${{ secrets.APEX_COMPANY_ID }}
           APEX_ROW_LIMIT: '50000'
           APEX_FROM_DATE: '2025-05-01'
+          # Apex buyer contacts -> Chill Hub CRM (apex_contacts.py), with the
+          # same saved login. Skipped until CHILL_HUB_CONTACTS_KEY is set.
+          # Contacts are never committed to this repo.
+          CHILL_HUB_URL: 'https://sales-intelligence.chill-hub.workers.dev'
+          CHILL_HUB_CONTACTS_KEY: ${{ secrets.CHILL_HUB_CONTACTS_KEY }}
         run: python scraper.py
 
       - name: Commit updated data
